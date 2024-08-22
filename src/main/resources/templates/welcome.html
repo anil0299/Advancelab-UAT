@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/welcome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<style>
+	.dropdown-item:hover {
+    background-color: #0275d8;
+    color:white;
+	}
+	.dropdown-item:active {
+	    background-color: #125cc7;
+	    color:white;
+	    font-weight:bold;
+	}
+</style>
+</head>
+<body style="background-color: white">
+	<nav class="navbar navbar-expand-xl  navbar-light sticky-top"
+		style="background-color: #e3f2fd;">
+		<div class="container-fluid">
+			<img src="images/cdac-logo.png" alt="images/cdac-logo.png">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse me-4" id="navbarSupportedContent">
+				<div class="btn-group ms-auto me-5" role="group" aria-label="Basic example">
+					<a th:href="welcome" class="btn btn-primary">Home</a>
+					<a href="#about" class="btn btn-primary">About Us</a>
+					<a href="#Who" class="btn btn-primary">Who is Eligible</a>
+					<a href="#Contact" class="btn btn-primary rounded-0">Contact Us</a>
+					<div class="dropdown">
+						<button type="button" id="btnGroupDrop1" class="btn btn-primary dropdown-toggle rounded-0" data-bs-toggle="dropdown" aria-expanded="false">Registration</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+							<li><a class="dropdown-item" href="/registration">Student</a></li>
+							<li><a class="dropdown-item" href="/TeacherRegistration">Teacher</a></li>
+						</ul>
+					</div>
+					<div class="dropdown">
+						<button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle rounded-start-0" data-bs-toggle="dropdown" aria-expanded="false">Login</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+							<li><a class="dropdown-item" href="/login">Lab Login</a></li>
+							<li><a class="dropdown-item" href="http://cdaccybergyan.uat.dcservices.in/lms/login">Course Login</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<header style="background-color: #0953a8;">
+		<div direction="right" id="heading " scrollamount="20"
+			class="text-center">
+			<h1 style="color: white;">Cyber Gyan Virtual Training Platform</h1>
+		</div>
+		<div class="carousel-inner">
+			<div class="carousel-item active" data-bs-interval="5000">
+				<img src="images/Self Based (1).png" class="img-fluid d-block w-100"
+					alt="images/Self Based (1).png" style="max-height: 830px;">
+			</div>
+		</div>
+	</header>
+	<section class="main_heading my-5" id="about">
+		<div class="text-center">
+			<h1 class="display-4 active" style="color: navy">
+				<strong>About Us</strong>
+			</h1>
+			<hr class="w-25 mx-auto /">
+		</div>
+		<div class="container ">
+			<div class="row my-5" id="cdac-logo">
+				<div class="col-lg-6 col-md-6 col-12 col-xxl-6">
+					<img src="images/cdac.jpg" class="img-fluid" alt="cdac.jpg"
+						id="about">
+				</div>
+				<div
+					class="col-lg-6 col-12 col-xxl-6 d-flex justify-content-center align-items-center flex-column">
+					<h6 class="display-6 mb-0 active" style="color: navy">About
+						CDAC</h6>
+					<hr class="w-100 mx-auto">
+					<p class="content"
+						style="font-size: 20px; font-family: Times New Roman; color: #583759; text-align: justify;">
+						Center for Development of Advanced Computing (C-DAC) is the
+						premier R&D organization of the Ministry of Electronics and
+						nformation Technology (MeitY) for carrying out R&D in IT,
+						Electronics, and associated areas. Different areas of C-DAC had
+						originated at different times, many of which came out as a result
+						of the identification of opportunities. The C-DAC Noida formerly
+						known as ER&DCI, Noida - is a constituent unit of C-DAC. Since its
+						inception in 1994, the center has been working in
+						application-oriented design and development for various customer
+						requirements. It has acquired competency, expertise, and extensive
+						experience in the areas of Strategic Electronics & Embedded
+						Systems, Cyber Security, Health Informatics, e-Governance, and
+						Multilingual Computing. Know more about C-DAC<br> <a
+							href="https://www.cdac.in" target="_blank">Learn more about C-DAC</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="navbar-example" style="position: relative;">					
+						<div>
+							<h4 id="scrollspyHeading1" style="color: navy">About
+								Cyber Gyan Virtual Training Facility</h4>
+						<p class="text-justify"
+							style="font-size: 20px; font-family: Times New Roman; color: #583759; text-align: justify;">Cyber
+							Gyan, a flagship initiative of C-DAC under MeitY, offers a
+							cutting-edge virtual training facility for aspiring cyber
+							security professionals. This platform provides a simulated
+							environment where students can acquire practical skills and learn
+							how to defend against real-world cyber threats.</p>
+					</div>
+						<div id="d1">
+							<img src="images/AboutCourse.png" class="img-fluid" alt="images/AboutCourse.png">
+						</div><br>
+						<div>
+							<h4 id="scrollspyHeading2" style="color: navy">About the
+								Course</h4>
+						<p class="text-justify"
+							style="font-size: 20px; font-family: Times New Roman; color: #583759; text-align: justify;">Our
+							comprehensive Cyber Security Programme on Ethical Hacking and
+							Penetration Testing equips you with the skills and knowledge to
+							become a skilled cyber security professional. The program is
+							designed to provide a deep understanding of ethical hacking
+							methodologies, penetration testing techniques, and essential
+							cyber security concepts.</p>
+					</div>
+						<div id="d1">
+							<img src="images/AboutCourseCategory.png" class="img-fluid" alt="images/AboutCourseCategory.png">
+						</div>										
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="main_heading my-5" id="Who">
+		<div class="text-center">
+			<h1 class="display-4  active" style="color: navy">
+				<strong>Who is Eligible</strong>
+			</h1>
+			<hr class="w-25 mx-auto /">
+		</div>
+		<div class="container">
+			<div class="row my-5 ">
+				<div class="mx-auto text-center">						
+						<div id="d1">
+							<img src="images/Eligibility.png" class="img-fluid" alt="images/Eligibility.png">
+						</div>	<br>
+						<div id="d1">
+							<img src="images/GR.png" class="img-fluid" alt="images/GR.png">
+						</div>										
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="main_heading my-5" id="Contact">
+		<div class="text-center">
+			<h1 class="display-4  active" style="color: navy">
+				<strong>Contact Us</strong>
+			</h1>
+			<hr class="w-25 mx-auto /">
+		</div>
+		<br>
+		<br>
+		<div class="card mx-auto border-success text-center"
+			style="max-width: 35rem;">
+			<div class="card-header text-danger fs-5">For any query, please
+				write to us @</div>
+				<div class="card-body text-success">
+				    <p class="card-text">
+				        <i class="fas fa-map-marker-alt"></i> <b>Address :</b> Academic Block, C-DAC, B-30, Sector-62, Institutional Area, Noida - 201307, Uttar Pradesh, India
+				    </p>
+				    <p class="card-text">
+				        <i class="fas fa-envelope"></i> <b>E-mail :</b> cybergyan-noida[at]cdac[dot]in
+				    </p>
+				    <p class="card-text">
+				        <i class="fas fa-phone-alt"></i> <b>Contact :</b> +91-120-2210800
+				    </p>
+				</div>
+		</div>
+		<br>
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (event) {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function (dropdown) {
+                if (!dropdown.contains(event.target)) {
+                    var isOpen = dropdown.classList.contains('show');
+                    if (isOpen) {
+                        dropdown.querySelector('[data-bs-toggle="dropdown"]').click();
+                    }
+                }
+            });
+        });
+    });
+	</script>
+	
+		<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	
+		</section>
+		
+		<section class="main_heading my-5" id="Contact">
+		<div class="text-center">
+			<h1 class="display-4  active" style="color: navy">
+				<strong>Office Hours</strong>
+			</h1>
+			<hr class="w-25 mx-auto /">
+		</div>
+		<br>
+		<br>
+		<div class="card mx-auto border-success text-center"
+			style="max-width: 35rem;">	
+			<div class="card-body text-success">
+			    <p class="card-text">Monday to Friday</p>
+				<p class="card-text">9:00 am to 6:00 pm</p>
+				<p class="card-text">Closed on Saturdays & Sundays</p>
+			</div>
+		</div>
+		<br>	
+		</section>
+		
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+<script type="text/javascript" th:src="@{/js/session-timeout.js}"></script>
+</body>
+</html>

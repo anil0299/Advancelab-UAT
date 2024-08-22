@@ -1,0 +1,48 @@
+@charset "ISO-8859-1";
+
+.navcontainer{
+	 background: #0953a8;
+    padding: 0 0;
+}
+.icon{
+  margin-left: 35%;
+  
+}
+.btn1{
+  float: left;
+}
+.btn2{
+  float: right;
+  margin-right:53%;
+}
+.myfont{
+  font-family: Times New Roman;
+}
+
+.container-linux{
+	width:50%;
+	float:left;
+}
+
+.container-windows{
+	width:50%;
+	float:right;
+}
+.container-logout{
+	padding-left:10%;
+	padding-top:4%;
+}
+#container-one{
+	display:none;
+}
+
+.class-footer{
+	background: #0953a8;
+	/*margin-top: 50px;
+	 position: fixed; 
+   bottom: 0;
+   width: 100%;*/
+   height: 70px;   /* Height of the footer */
+  
+}
+

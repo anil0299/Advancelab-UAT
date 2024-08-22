@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/datatables.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="/" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white active " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item active" href="LabDetails">View
+					E-LAB Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item " href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item " href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>E-LAB Details</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<div class="m-4 mx-auto">
+					<div class="form-group row mx-auto text-center justify-content-center">
+						<label for="startDate" class="col-sm-1 col-form-label"><b>Start
+								Date:</b></label>
+						<div class="col-sm-2">
+							<input type="date" class="form-control" id="startDate">
+						</div>
+						<label for="endDate" class="col-sm-1 col-form-label "><b>End
+								Date:</b></label>
+						<div class="col-sm-2">
+							<input type="date" class="form-control" id="endDate">
+						</div>
+						<div class="col-sm-1">
+							<button id="filterBtn" class="btn btn-primary">Filter</button>
+						</div>
+						<div class="col-sm-1">
+							<button id="clearFilterBtn" class="btn btn-danger">Clear</button>
+						</div>
+					</div>
+					<hr>
+					<div class="card p-4 mx-auto" style="width: auto; height: auto">
+						<div class="table-responsive">
+							<table class="table text-center table-bordered table-hover" id="my-table">
+								<thead class="thead-dark">
+									<tr class="table-info">
+										<th class="text-center">S.No.</th>
+										<th class="text-center">UserName</th>
+										<th class="text-center">Username Details</th>
+										<th class="text-center">Registration Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="student, index : ${approvedStudents}" class="text-center">
+										<th scope="row" th:text="${index.count}"></th>
+										<td th:text="${username[__${index.index}__]}"></td>
+										<td>
+											<!-- Hidden password field --> <span class="password-field"
+											style="display: none;"
+											th:text="${passwords[__${index.index}__]}"></span> <!-- Eye icon to toggle password visibility -->
+											<i class="fas toggle-password fa-eye"
+											style="cursor: pointer;"></i>
+										</td>
+										<td th:text="${student.registrationDate}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<br>
+							<div>
+								<button onclick="downloadFilteredExcel()"
+									class="btn btn-primary mx-auto">
+									<i class="fa fa-download"> </i> Download Excel
+								</button>
+								<button onclick="toggleAllPasswords()"
+									class="btn btn-primary mx-auto" id="viewAllButton">
+									<i class="fa fa-view"> </i> View All
+								</button>
+							</div>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script>
+      $(document).ready(function() {
+        $(".toggle-password").click(function() {
+          $(this).closest("tr").find(".password-field").toggle();
+        });
+      });
+    </script>
+	<script>
+      var passwordsHidden = true; // Initialize as hidden
+      function toggleAllPasswords() {
+        var passwordFields = document.querySelectorAll(".password-field");
+        var togglePasswords = document.querySelectorAll(".toggle-password");
+        // Toggle visibility of all password fields
+        for (var i = 0; i < passwordFields.length; i++) {
+          var passwordField = passwordFields[i];
+          var togglePassword = togglePasswords[i];
+          if (passwordsHidden) {
+            passwordField.style.display = "inline";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye");
+          } else {
+            passwordField.style.display = "none";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye");
+          }
+        }
+        passwordsHidden = !passwordsHidden; // Toggle the state
+        // Update the button text based on the current state
+        var viewAllButton = document.getElementById("viewAllButton");
+        viewAllButton.textContent = passwordsHidden ? "View All" :
+          "Hide All";
+      }
+    </script>
+	<script>
+      function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("my-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          for (j = 0; j < 3; j++) { // only search the first 3 columns
+            td = tr[i].getElementsByTagName("td")[j];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break;
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      }
+    </script>
+	<script type="text/javascript">
+	  $(document).ready(function() {
+	    $("#filterBtn").click(function() {
+	      var startDate = $("#startDate").val();
+	      var endDate = $("#endDate").val();
+	      if (startDate && endDate) {
+	        $("#my-table tbody tr").each(function(index) {
+	          var regDate = $(this).find("td:nth-child(4)").text();
+	          if (regDate >= startDate && regDate <= endDate) {
+	            $(this).show();
+	          } else {
+	            $(this).hide();
+	          }
+	        });
+	      } else {
+	        $("#my-table tbody tr").show();
+	      }
+	    });
+	    $("#clearFilterBtn").click(function() {
+	      $("#startDate").val(''); // Clear start date
+	      $("#endDate").val('');   // Clear end date
+	      $("#my-table tbody tr").show(); // Show all rows
+	    });
+	  });
+	</script>
+	<script type="text/javascript">
+	function downloadFilteredExcel() {
+	    var table = document.getElementById("my-table");
+	    var rows = table.getElementsByTagName("tr");
+	    var csv = [];
+	    var displayedRows = table.querySelectorAll("tbody tr:not([style*='display:none'])");
+	    
+	    for (var i = 0; i < displayedRows.length; i++) {
+	        var row = [],
+	            cols = displayedRows[i].querySelectorAll("td, th");
+	        
+	        for (var j = 0; j < cols.length; j++) {
+	            var text = cols[j].innerText.trim(); // Trim whitespace
+	            row.push(text);
+	        }
+	        
+	        csv.push(row.join(","));
+	    }
+	    
+	    // Download the CSV file
+	    var csvData = "data:application/csv;charset=utf-8," + encodeURIComponent(csv.join("\n"));
+	    var link = document.createElement("a");
+	    link.setAttribute("href", csvData);
+	    link.setAttribute("download", "filtered-data.csv");
+	    link.click();
+	}
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	$('#my-table').dataTable({
+    	    aLengthMenu: [
+    	        [25, 50, 100, 200, -1],
+    	        [25, 50, 100, 200, "All"]
+    	    ],
+    	    iDisplayLength: -1
+    	});
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CyberGyan</title>
+    <link rel="stylesheet" href="" th:href="@{/css/home.css}" />
+     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+	 <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}" ></script>
+     <script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}" ></script>  <style>
+      @keyframes blink {
+        0% {
+          opacity: 0;
+          color: red;
+        }
+        50% {
+          opacity: 1;
+          color: red;
+        }
+        100% {
+          opacity: 0;
+          color: red;
+        }
+      }
+      .blink {
+        animation: blink 1s infinite;
+      }
+    </style>
+  </head>
+  <body style="background-color:white;">
+    <div class=navcontainer>
+      <div class="img-fluid">
+        <img style="width:90px;margin-left:30px;" src="" th:src="@{/images/cdac-wo-bg.png}" alt="">
+        <form th:action="@{/logout}" method="post" style="float:right;margin-top:25px;margin-right:10px">
+          <input type="submit" class="btn btn-primary" value="Logout" />
+        </form>       
+      </div>
+    </div>
+    <div style="width: 100%; text-align: right; border: 2px solid #ccc; padding: 10px;">
+    <strong style="color: green;">Welcome, <span th:text="${#authentication.principal.username}"></span>!</strong>
+</div>
+<br>
+    <h1 style="text-align:center; font-size:40px;font-family:Times New Roman;"><b>Welcome To E-Lab</b></h1>
+    <div class="descontainer  text-center">
+      <div style="font-size:20px;font-family:Times New Roman;color:#583759; text-align: justify;">
+        <b>Welcome to the Cyber Security E-lab, designed and developed by CDAC. In this lab, you will learn about various common cyber attacks, their indicators, prevention strategies, and incident response techniques. Our lab provides a safe and controlled environment for you to gain hands-on experience and develop your skills in defending against cyber attacks. With our state-of-the-art tools and simulations, you will be able to detect and respond to real-world cyber threats in a secure and practical setting. Get ready to take your cyber security knowledge and expertise to the next level with CDAC's E-lab.Complete basic lab exercises before moving on to Real Time Exercise Lab.</b>
+      </div><br>
+      <div class="blink">
+      <h1>&#128073; Connect to VPN before Accessing Lab</h1></div><br>
+      <div class="color" style="border: 2px solid gray; border-radius: 5%; padding: 1px;">
+        <a style="font-size:18px;"><strong>Download FortiClient VPN :-</strong></a>&nbsp;&nbsp;&nbsp;
+        <a style="font-size:18px;" href="https://links.fortinet.com/forticlient/win/vpnagent"><strong>For Windows OS</strong>&nbsp;<img src="images/windowsos.png" class="img-fluid" alt="windowsos.png" style="width: 50px; height: auto;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a style="font-size:18px;" href="https://links.fortinet.com/forticlient/mac/vpnagent"><strong>For MacOS</strong><img src="images/macos.jpg" class="img-fluid" alt="macos.jpg" style="width: 50px; height: auto;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a style="font-size:18px;" href="https://links.fortinet.com/forticlient/rhel/vpnagent"><strong>For Linux OS</strong><img src="images/linuxos.png" class="img-fluid" alt="linuxos.png" style="width: 50px; height: auto;"></a><br><br>
+        <a style="font-size:18px;" href="ConfigVPN"><strong>Instructions to Configure the VPN</strong></a><br><br>
+        <a style="font-size:18px;" href="AccessLAB"><strong>Instruction to Access Virtual Lab using RDP Services</strong></a><br><br>
+      </div><br>
+      <div class="card" style="background-color:  rgb(204, 218, 246);">
+        <div class="col-md-12 ">
+          <div class="card-body row">
+            <div class="col-6 text-center">
+              <h4><strong>Basic Lab</strong></h4>
+              <p style="text-align: justify;"><b>Welcome to our Cyber Security Elab! In this lab, you will learn the fundamentals of cyber security, including topics such as networking and essential Linux commands, required to understand Cyber security. You will get hands-on experience with various tools and techniques used by cyber security professionals and learn how to identify and defend against common cyber attacks. Get ready to explore the exciting world of cyber security!</b></p>
+              <a th:href="@{/basicDescription}" class="btn btn-secondary">Access Lab</a>
+            </div>
+            <div class="col-6 text-center">
+              <h4><strong>Real Time Exercise Lab</strong></h4>
+              <p style="text-align: justify;"><b>Welcome to our Real-Time Cyber Security Elab! In this lab, you will experience real-world cyber security challenges in a virtual environment and defend against them. You will use cutting-edge tools and techniques to detect and respond to threats in real-time. Get ready to learn and put your skills to the test and experience the thrill of working in the fast-paced world of cyber security!</b></p>
+              <a th:href="@{/exercisepage}" class="btn btn-secondary">Access Lab</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br><br><br>
+    <div class="class-footer">
+      <p style="font-family:Times New Roman ;text-align: center;color:white;font-size:18px;"><b>Copyright &copy; 2022</b></p>
+      <p style="font-family:Times New Roman ;text-align: center;color:white;font-size:18px;"><b>Designed and Developed by CDAC</b></p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+@charset "ISO-8859-1";
+
+.navcontainer{
+	 background: #0953a8;
+    padding: 0 0;
+}
+.img-fluidlogin{
+	margin-left:30px;
+}	
+.example-spacer{
+    margin-left: 85% ;
+  }
+  
+  body{
+    font-family:'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+*{
+    margin:0;
+    padding:0;
+    text-decoration:none;
+   
+}
+header{
+    position:absolute;
+    background-color:blue;
+    width:100%;
+    color:rgb(239, 228, 228);
+}
+header{
+    height:0;
+}
+footer{                         
+    background-color: blue;
+    
+}
+/* footer{
+    height:5vh;
+    bottom:0;
+}
+footer h2{
+    position: absolute;
+} */
+section{
+    overflow:auto;
+}
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: blue;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #4d66f2, #325bf2, #3928ef, blue);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right,   #4d66f2, #325bf2,  #3928ef, blue);
+    }
+    
+    @media (min-width: 768px) {
+    .gradient-form {
+    height: 100vh !important;
+    }
+    }
+    @media (min-width: 769px) {
+    .gradient-custom-2 {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    }
+    }
+    
+ .button-cont{
+ margin-left:35%;
+ display:flex;
+ }
+ 
+ .card1{
+	padding-left: 15%;
+	padding-right: 15%;
+}
+    
+/* .text-gyan{
+    margin-left: 45%;
+    margin-bottom: 20px;
+    
+} */
+
+
+
+.class-footer{
+	background: #0953a8;
+	position: fixed;
+   bottom: 0;
+   width: 100%;
+   height: 70px;   /* Height of the footer */
+}
+
+
+
+.lab-desc {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.lab-desc a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.lab-desc a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.lab-desc a.active {
+  background-color: #04AA6D;
+  color: white;
+  
+}
+
+.card-body{
+background-color: rgb(205, 214, 224);
+
+}
+
+
+

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/register.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/pdf.js}"></script>
+<style>
+	.dropdown-item:hover {
+    background-color: #0275d8;
+    color:white;
+	}
+	.dropdown-item:active {
+	    background-color: #125cc7;
+	    color:white;
+	    font-weight:bold;
+	}
+</style>
+</head>
+<body style="background-color: white">
+	<nav class="navbar navbar-expand-lg  navbar-light sticky-top"
+		style="background-color: #e3f2fd;">
+		<div class="container-fluid">
+			<img src="images/cdac-logo.png" alt="img/cdac-logo.png">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="me-4">
+				<div class="btn-group ms-auto text-right me-5">
+					<a class="btn btn-primary" th:href="@{/}">Home</a>
+					<div class="dropdown">
+						<button type="button" id="btnGroupDrop1" class="btn btn-primary dropdown-toggle rounded-0" data-bs-toggle="dropdown" aria-expanded="false">Registration</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+							<li><a class="dropdown-item" href="/registration">Student</a></li>
+							<li><a class="dropdown-item" href="/TeacherRegistration">Teacher</a></li>
+						</ul>
+					</div>
+					<div class="dropdown">
+						<button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle rounded-start-0" data-bs-toggle="dropdown" aria-expanded="false">Login</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+							<li><a class="dropdown-item" href="/login">Lab Login</a></li>
+							<li><a class="dropdown-item" href="http://cybergyan.uat.dcservices.in/lms/login">Course Login</a></li>
+						</ul>
+						&nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<header style="background-color: #0953a8; height: 58px">
+
+
+		<div direction="right" id="heading " scrollamount="20"
+			class="text-center">
+			<h1 style="color: white;">CyberGyan Virtual Training Platform</h1>
+		</div>
+	</header>
+	<nav aria-label="breadcrumb"
+		style="margin-top: 10px; margin-left: 10px; font-weight: bold; font-size: 20px; color: black;">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item" style="color: black;"><a
+				th:href="@{/welcome}">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page"
+				style="color: black;">Teacher Registration</li>
+		</ol>
+	</nav>
+	<div id="message">
+		<th:block th:if="${session.msg}">
+			<p class="text-center fs-3 text-success">[[${session.msg}]]</p>
+			<th:block th:text="${#session.removeAttribute('msg')}">
+			</th:block>
+		</th:block>
+		<th:block th:if="${session.msg1}">
+			<p class="text-center fs-3 text-danger">[[${session.msg1}]]</p>
+			<th:block th:text="${#session.removeAttribute('msg1')}">
+			</th:block>
+		</th:block>
+		<th:block th:if="${session.sameEmailMsg}">
+			<p class="text-center fs-3 text-danger">[[${session.sameEmailMsg}]]</p>
+			<th:block th:text="${#session.removeAttribute('sameEmailMsg')}">
+			</th:block>
+		</th:block>
+	</div>
+	<br>
+	<br>
+	<div class="container p-6 text-center">
+		<div class="row justify-content-center">
+			<div class="card" style="width: 70rem; height: auto">
+				<div class="card-body">
+					<h3 style="text-align: center;">Teacher Registration</h3>
+					<hr
+						style="border: none; height: 2px; background-color: black; font-weight: bold;">
+					<div class="card-body">
+						<form class="was-validated" th:action="registerTeacher"
+							method="POST" enctype="multipart/form-data"
+							onsubmit="returnvalidateForm();returncheckPassword();"
+							autocomplete="off" id="moduleform" name="moduleform">
+
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+								id="hppCode" /> <input type="hidden" id="cid" name="cid" />
+
+							<div class="row mb-3">
+								<div class="col">
+									<label for="state" class="form-label">State</label> <font
+										color="red">*</font> <select class="form-select" id="state"
+										name="state" onchange="getColleges(this.value)" required>
+										<option value="" disabled selected>Select State</option>
+										<th:block th:each="state : ${states}">
+											<option th:value="${state}" th:text="${state}"></option>
+										</th:block>
+									</select>
+								</div>
+								<div class="col">
+									<label for="college" class="form-label">College</label> <font
+										color="red">*</font> <select class="form-select" id="college"
+										name="college" required>
+										<option value="" disabled selected>Select College</option>
+									</select>
+								</div>
+								<script th:inline="javascript">
+									function getColleges(state) {
+										var collegeDropdown = document.getElementById("college");
+										collegeDropdown.innerHTML = '<option value="" disabled selected>Loading...</option>';
+										fetch('/colleges?state=' + state)
+											.then(response => response.json())
+											.then(colleges => {
+												collegeDropdown.innerHTML = '<option value="" disabled selected>Select College</option>';
+												colleges.forEach(college => {
+													var option = document.createElement("option");
+													option.value = college;
+													option.text = college;
+													collegeDropdown.appendChild(option);
+												});
+											});
+									}
+								</script>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="firstName" class="form-label">First Name</label> <font
+										color="red">*</font> <input type="text" class="form-control"
+										id="firstName" name="firstName" placeholder="Enter first name"
+										pattern="[A-Za-z]+(\s[A-Za-z]+)*" required>
+								</div>
+								<div class="col">
+									<label for="lastName" class="form-label">Last Name</label> <font
+										color="red">*</font> <input type="text" class="form-control"
+										pattern="[A-Za-z\s]+" name="lastName" id="lastName"
+										placeholder="Enter last name" required>
+										<small id="lastname" class="form-text text-muted">If you do not have a surname, simply enter a space in this field.</small>
+								</div>
+							</div>
+							<div class="row mb-3 ">
+								<div class="col">
+									<label for="fatherName" class="form-label">Father Name</label>
+									<font color="red">*</font> <input type="text"
+										class="form-control" pattern="[A-Za-z]+(\s[A-Za-z]+)*" name="fatherName"
+										id="fatherName" placeholder="Enter father name" required>
+								</div>
+								<div class="col">
+									<label for="gender" class="form-label">Gender</label> <font
+										color="red">*</font> <select class="form-select" id="gender"
+										name="gender" required>
+										<option value="" disabled selected>Select Gender</option>
+										<option value="Male">Male</option>
+										<option value="Female">Female</option>
+										<option value="Other">Other</option>
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3 ">
+								<div class="col">
+								    <label for="dob" class="form-label">Date of Birth</label> 
+								    <font color="red">*</font> 
+								    <input type="date" class="form-control" id="dob" name="dob" required>
+								    <div id="dob-validation-msg" class="invalid-feedback" style="display: none;">Please enter a valid date of birth.</div>
+								    <span id="age-validation-msg" style="color: red;"></span>
+								</div>
+								<script>
+								    // Get today's date
+								    var today = new Date();
+								    // Calculate the maximum date allowed (18 years ago)
+								    var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+								    // Convert to string in yyyy-mm-dd format
+								    var maxDateString = maxDate.toISOString().split("T")[0];
+								    // Set the max attribute of the date input to the calculated max date
+								    document.getElementById("dob").setAttribute("max", maxDateString);
+								    
+								    // Function to calculate age based on date of birth
+								    function calculateAge(dateString) {
+								        var dob = new Date(dateString);
+								        var age = today.getFullYear() - dob.getFullYear();
+								        var monthDiff = today.getMonth() - dob.getMonth();
+								        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+								            age--;
+								        }
+								        return age;
+								    }
+								
+								    // Event listener to check age when date of birth is changed
+								    document.getElementById("dob").addEventListener('change', function() {
+								        var dob = this.value;
+								        var age = calculateAge(dob);
+								        if (age < 18) {
+								            document.getElementById('age-validation-msg').innerText = "Your age must be 18 or above.";
+								        } else {
+								            document.getElementById('age-validation-msg').innerText = "";
+								        }
+								    });
+								</script>
+								<div class="col">
+									<label for="mobileNumber" class="form-label">Mobile
+										number</label> <font color="red">*</font> <input type="tel"
+										class="form-control" id="mobileNumber" name="mobileNumber"
+										placeholder="Enter 10-digit mobile number" maxlength="10"
+										pattern="[0-9]{10}" required>
+								</div>
+							</div>						
+							<div class="row mb-3">
+								<div class="col">
+									<label for="emailAddress" class="form-label">Email Id
+										(This would be used as your username)</label> <font color="red">*</font>
+									<input type="email" class="form-control" name="emailAddress"
+										placeholder="Enter email" id="emailAddress"
+										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+									<div class="invalid-feedback" id="errorMessage"></div>
+									<div th:if="${sameEmailMsg}" class="alert alert-danger">
+										<span th:text="${sameEmailMsg}"></span>
+									</div>
+								</div>
+								<script>
+									const emailAddressInput = document.getElementById('emailAddress');
+									const errorMessage = document.getElementById('errorMessage');
+									emailAddressInput.addEventListener('input', function () {
+										const email = this.value.toLowerCase();
+										validateEmail(email);
+									});
+									async function validateEmail(email) {
+										try {
+											const response = await fetch('/checkUniqueEmailteacher?email=' + encodeURIComponent(email));
+											if (response.ok) {
+												const result = await response.text();
+												if (result === 'exists') {
+													errorMessage.textContent = 'Email already exists.';
+													emailAddressInput.setCustomValidity('Email already exists.');
+												} else {
+													errorMessage.textContent = '';
+													emailAddressInput.setCustomValidity('');
+												}
+											} else {
+												console.error('Error occurred while checking email:', response.status);
+											}
+										} catch (error) {
+											console.error('Error occurred while checking email:', error);
+										}
+									}
+								</script>
+								<div class="col">
+									<label for="fileUpload" class="form-label">Submit Any
+										Government ID (PDF 10KB - 1MB)</label> <font color="red">*</font>
+									<div class="custom-file">
+										<input type="file" class="form-control" id="formFile"
+											name="IdProof" accept=".pdf" required> <label
+											class="form-label" for="formFile"></label>
+									</div>
+								</div>
+								<script type="text/javascript">
+								    const idProofInput = document.getElementById('formFile');
+								    idProofInput.addEventListener('change', function () {
+								        const files = this.files;
+								        if (files.length !== 1) {
+								            alert('Please select only one PDF file.');
+								            this.value = ''; // Clear the input field
+								            return;
+								        }
+								
+								        const file = files[0];
+								        const fileSizeKB = file.size / 1024;
+								        if (fileSizeKB < 10 || fileSizeKB > 1024) {
+								            alert('Please select a PDF file between 10KB and 1MB in size.');
+								            this.value = ''; // Clear the input field
+								            return;
+								        }
+								
+								        const fileName = file.name;
+								        const validPdfNameRegex = /^[a-zA-Z0-9_-]+\.[pP][dD][fF]$/; // Valid PDF filename pattern
+								        if (!validPdfNameRegex.test(fileName)) {
+								            alert('Please select a PDF file with a valid filename.');
+								            this.value = ''; // Clear the input field
+								            return;
+								        }
+								
+								        // Use PDF.js to parse the PDF file
+								        const reader = new FileReader();
+								        reader.onload = function () {
+								            const typedarray = new Uint8Array(reader.result);
+								            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+								                // Check if the PDF contains any clickable elements (annotations or links)
+								                pdf.getPage(1).then(function(page) {
+								                    page.getAnnotations().then(function(annotations) {
+								                        if (annotations.length > 0) {
+								                            alert('Your document contains malicious content! \nPlease choose valid document.');
+								                            idProofInput.value = ''; // Clear the input field
+								                        } else {
+								                            // Check for hyperlinks
+								                            page.getTextContent().then(function(textContent) {
+								                                for (const item of textContent.items) {
+								                                    if (item.str.includes('http://') || item.str.includes('https://')) {
+								                                        alert('PDF contains hyperlinks.');
+								                                        idProofInput.value = ''; // Clear the input field
+								                                        return;
+								                                    }
+								                                }
+								                                alert('Your Document Successfully Added.');
+								                            });
+								                        }
+								                    });
+								                });
+								            });
+								        };
+								
+								        reader.readAsArrayBuffer(file);
+								    });
+								</script>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="password" class="form-label">Password</label> <font
+										color="red">*</font> 
+									<div class="input-group">
+										<input type="password"
+										class="form-control" name="password"
+										placeholder="Enter password" id="password"
+										pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$"
+										required oninput="checkPasswordSequence(this)"> 
+										<button class="btn btn-outline-secondary" type="button"
+											id="togglePasswordButton">
+											<i class="fas fa-eye-slash" aria-hidden="true"></i>
+										</button>
+									</div>
+										<small
+										id="passwordHelpBlock" class="form-text"> Your
+										password must be minimum 8 characters long, contain uppercase
+										and lowercase, numbers and special characters, and must not
+										contain spaces. </small>
+								</div>
+								<div class="col">
+									<label for="confirmPassword" class="form-label">Confirm
+										Password</label> <font color="red">*</font> 
+								  <div class="input-group">
+									<input type="password" class="form-control"
+										placeholder="Confirm password" id="confirmPassword"
+										onkeyup="check();"
+										pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$"
+										required>
+										<button class="btn btn-outline-secondary" type="button" id="togglePasswordButton1">
+								            <i class="fas fa-eye-slash" aria-hidden="true"></i>
+								        </button>
+								  </div>
+										<small id="password-match"
+										class="form-text text-muted"></small><span id="message5"></span>
+								</div>
+								<script>
+									function check() {
+										const password = document.getElementById('password');
+										const confirmPassword = document.getElementById('confirmPassword');
+										const message = document.getElementById('message5');
+										const passwordMatch = document.getElementById('password-match');
+										if (password.value === confirmPassword.value) {
+											message.innerHTML = 'Passwords match.';
+											message.style.color = 'green';
+											confirmPassword.setCustomValidity('');
+										} else {
+											message.innerHTML = 'Passwords do not match.';
+											message.style.color = 'red';
+											confirmPassword.setCustomValidity('Passwords do not match.');
+										}
+										if (password.value === '' && confirmPassword.value === '') {
+											message.innerHTML = '';
+											confirmPassword.setCustomValidity('');
+										}
+									}
+								</script>
+								<script>
+				    // Prevent pasting into password fields
+				    document.querySelectorAll('input[type="password"]').forEach(function(input) {
+				        input.addEventListener('paste', function(event) {
+				            event.preventDefault();
+				        });
+				    });
+				</script>
+							</div>
+							<div class="text-center">
+								<button type="submit" value="Submit"
+									class="btn btn-primary col-md-2" id="submitButton"
+									onclick="checkData();">Register</button>
+								<a th:href="@{/welcome}" class="btn btn-warning col-md-2">Cancel</a>
+								<button class="btn btn-danger col-md-2" type="reset">Reset</button>
+							</div>
+						</form>
+
+
+						<script src="/js/sha256.js"></script>
+						<script src="/js/crypto-js.js"></script>
+						<script src="/js/validation.js"></script>
+						<script>
+				(() => {
+					  'use strict';
+
+					  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+					  const forms = document.querySelectorAll('.needs-validation');
+
+					  // Loop over them and prevent submission
+					  Array.from(forms).forEach(form => {
+					    form.addEventListener('submit', event => {
+					      if (!form.checkValidity()) {
+					        event.preventDefault();
+					        event.stopPropagation();
+					      }
+
+					      form.classList.add('was-validated');
+					    }, false);
+					  });
+					})();
+
+					function checkData() {
+					  // Validate the form
+					  const form = document.getElementById('moduleform');
+					  if (!form.checkValidity()) {
+					    // Form is not valid, do not proceed
+					    return false;
+					  }
+
+					  // Your existing checkData logic goes here
+					   var state = document.getElementById("state").value;
+					  var colleges = document.getElementById("college").value;
+					  var firstName=document.getElementById("firstName").value;
+					  var lastName=document.getElementById("lastName").value;
+					  var fatherName=document.getElementById("fatherName").value;
+					  var mobileNumber=document.getElementById("mobileNumber").value;
+					  var emailAddress=document.getElementById("emailAddress").value.toLowerCase();
+					  var gender=document.getElementById("gender").value;
+					  var dob=document.getElementById("dob").value;
+					  var password=document.getElementById("password").value;
+					  
+					  var inputCode = "";
+					  inputCode += getInputCode(state);
+					  inputCode += getInputCode(colleges);
+					  inputCode += getInputCode(firstName);
+					  inputCode += getInputCode(lastName);
+					  inputCode += getInputCode(fatherName);
+					  inputCode += getInputCode(mobileNumber);
+					  inputCode += getInputCode(emailAddress);
+					  inputCode += getInputCode(gender);
+					  inputCode += getInputCode(dob);
+					  inputCode += getInputCode(password);
+					 
+					  
+					  var encodedPassword = password;
+						 
+					  encodedPassword = encodePasswordNEW_1(encodedPassword,parseInt(seed));
+					
+					 document.getElementById('password').value = encodedPassword;
+					  
+					  
+					  var hppCode = getHPPCode(origHPPCode, inputCode);
+
+					  document.getElementById("hppCode").value = hppCode;
+
+					  // Submit the form
+					  form.submit();
+					  return false; // Prevent default form submission
+					}
+
+					// Your existing functions (getInputCode, getHPPCode, etc.) go here
+
+				</script>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script>
+  // Function to check if password matches email address
+  function checkPasswordWithEmail(emailInput, passwordInput) {
+    var email = emailInput.value.toLowerCase(); // Convert email to lowercase
+    var password = passwordInput.value.toLowerCase(); // Convert password to lowercase
+
+    // Check if password contains email address
+    if (password.includes(email)) {
+      document.getElementById('passwordHelpBlock').innerHTML = 'Password cannot contain your email address.';
+      document.getElementById('passwordHelpBlock').style.color = 'red';
+      document.getElementById('submitButton').disabled = true; // Disable submit button
+    } else {
+      document.getElementById('passwordHelpBlock').innerHTML = 'Your password must be minimum 8 characters long, contain uppercase and lowercase, numbers and special characters, and must not contain spaces.';
+      document.getElementById('passwordHelpBlock').style.color = 'grey';
+      document.getElementById('submitButton').disabled = false; // Enable submit button
+    }
+  }
+
+  // Attach event listener to email and password inputs
+  document.getElementById('emailAddress').addEventListener('input', function() {
+    checkPasswordWithEmail(this, document.getElementById('password'));
+  });
+  document.getElementById('password').addEventListener('input', function() {
+    checkPasswordWithEmail(document.getElementById('emailAddress'), this);
+  });
+</script>
+	<script>
+    function checkPasswordSequence(passwordInput) {
+        var password = passwordInput.value.toLowerCase(); // Convert to lowercase for case-insensitive check
+
+        var forbiddenSequences = ["123", "abc", "abcd", "ABCD", "Abcd", "password"];
+
+        var messageElement = document.getElementById("passwordHelpBlock");
+        var submitButton = document.getElementById("submitButton");
+
+        for (var i = 0; i < forbiddenSequences.length; i++) {
+            if (password.includes(forbiddenSequences[i])) {
+                messageElement.innerHTML = 'Password cannot contain sequences like \'123\', \'abc\', \'abcd\', or \'password\'.';
+                messageElement.style.color = 'red';
+                submitButton.disabled = true;
+                return;
+            }
+        }
+
+        messageElement.innerHTML = 'Your password must be minimum 8 characters long, contain uppercase and lowercase, numbers and special characters, and must not contain spaces.';
+        messageElement.style.color='grey';
+        submitButton.disabled = false;
+    }
+</script>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const togglePasswordButton = document.getElementById('togglePasswordButton');
+        const togglePasswordButton1 = document.getElementById('togglePasswordButton1');
+        const eyeIcon = togglePasswordButton.querySelector('i');
+        const eyeIcon1 = togglePasswordButton1.querySelector('i');
+        
+        // Initially set the type of passwordInput and confirmPasswordInput to 'password' when the page loads
+        passwordInput.setAttribute('type', 'password');
+        confirmPasswordInput.setAttribute('type', 'password');
+        
+        // Initially set the eye icons to non-crossed eye buttons
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+        eyeIcon1.classList.remove('fa-eye-slash');
+        eyeIcon1.classList.add('fa-eye');
+        
+        // Toggle password visibility for password input on mouseenter and mouseleave
+        togglePasswordButton.addEventListener('mouseenter', function () {
+            passwordInput.setAttribute('type', 'text');
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        });
+        
+        togglePasswordButton.addEventListener('mouseleave', function () {
+            passwordInput.setAttribute('type', 'password');
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        });
+        
+        // Toggle password visibility for confirm password input on mouseenter and mouseleave
+        togglePasswordButton1.addEventListener('mouseenter', function () {
+            confirmPasswordInput.setAttribute('type', 'text');
+            eyeIcon1.classList.remove('fa-eye');
+            eyeIcon1.classList.add('fa-eye-slash');
+        });
+        
+        togglePasswordButton1.addEventListener('mouseleave', function () {
+            confirmPasswordInput.setAttribute('type', 'password');
+            eyeIcon1.classList.remove('fa-eye-slash');
+            eyeIcon1.classList.add('fa-eye');
+        });
+    });
+    
+    // Prevent form submission on pressing enter inside password field
+    passwordInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
+    });
+    
+    // Prevent form submission on pressing enter inside confirm password field
+    confirmPasswordInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>

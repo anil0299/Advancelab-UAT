@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/quill.snow.css}">
+<link rel="stylesheet" th:href="@{/css/AddExerciseContent.css}" />
+<link rel="stylesheet" th:href="@{/css/select2.min.css}">
+<style>
+.select2 {
+width:100%!important;
+}
+.select2-container--default .select2-selection--single {
+    height: calc(2.5rem + 2px); 
+    border: 1px solid #ced4da; 
+    border-radius: 0.5rem; 
+    padding: 0.375rem 0.75rem;
+    box-shadow: none;
+    background-color: #fff;
+    font-size: 1rem;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #fff;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #ced4da;
+    outline: none;
+}
+</style>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class="navcontainer">
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src="" th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post" style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2" style="margin-top: 10px;">Site Home</a>
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item active" href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item active" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;"><b>Add Exercise Content</b></h1>
+			</div>
+			<div id="message">
+			    <th:block th:if="${msg}">
+			        <p class="text-center fs-3 text-success" th:text="${msg}"></p>
+			    </th:block>
+			    <th:block th:if="${msg1}">
+			        <p class="text-center fs-3 text-danger" th:text="${msg1}"></p>
+			    </th:block>
+			</div>
+			
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+		        <form id="moduleform" name="moduleform" class="needs-validation" novalidate th:action="@{/saveExerciseContent}" th:object="${ex}" method="post" autocomplete="off">
+		            <!-- Select Exercise ID -->
+		            <div class="form-group">
+		                <label for="exerciseIdInput" class="form-label"><b>Select Exercise</b></label>
+		                <font color="red">*</font>
+		                <select class="form-select" name="exerciseIdInput" id="exerciseIdInput" required>
+		                    <option value="" disabled selected>Select Exercise</option>
+		                    <option th:each="courseTopic : ${courseTopics}" th:value="${courseTopic.Ex_id}" th:text="${courseTopic.exer_name}"></option>
+		                </select>
+		                <div class="invalid-feedback">Exercise ID is required.</div>
+		            </div>
+		            <br>
+		
+		            <!-- Alphanumeric Text Inputs -->
+		            <div class="form-group">
+		                <label for="exerciseHeadingNameInput" class="form-label"><b>Exercise Heading Name</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="exerciseHeadingNameInput" name="exerciseHeadingNameInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message1" class="invalid-feedback">Exercise Heading Name is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <div class="form-group">
+		                <label for="titleInput" class="form-label"><b>Title Name</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="titleInput" name="titleInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message2" class="invalid-feedback">Title is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <div class="form-group">
+		                <label for="learningObjectiveInput" class="form-label"><b>Learning Objective</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="learningObjectiveInput" name="learningObjectiveInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message3" class="invalid-feedback">Learning Objective is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <div class="form-group">
+		                <label for="descriptionInput" class="form-label"><b>Description</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="descriptionInput" name="descriptionInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message4" class="invalid-feedback">Description is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <div class="form-group">
+		                <label for="labInfraStructureInput" class="form-label"><b>About the Exercise lab infrastructure</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="labInfraStructureInput" name="labInfraStructureInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message5" class="invalid-feedback">Lab Infrastructure is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <div class="form-group">
+		                <label for="attackProcedureInput" class="form-label"><b>Attack Procedure</b></label>
+		                <font color="red">*</font>
+		                <div type="text" id="attackProcedureInput" name="attackProcedureInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="error-message6" class="invalid-feedback">Attack Procedure is required and must be alphanumeric.</div>
+		            </div>
+		            <br>
+		
+		            <button type="button" id="submitForm" class="btn btn-primary">Save</button>
+		            &nbsp; <a th:href="@{/exercisedetails}" class="btn btn-primary mb-2" style="margin-top: 8px;">Back</a>
+		
+		            <!-- Hidden inputs -->
+		            <input type="hidden" name="hppCode" id="hppCode" /> 
+		            <input type="hidden" id="exerciseId" name="exerciseId" />
+		            <input type="hidden" id="exerciseHeadingName" name="exerciseHeadingName" />
+		            <input type="hidden" id="title" name="title" />
+		            <input type="hidden" id="learningObjective" name="learningObjective" />
+		            <input type="hidden" id="description" name="description" />
+		            <input type="hidden" id="labInfraStructure" name="labInfraStructure" />
+		            <input type="hidden" id="attackProcedure" name="attackProcedure" />
+		        </form>
+		    </div>
+		</div>
+	</div>
+	<br><br><br><br><br><br>
+	<footer class="class-footer">
+		<p><b>Copyright &copy; 2022</b></p>
+		<p><b>Designed and Developed by CDAC</b></p>
+	</footer>
+	<script type="text/javascript" th:src="@{/js/sha256.js}"></script>
+    <script type="text/javascript" th:src="@{/js/crypto-js.js}"></script>
+    <script type="text/javascript" th:src="@{/js/validation.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/quill.js}"></script>
+    <script type="text/javascript" th:src="@{/js/select2.full.min.js}"></script>
+    <script>
+    // Initialize Quill editors
+    const quillEditors = {};
+    const editorIds = [
+        'exerciseHeadingNameInput', 
+        'titleInput', 
+        'learningObjectiveInput', 
+        'descriptionInput', 
+        'labInfraStructureInput', 
+        'attackProcedureInput'
+    ];
+
+    editorIds.forEach(id => {
+        quillEditors[id] = new Quill(`#${id}`, { theme: 'snow' });
+    });
+
+    function validateQuillContent(id, errorMessage) {
+        const content = quillEditors[id].root.innerText.trim();
+        const regex = /^[A-Za-z0-9 ]+$/;
+        const field = document.getElementById(id);
+        const errorElement = document.getElementById(`error-message${editorIds.indexOf(id) + 1}`);
+        
+        if (!regex.test(content) || content === "" || content === "<p><br></p>") {
+            errorElement.innerText = errorMessage;
+            field.classList.add('is-invalid', 'border', 'border-danger');
+            return false; // Return false if invalid
+        } else {
+            errorElement.innerText = '';
+            field.classList.remove('is-invalid', 'border', 'border-danger');
+            field.classList.add('is-valid', 'border', 'border-success');
+            return true; // Return true if valid
+        }
+    }
+
+    document.getElementById('submitForm').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const form = document.getElementById('moduleform');
+        let isValid = true;
+
+        // Validate Quill editor contents
+        editorIds.forEach(id => {
+            const result = validateQuillContent(id, `Please provide a valid ${id.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+            if (!result) isValid = false; // If any validation fails, set isValid to false
+        });
+
+        // Validate Select field
+        const exerciseIdInput = document.getElementById('exerciseIdInput');
+        if (exerciseIdInput.value === "") {
+            exerciseIdError.innerText = 'Exercise ID is required.';
+            exerciseIdInput.classList.add('is-invalid');
+            isValid = false;
+        }
+        // Only submit the form if all validations passed
+        if (isValid) {
+            // Update hidden fields
+            document.getElementById("exerciseId").value = exerciseIdInput.value;
+            document.getElementById("exerciseHeadingName").value = quillEditors['exerciseHeadingNameInput'].root.innerHTML.trim();
+            document.getElementById("title").value = quillEditors['titleInput'].root.innerHTML.trim();
+            document.getElementById("learningObjective").value = quillEditors['learningObjectiveInput'].root.innerHTML.trim();
+            document.getElementById("description").value = quillEditors['descriptionInput'].root.innerHTML.trim();
+            document.getElementById("labInfraStructure").value = quillEditors['labInfraStructureInput'].root.innerHTML.trim();
+            document.getElementById("attackProcedure").value = quillEditors['attackProcedureInput'].root.innerHTML.trim();
+
+            // Example function calls, ensure these functions are defined
+            var inputCode = "";
+            inputCode += getInputCode(exerciseIdInput.value);
+            inputCode += getInputCode(quillEditors['exerciseHeadingNameInput'].root.innerHTML.trim());
+            inputCode += getInputCode(quillEditors['titleInput'].root.innerHTML.trim());
+            inputCode += getInputCode(quillEditors['learningObjectiveInput'].root.innerHTML.trim());
+            inputCode += getInputCode(quillEditors['descriptionInput'].root.innerHTML.trim());
+            inputCode += getInputCode(quillEditors['labInfraStructureInput'].root.innerHTML.trim());
+            inputCode += getInputCode(quillEditors['attackProcedureInput'].root.innerHTML.trim());
+            var hppCode = getHPPCode(origHPPCode, inputCode);
+            document.getElementById("hppCode").value = hppCode;
+
+            form.submit(); // Submit the form
+        } else {
+            console.log("Form submission prevented due to validation errors.");
+        }
+    });
+</script>
+	<script>
+	// Auto-remove message after 3 seconds
+	setTimeout(function() {
+		const message = document.getElementById("message");
+		if (message) {
+			message.parentNode.removeChild(message);
+		}
+	}, 3000); 
+	
+	$(document).ready(function() {
+	    $('#exerciseIdInput').select2({
+	    	placeholder:"Select a exercise",
+	    	allowClear: true
+	    });
+	});
+	</script>
+</body>
+</html>

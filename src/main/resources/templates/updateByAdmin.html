@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Gyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/updateByAdmin.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/pdf.js}"></script>
+<style>
+#text {
+	display: none;
+	color: red
+}
+
+.success-message {
+	color: green
+}
+
+.error-message {
+	color: red;
+}
+</style>
+</head>
+
+<body style="background-color: oldlace">
+	<nav class="navbar navbar-expand-lg  navbar-light sticky-top"
+		style="background-color: #e3f2fd; padding: 20px;">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="ms-auto">
+				<a th:href="@{/StudentApproval}" class="btn btn-primary">Home</a>
+			</div>
+		</div>
+	</nav>
+	<section>
+		<div class="heading" style="background-color: #0953a8;">
+			<div class="text-center p-1" id="heading " scrollamount="20">
+				<h1 style="color: white;">CyberGyan Virtual Training Platform</h1>
+			</div>
+		</div>
+	</section>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a th:href="@{/StudentApproval}">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Update
+				Details</li>
+		</ol>
+	</nav>
+	<section>
+		<div id="message">
+			<th:block th:if="${session.msg}">
+				<p class="text-center fs-3 text-success">[[${session.msg}]]</p>
+				<th:block th:text="${#session.removeAttribute('msg')}">
+				</th:block>
+			</th:block>
+		</div>
+		<div class="container p-4 text-center">
+			<div class="row justify-content-center">
+				<div class="card" style="width: 70rem; height: auto">
+					<div class="card-body">
+						<div class="card-header text-center fs-2 text-info">
+							<b>Update Student Details</b>
+						</div>
+						<div class="card-body">
+							<form class="needs-validation" novalidate
+								th:action="@{/updateUser}" th:object="${student}" method="post"
+								id="moduleform" name="moduleform" autocomplete="off" enctype="multipart/form-data">
+
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+									id="hppCode" /> <input type="hidden" id="cid" name="cid" /> <input
+									type="hidden" th:field="*{id}" />
+								<div class="row mb-3">
+									<div class="col">
+										<label for="state" class="form-label">State</label> <font
+											color="red">*</font> <select class="form-select" id="state"
+											name="state" onchange="getColleges(this.value)"
+											th:field="*{state}" required>
+											<option value="" disabled selected>Select State</option>
+											<th:block th:each="state : ${states}">
+												<option th:value="${state}" th:text="${state}"></option>
+											</th:block>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+									</div>
+									<div class="col">
+										<label for="college" class="form-label">College</label> <font
+											color="red">*</font> <select class="form-select" id="college"
+											name="college" th:field="${student.college}" required>
+											<option value="" disabled selected>Select College</option>
+											<th:block th:each="college : ${colleges}">
+												<option th:value="${college}" th:text="${college}"></option>
+											</th:block>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+									</div>
+									<script th:inline="javascript">
+										function getColleges(state) {
+											var collegeDropdown = document.getElementById("college");
+											collegeDropdown.innerHTML = '<option value="" disabled selected>Loading...</option>';
+											fetch('/colleges?state=' + state)
+												.then(response => response.json())
+												.then(colleges => {
+													collegeDropdown.innerHTML = '<option value="" disabled selected>Select College</option>';
+													colleges.forEach(college => {
+														var option = document.createElement("option");
+														option.value = college;
+														option.text = college;
+														collegeDropdown.appendChild(option);
+													});
+												});
+										}
+									</script>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="course" class="form-label">Course</label> <font
+											color="red">*</font> <select class="form-select"
+											id="qualification" name="qualification"
+											th:field="*{qualification}" required>
+											<option value="" disabled selected>Select Course</option>
+											<th:block th:each="course : ${courses}">
+												<option th:value="${course}" th:text="${course}"></option>
+											</th:block>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+									</div>
+									<div class="col">
+										<label for="mobileNumber" class="form-label">Mobile
+											number</label> <font color="red">*</font> <input type="mobileNumber"
+											class="form-control" name="mobileNumber" id="mobileNumber"
+											placeholder="Enter 10-digit mobile number" maxlength="10"
+											pattern="[0-9]{10}" th:value="*{mobileNumber}" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please provide a valid
+											Mobile Number.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="firstName" class="form-label">First Name</label> <font
+											color="red">*</font> <input type="text" class="form-control"
+											id="firstName" name="firstName" placeholder="Enter first name"
+											pattern="[A-Za-z\s]+" th:field="*{firstName}" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please provide a valid
+											First Name.</div>
+									</div>
+									<div class="col">
+										<label for="lastName" class="form-label">Last Name</label> <font
+											color="red">*</font> <input type="text" class="form-control"
+											pattern="[A-Za-z\s]+" name="lastName" id="lastName"
+											placeholder="Enter last name" th:field="*{lastName}" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please provide a valid
+											Last Name.</div>
+									</div>
+								</div>
+								<div class="row mb-3 ">
+									<div class="col">
+										<label for="fatherName" class="form-label">Father Name</label>
+										<font color="red">*</font> <input type="text"
+											class="form-control" pattern="[A-Za-z\s]+" name="fatherName"
+											id="fatherName" placeholder="Enter father name" th:field="*{fatherName}"
+											required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please provide a valid
+											Father Name.</div>
+									</div>
+									<div class="col">
+										<label for="category" class="form-label">Category</label> <font
+											color="red">*</font> <select class="form-select"
+											id="category" name="category" th:field="*{category}" required>
+											<option value="" disabled selected>Select category</option>
+											<option value="SC">SC</option>
+											<option value="ST">ST</option>
+											<option value="EWS">EWS</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+									</div>
+								</div>
+								<div class="row mb-3 ">
+									<div class="container">
+										<div class="form-group">
+											<label for="dob" class="form-label">Date of Birth</label> <input type="date"
+												class="form-control" id="dob" name="dob"
+												th:value="${student.dob}" required>
+											<div id="ageError" class="invalid-feedback">Age must be
+												18 or older.</div>
+										</div>
+									</div>
+								</div>
+								<script>
+									// Get today's date in yyyy-mm-dd format
+									const today = new Date().toISOString().split("T")[0];
+
+									// Set the max attribute of the date input to today's date
+									document.getElementById("dob").setAttribute("max", today);
+								</script>
+								
+								<!-- PDF file upload inputs with preview -->
+								<input type="hidden" name="currentCategoryCertificate" th:value="${student.categoryCertificate != null ? student.categoryCertificate : ''}">
+								<input type="hidden" name="currentLastMarksheet" th:value="${student.lastMarksheet != null ? student.lastMarksheet : ''}">
+								
+								<div class="row mb-3">
+								    <div class="col">
+								        <label for="formFile" class="form-label">Submit Category/EWS Certificate (PDF 10KB - 1MB)</label>
+								        <font color="red">*</font>
+								        <div class="custom-file">
+								            <input type="file" class="form-control" id="formFile" name="categoryCertificate" accept=".pdf">
+								            <label class="form-label" for="formFile">Uploaded file: <strong>certificate.pdf</strong></label>							            
+								            <div id="pdfPreview1" class="pdf-preview"></div>
+								        </div>
+								    </div>
+								    <div class="col">
+								        <label for="formFile1" class="form-label">Submit Marksheet of Last Semester Attended (PDF 10KB - 1MB)</label>
+								        <font color="red">*</font>
+								        <div class="custom-file">
+								            <input type="file" class="form-control" id="formFile1" name="lastMarksheet" accept=".pdf">
+								            <label class="form-label" for="formFile1">Uploaded file: <strong>marksheet.pdf</strong></label>								          
+								            <div id="pdfPreview2" class="pdf-preview"></div>
+								        </div>
+								    </div>
+								</div>
+						        <script>
+								const idProofInput2 = document.getElementById('formFile');
+							    idProofInput2.addEventListener('change', function () {
+							        const files = this.files;
+							        if (files.length !== 1) {
+							            alert('Please select only one PDF file.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const file = files[0];
+							        const fileSizeKB = file.size / 1024;
+							        if (fileSizeKB < 10 || fileSizeKB > 1024) {
+							            alert('Please select a PDF file between 10KB and 1MB in size.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const fileName = file.name.toLowerCase(); // Convert filename to lowercase for case insensitivity
+							        const certificateFilename = "certificate.pdf";
+	
+							        if (!fileName.includes(certificateFilename)) {
+							            alert("Please upload a file named '" + certificateFilename + "'.");
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const validPdfNameRegex = /^[a-zA-Z0-9_-]+\.[pP][dD][fF]$/; // Valid PDF filename pattern
+							        if (!validPdfNameRegex.test(fileName)) {
+							            alert('Please select a PDF file with a valid filename.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        // Use PDF.js to parse the PDF file
+							        const reader = new FileReader();
+							        reader.onload = function () {
+							            const typedarray = new Uint8Array(reader.result);
+							            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+							                // Check if the PDF contains any clickable elements (annotations or links)
+							                pdf.getPage(1).then(function(page) {
+							                    page.getAnnotations().then(function(annotations) {
+							                        if (annotations.length > 0) {
+							                            alert('Your document contains malicious keyword! \nPlease choose valid document.');
+							                            idProofInput2.value = ''; // Clear the input field
+							                        } else {
+							                            // Check for hyperlinks
+							                            page.getTextContent().then(function(textContent) {
+							                                for (const item of textContent.items) {
+							                                    if (item.str.includes('http://') || item.str.includes('https://')) {
+							                                        alert('PDF contains hyperlinks.');
+							                                        idProofInput2.value = ''; // Clear the input field
+							                                        return;
+							                                    }
+							                                }
+							                                alert('Your Document Successfully Added.');
+							                            });
+							                        }
+							                    });
+							                });
+							            });
+							        };
+	
+							        reader.readAsArrayBuffer(file);
+							    });
+								</script>
+								<script>
+								const idProofInput1 = document.getElementById('formFile1');
+							    idProofInput1.addEventListener('change', function () {
+							        const files = this.files;
+							        if (files.length !== 1) {
+							            alert('Please select only one PDF file.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const file = files[0];
+							        const fileSizeKB = file.size / 1024;
+							        if (fileSizeKB < 10 || fileSizeKB > 1024) {
+							            alert('Please select a PDF file between 10KB and 1MB in size.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const fileName = file.name.toLowerCase(); // Convert filename to lowercase for case insensitivity
+							        const marksheetFilename = "marksheet.pdf";
+	
+							        if (!fileName.includes(marksheetFilename)) {
+							            alert("Please upload a file named '" + marksheetFilename + "'.");
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        const validPdfNameRegex = /^[a-zA-Z0-9_-]+\.[pP][dD][fF]$/; // Valid PDF filename pattern
+							        if (!validPdfNameRegex.test(fileName)) {
+							            alert('Please select a PDF file with a valid filename.');
+							            this.value = ''; // Clear the input field
+							            return;
+							        }
+	
+							        // Use PDF.js to parse the PDF file
+							        const reader = new FileReader();
+							        reader.onload = function () {
+							            const typedarray = new Uint8Array(reader.result);
+							            pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+							                // Check if the PDF contains any clickable elements (annotations or links)
+							                pdf.getPage(1).then(function(page) {
+							                    page.getAnnotations().then(function(annotations) {
+							                        if (annotations.length > 0) {
+							                            alert('Your document contains malicious keyword! \nPlease choose valid document.');
+							                            idProofInput1.value = ''; // Clear the input field
+							                        } else {
+							                            // Check for hyperlinks
+							                            page.getTextContent().then(function(textContent) {
+							                                for (const item of textContent.items) {
+							                                    if (item.str.includes('http://') || item.str.includes('https://')) {
+							                                        alert('Document contains hyperlinks.');
+							                                        idProofInput1.value = ''; // Clear the input field
+							                                        return;
+							                                    }
+							                                }
+							                                alert('Your Document Successfully Added.');
+							                            });
+							                        }
+							                    });
+							                });
+							            });
+							        };
+	
+							        reader.readAsArrayBuffer(file);
+							    });
+							</script>
+								<div class="text-center">
+									<button class="btn btn-primary col-md-2" type="submit"
+										onclick="checkData();">Update</button>
+									<a th:href="@{/StudentApproval}"
+										class="btn btn-danger col-md-2">Cancel</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script type="text/javascript">
+		var tooltipTriggerList = [].slice.call(document
+			.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	</script>
+	<script>
+		var buttons = document.querySelectorAll('.btn')
+		buttons.forEach(function (button) {
+			var button = new bootstrap.Button(button)
+			button.toggle()
+		})
+	</script>
+	
+	<script src="/js/sha256.js"></script>
+	<script src="/js/crypto-js.js"></script>
+	<script src="/js/validation.js"></script>
+	
+	<script>
+			(() => {
+			    'use strict';
+
+			    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+			    const forms = document.querySelectorAll('.needs-validation');
+
+			    // Loop over them and prevent submission
+			    Array.from(forms).forEach(form => {
+			        form.addEventListener('submit', event => {
+			            // Validate the form
+			            if (!form.checkValidity() || !checkData() || !isAgeValid()) {
+			                event.preventDefault();
+			                event.stopPropagation();
+			            }
+
+			            form.classList.add('was-validated');
+			        }, false);
+			    });
+
+			    function isAgeValid() {
+			        var today = new Date();
+			        var dob = new Date(document.getElementById('dob').value);
+			        var age = today.getFullYear() - dob.getFullYear();
+
+			        // Adjust age if birthday hasn't occurred yet this year
+			        if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+			            age--;
+			        }
+
+			        // Display error message if age is less than 18
+			        var errorMessage = document.getElementById('ageError');
+			        if (age < 18) {
+			            errorMessage.style.display = 'block';
+			            return false;
+			        } else {
+			            errorMessage.style.display = 'none';
+			            return true;
+			        }
+			    }
+
+			    function checkData() {
+			        // Validate the form
+			        const form = document.getElementById('moduleform');
+			        if (!form.checkValidity() || !isAgeValid()) {
+			            // Form is not valid or age is not valid, do not proceed
+			            return false;
+			        }
+			    
+
+			        // Your existing checkData logic goes here
+			        var state = document.getElementById("state").value;
+			        var college = document.getElementById("college").value;
+			        var qualification = document.getElementById("qualification").value;
+			        var mobileNumber = document.getElementById("mobileNumber").value;
+			        var firstName = document.getElementById("firstName").value;
+			        var category = document.getElementById("category").value;
+			        var fatherName = document.getElementById("fatherName").value;
+			        var lastName = document.getElementById("lastName").value;
+			        
+			        		        
+			        
+			        var inputCode = "";
+			        inputCode += getInputCode(state);
+			        inputCode += getInputCode(college);
+			        inputCode += getInputCode(qualification);
+			        inputCode += getInputCode(firstName);
+			        inputCode += getInputCode(lastName);
+			        inputCode += getInputCode(fatherName);
+			        inputCode += getInputCode(category);
+			        inputCode += getInputCode(mobileNumber);
+			        
+			        var hppCode = getHPPCode(origHPPCode, inputCode);
+
+			        document.getElementById("hppCode").value = hppCode;
+
+			        // Ensure the form is not submitted here
+			        return true;
+			    }
+			})();
+</script>
+</body>
+</html>

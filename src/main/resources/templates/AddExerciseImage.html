@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/addvm.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" >
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/select2.min.css}">
+<style>
+.select2 {
+width:100%!important;
+}
+.select2-container--default .select2-selection--single {
+    height: calc(2.5rem + 2px); 
+    border: 1px solid #ced4da; 
+    border-radius: 0.5rem; 
+    padding: 0.375rem 0.75rem;
+    box-shadow: none;
+    background-color: #fff;
+    font-size: 1rem;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #fff;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #ced4da;
+    outline: none;
+}
+</style>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item active " href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Add Exercise Image</b>
+				</h1>
+			</div>
+			<div id="message">
+			    <th:block th:if="${msg}">
+			        <p class="text-center fs-3 text-success" th:text="${msg}"></p>
+			    </th:block>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<form th:action="@{/SaveExerciseImage}" enctype="multipart/form-data" method="POST"
+					autocomplete="off" id="moduleform" name="moduleform">
+					<input type="hidden" name="hppCode" id="hppCode" /> 
+					<div class="form-group ">
+						<div class="col-xl-9 col-xxl-6 text-center mx-auto">
+							<div>
+								<label for="ExerciseName" class="form-label"><b>Select
+										Exercise Name</b></label><font color="red"> *</font> 
+									<select class="form-select" name="courseTopicId" id="courseTopicId" required>
+										<option value="" disabled selected>Select Exercise</option>
+										<option th:each="exerMaster : ${exerciseMasters}"
+											th:value="${exerMaster.Ex_id}"
+											th:text="${exerMaster.exer_name}">
+										</option>
+								</select>
+							</div>
+							<br>
+							<div>
+								<label for="ArchitectureImage" class="form-label"><b>Architecture Image</b></label><font
+									color="red"> *</font> 
+									<input class="form-control" type="file" id="ArchitectureImage" name="ArchitectureImage" accept="image/*" required>
+								<div id="error-message" style="color: red;"></div>
+								<br>
+							</div>
+							<br>
+							<div>
+								<label for="GUIImage" class="form-label"><b>GUI Image</b></label><font
+									color="red"> *</font> 
+									<input class="form-control" type="file" id="GUIImage" name="GUIImage" accept="image/*" required>
+								<div id="error-message1" style="color: red;"></div>
+								<br>
+							</div>
+						</div>
+					</div>
+					<button type="submit" id="submit" class="btn btn-primary"
+						onclick="checkData();">Save</button>
+				</form>
+
+				<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+				<script type="text/javascript" th:src="@{/js/select2.full.min.js}"></script>
+				<script>
+					function checkData() {
+						var courseTopicId = document.getElementById("courseTopicId").value;
+						var ArchitectureImage = document.getElementById("ArchitectureImage").files[0].name;
+						var GUIImage = document.getElementById("GUIImage").files[0].name;
+
+						var inputCode = "";
+
+						inputCode += getInputCode(courseTopicId);
+						inputCode += getInputCode(ArchitectureImage);
+						inputCode += getInputCode(GUIImage);
+		
+						var hppCode = getHPPCode(origHPPCode, inputCode);
+						document.getElementById("hppCode").value = hppCode;
+						document.getElementById('moduleform').submit();
+						return false;
+					}
+				</script>
+
+
+				<script>
+				    const ArchitectureImage = document.getElementById('ArchitectureImage');
+				    const GUIImage = document.getElementById('GUIImage');
+				    const submitButton = document.getElementById('submit');
+				    const errorMessage = document.getElementById('error-message');
+				    const errorMessage1 = document.getElementById('error-message1');
+				    
+				    ArchitectureImage.addEventListener('change', function() {
+				        const ArchitectureImageName = ArchitectureImage.files[0].name;
+				        
+				        if (!ArchitectureImageName.startsWith('Architecture')) {
+				            ArchitectureImage.style.border = '1px solid red';
+				            errorMessage.textContent = 'File name should must be Architecture';
+				            submitButton.disabled = true;
+				        }else if(!ArchitectureImageName.endsWith('.png')){
+							ArchitectureImage.style.border = '1px solid red';
+				            errorMessage.textContent = 'File should must be in png format.';
+				            submitButton.disabled = true;
+						}else {
+				            ArchitectureImage.style.border = '1px solid #ced4da'; // Reset border style
+				            errorMessage.textContent = '';
+				            if (!errorMessage.textContent && !errorMessage1.textContent) {
+				                submitButton.disabled = false;
+				            }
+				        }
+				    });
+				    
+				    GUIImage.addEventListener('change', function() {
+				        const GUIImageName = GUIImage.files[0].name;
+				        
+				        if (!GUIImageName.startsWith('Gui')) {
+				            GUIImage.style.border = '1px solid red';
+				            errorMessage1.textContent = 'File name should must be Gui';
+				            submitButton.disabled = true;
+				        }else if(!GUIImageName.endsWith('.png')){
+							ArchitectureImage.style.border = '1px solid red';
+				            errorMessage1.textContent = 'File should must be in png format.';
+				            submitButton.disabled = true;
+						} else {
+				            GUIImage.style.border = '1px solid #ced4da'; // Reset border style
+				            errorMessage1.textContent = '';
+				            if (!errorMessage.textContent && !errorMessage1.textContent) {
+				                submitButton.disabled = false;
+				            }
+				        }
+				    });
+				</script>
+
+				
+				<script>
+					setTimeout(function() {
+						var message = document.getElementById("message");
+						message.parentNode.removeChild(message);
+					}, 3000); 
+					$(document).ready(function() {
+					    $('#courseTopicId').select2({
+					    	placeholder:"Select a exercise",
+					    	allowClear: true
+					    });
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>

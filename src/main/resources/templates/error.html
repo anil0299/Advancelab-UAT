@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/home.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+
+		</div>
+	</div>
+	<div class="errorcontainer" style="margin-left: 30%; margin-top: 3%;">
+
+		<h2>Sorry, you do not have permission to view this page.</h2>
+
+		Click <a th:href="@{/}">Home</a> to go back to the Homepage.
+	</div>
+
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Copyright
+			&copy; 2022</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Designed
+			and Developed by CDAC</p>
+	</div>
+
+</body>
+</html>

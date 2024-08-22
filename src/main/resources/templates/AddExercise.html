@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AddExercise.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/select2.min.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/select2.full.min.js}"></script>
+<style>
+.select2 {
+width:100%!important;
+}
+.select2-container--default .select2-selection--single {
+    height: calc(2.5rem + 2px); 
+    border: 1px solid #ced4da; 
+    border-radius: 0.5rem; 
+    padding: 0.375rem 0.75rem;
+    box-shadow: none;
+    background-color: #fff;
+    font-size: 1rem;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #fff;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #ced4da;
+    outline: none;
+}
+</style>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item active" href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Add Exercise </b>
+				</h1>
+			</div>
+			
+			<div id="message">
+			    <th:block th:if="${msg}">
+			        <p class="text-center fs-3 text-danger" th:text="${msg}"></p>
+			    </th:block>
+			</div>
+			
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<form class="needs-validation" novalidate
+					th:action="@{/saveExercise}" th:object="${ex}" method="post"
+					autocomplete="off" id="moduleform" name="moduleform">
+
+
+
+					<!-- CSRF token input -->
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+						id="hppCode" /> <input type="hidden" id="cid" name="cid" />
+					<div class="form-group">
+						<div class="col-xl-9 col-xxl-6 text-center mx-auto">
+							<div>
+								<label for="topicId" class="form-label"><b>Topic</b></label><font color="red">*</font>
+								<select class="select-with-search form-select" name="topicId" id="topicId" required>
+									<option selected disabled value=""></option>
+									<option th:each="courseTopic : ${courseTopics}" th:value="${courseTopic.id}" th:text="${courseTopic.topicName}"></option>
+								</select>
+							</div>
+							<br>
+							<div>
+								<label for="exercise_name" class="form-label"><b>Exercise
+										Name</b></label><font color="red">*</font> <input class="form-control"
+									type="text" id="exercise_name"
+									placeholder="Enter exercise name" pattern="[A-Za-z0-9\s]+"
+									name="exercise_name" th:field="*{exer_name}" required
+									autocomplete="off">
+								<div id="error-message1" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Exercise Name.</div>
+							</div>
+							<br> <label for="problem-statement" class="form-label"><b>Problem
+									Statement</b></label><font color="red">*</font>
+							<textarea class="form-control" id="problem-statement"
+								placeholder="Enter problem statement" name="problem-statement"
+								th:field="*{prob_statement}" rows="3" cols="23" required></textarea>
+							<div id="error-message" style="color: red;"></div>
+						</div>
+					</div>
+					<br>
+
+					<button type="submit" id="submit" class="btn btn-primary"
+						onclick="checkData();" disabled>Save</button>
+
+					&nbsp; <a th:href="@{/exercisedetails}"
+						class="btn btn-primary mb-2" style="margin-top: 8px;">Back</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script src="/js/sha256.js"></script>
+	<script src="/js/crypto-js.js"></script>
+	<script src="/js/validation.js"></script>
+	<script>
+
+		function checkData() {
+			var exerciseName = document.getElementById("exercise_name").value;
+			var problemStatement = document.getElementById("problem-statement").value;
+			var topicId = document.getElementById("topicId").value;
+			var inputCode = "";
+			inputCode += getInputCode(exerciseName);
+			inputCode += getInputCode(problemStatement);
+			inputCode += getInputCode(topicId);
+			var hppCode = getHPPCode(origHPPCode, inputCode);
+			document.getElementById("hppCode").value = hppCode;
+			document.getElementById('moduleform').submit();
+			return false;
+		}
+	</script>
+	<script type="text/javascript">
+		(() => {
+			  'use strict'
+			  const forms = document.querySelectorAll('.needs-validation')
+			  Array.from(forms).forEach(form => {
+			    form.addEventListener('submit', event => {
+			      if (!form.checkValidity()) {
+			        event.preventDefault()
+			        event.stopPropagation()
+			      }
+		
+			      form.classList.add('was-validated')
+			    }, false)
+			  })
+			})()
+	</script>
+	<script>
+		// Function to validate input based on a regular expression
+		function validateInput(input, element, errorElement, regex) {
+			if (regex.test(input)) {
+				// Reset the element's border to its default style
+				element.style.border = '';
+				// Clear the error message
+				errorElement.textContent = '';
+			} else {
+				// Set a red border for the element
+				element.style.border = '1px solid red';
+				// Display an error message
+				errorElement.textContent = 'Only alphanumeric characters and spaces are allowed.';
+			}
+		}
+		// Function to check if both inputs are valid
+		function checkValidity() {
+			const textarea = document
+				.getElementById('problem-statement');
+			const exerciseNameInput = document
+				.getElementById('exercise_name');
+			const submitButton = document.getElementById('submit');
+			const errorMessage = document
+				.getElementById('error-message');
+			const errorMessage1 = document
+				.getElementById('error-message1');
+			// Regular expression to check if the input contains only alphanumeric characters and spaces
+			const alphanumericRegex = /^[a-zA-Z0-9\s!@#\$%\^&\*\(\),-]*$/;
+			// Event listener for the "Problem Statement" textarea
+			textarea.addEventListener('input', function () {
+				const input = textarea.value;
+				validateInput(input, textarea, errorMessage,
+					alphanumericRegex);
+				// Enable the submit button if both inputs are valid
+				if (!errorMessage.textContent &&
+					!errorMessage1.textContent) {
+					submitButton.disabled = false;
+				} else {
+					submitButton.disabled = true;
+				}
+			});
+			// Event listener for the "Exercise Name" input field
+			exerciseNameInput.addEventListener('input', function () {
+				const input = exerciseNameInput.value;
+				validateInput(input, exerciseNameInput, errorMessage1,
+					alphanumericRegex);
+				// Enable the submit button if both inputs are valid
+				if (!errorMessage.textContent &&
+					!errorMessage1.textContent) {
+					submitButton.disabled = false;
+				} else {
+					submitButton.disabled = true;
+				}
+			});
+		}
+		// Call the checkValidity function when the document is ready
+		document.addEventListener('DOMContentLoaded', checkValidity);
+	</script>
+	
+	<script>
+		setTimeout(function() {
+			var message = document.getElementById("message");
+			message.parentNode.removeChild(message);
+		}, 3000);
+		
+		$(document).ready(function() {
+		    $('.select-with-search').select2({
+		    	placeholder:"Select a topic",
+		    	allowClear: true
+		    });
+		});
+		
+		$(document).ready(function(){
+			$('#topicId').change(function() {
+				var topic = $(this).find('option:selected').text();
+				$('#exercise_name').val(topic);
+			});
+		});
+	</script>
+
+</body>
+</html>

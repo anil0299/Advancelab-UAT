@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/StudentApproval.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item active" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Add New Center</b>
+				</h1>
+			</div>
+			<div>
+				<th:block th:if="${session.add}">
+					<p id="add-message" class="text-center fs-3 text-success">[[${session.add}]]</p>
+					<th:block th:text="${#session.removeAttribute('add')}">
+					</th:block>
+				</th:block>
+			</div>
+			<script>
+					// Get the update message element by its ID
+					var updateMessage = document
+							.getElementById('add-message');
+
+					// Check if the element exists
+					if (updateMessage) {
+						// Set a timeout to hide the element after 3 seconds (3000 milliseconds)
+						setTimeout(function() {
+							updateMessage.style.display = 'none'; // Hide the element
+						}, 3000);
+					}
+				</script>
+
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<div class="card-body">
+					<form class="needs-validation" novalidate th:action="addcenter"
+						method="post" onsubmit="returnvalidateForm()" autocomplete="off"
+						id="moduleform" name="moduleform">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+							id="hppCode" /> <input type="hidden" id="cid" name="cid" />
+
+						<div class="row mb-3">
+							<div class="col">
+								<label for="College" class="form-label">College Name</label>
+								<!-- Add pattern attribute for validation -->
+								<input type="text" class="form-control" name="College"
+									id="college" placeholder="Name Of College"
+									pattern="[A-Za-z\s]+" required
+									oninput="validateCollegeName(this)">
+								<div id="error-message" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									College Name.</div>
+							</div>
+							<div class="col">
+								<label for="State" class="form-label">State</label> <select
+									class="form-select" id="State" name="State"
+									onfocusout="loadDistricts()" required>
+									<option value="">Select state</option>
+								</select>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									State.</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col">
+								<label for="category" class="form-label">District</label> <select
+									id="district" class="form-control" name="City" required>
+									<option value="">Select district</option>
+								</select>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									district.</div>
+							</div>
+							<div class="col">
+								<label for="Address" class="form-label">Address</label> <input
+									type="text" id="address" class="form-control" name="Address"
+									placeholder="Enter Address"
+									pattern="[A-Za-z0-9'\.\-\s\,\/\(\)]+" required>
+								<div id="error-message1" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Address.</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col">
+								<input type="hidden" id="Pincode" name="Pincode" value="000000">
+								<label for="EmailAddress" class="form-label">Email
+									Address</label> <input type="email" id="EmailAddress"
+									class="form-control" name="EmailAddress"
+									placeholder="Enter Email"
+									pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid Email
+									Address.</div>
+							</div>
+							<div class="col">
+								<label for="ContactNumber" class="form-label">Contact
+									Number</label> <input type="tel" class="form-control"
+									id="ContactNumber" name="ContactNumber"
+									placeholder="Enter Contact Number" maxlength="10"
+									pattern="[0-9]{10}" required>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Contact Number.</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col">
+								<label for="ContactName" class="form-label">Contact
+									Person Name</label> <input type="text" class="form-control"
+									id="ContactName" name="ContactName"
+									placeholder="Contact Person Name" pattern="[A-Za-z\s]+"
+									required>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Contact Person Name.</div>
+							</div>
+							<div class="col">
+								<label for="ContactMobileNumber" class="form-label">Contact
+									Person Phone</label> <input type="tel" class="form-control"
+									name="ContactMobileNumber" id="ContactMobileNumber"
+									placeholder="Enter Contact Person Phone" maxlength="10"
+									pattern="[0-9]{10}" required>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Contact Person Phone.</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-6 text-center mx-auto">
+								<label for="Website" class="form-label">Website </label> <input
+									type="text" class="form-control" id="website" name="website"
+									placeholder="Website"
+									pattern="^[^<>]*(www\.)?[a-zA-Z0-9.]+(?:\.[a-zA-Z]{2,4})+[^<>]*$"
+									title="Enter a valid URL (e.g., www.example.com)" required>
+								<div id="error-message2" style="color: red;"></div>
+								<div class="invalid-feedback">Please provide a valid
+									Website.</div>
+							</div>
+						</div>
+						<div>
+							<button class="btn btn-primary mb-2" type="submit"
+								onclick="checkData();">Add</button>
+							<a th:href="@{/CenterDetails}" class="btn btn-primary mb-2">Back</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022 </b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script type="text/javascript">
+(() => {
+	  'use strict'
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  const forms = document.querySelectorAll('.needs-validation')
+
+	  // Loop over them and prevent submission
+	  Array.from(forms).forEach(form => {
+	    form.addEventListener('submit', event => {
+	      if (!form.checkValidity()) {
+	        event.preventDefault()
+	        event.stopPropagation()
+	      }
+
+	      form.classList.add('was-validated')
+	    }, false)
+	  })
+	})()
+</script>
+
+				<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+	<script>
+    function checkData() {
+        var college = document.getElementById("college").value;
+        var address = document.getElementById("address").value;
+        var state = document.getElementById("State").value;
+         var emailAddress = document.getElementById("EmailAddress").value;
+         var ContactNumber = document.getElementById("ContactNumber").value;
+         var ContactName = document.getElementById("ContactName").value;
+         var ContactMobileNumber = document.getElementById("ContactMobileNumber").value;
+         var website = document.getElementById("website").value;
+         var district = document.getElementById("district").value;
+         var Pincode = document.getElementById("Pincode").value;
+        
+
+        // Your custom validation logic
+        if (college.length < 2 || address.length < 2 || state.length < 2 || emailAddress.length<2 || ContactNumber.length<2 || ContactName.length<2 || district.length<2 || website.length<2) {
+            // Display an error message or handle validation failure
+            return false;
+        }
+
+        var inputCode = "";
+        inputCode += getInputCode(college);       
+        inputCode += getInputCode(address);
+        inputCode += getInputCode(state);
+        inputCode += getInputCode(emailAddress);
+        inputCode += getInputCode(district);
+        inputCode += getInputCode(ContactMobileNumber);
+        inputCode += getInputCode(ContactName);
+        inputCode += getInputCode(ContactNumber);     
+        inputCode += getInputCode(website);
+        inputCode += getInputCode(Pincode);
+        var hppCode = getHPPCode(origHPPCode, inputCode);
+
+        document.getElementById("hppCode").value = hppCode;
+
+        // Allow Bootstrap validation to handle the form submission
+        return true;
+    }
+</script>
+	<script type="text/javascript" th:src="@{/js/state.js}"></script>
+	<script type="text/javascript" th:src="@{/js/districts.js}"></script>
+</body>
+</html>

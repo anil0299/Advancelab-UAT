@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf_header" content="<your-csrf-header-value>">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<style>
+.progress-bar-container {
+	width: 100%;
+	height: 20px;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.progress-bar {
+	height: 100%;
+	line-height: 20px;
+	color: white;
+	text-align: right;
+	border-radius: 4px;
+	background-color: #4CAF50;
+}
+</style>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/TeacherHome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="TeacherHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CreateClassByTeacher"
+			style="color: white; text-decoration: none;">Create Class</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="AssignExerciseByTeacher"
+			style="color: white; text-decoration: none;">Assign Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="classexercisedetails"
+			style="color: white; text-decoration: none;">Class Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="active" href="CompletionStatusTeacherView"
+			style="color: white; text-decoration: none;">Completion Status
+			Lab</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="CompletionStatusTeacherlms"
+			style="color: white; text-decoration: none;">Completion Status
+			LMS</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Completion Status</b>
+				</h1>
+			</div>
+			<div class="card-body" id="printableArea"
+				style="background-color: rgb(205, 214, 224);">
+				<div class="container">
+					<div class="row justify-content-center mb-2">
+						<div class="col-sm-2">
+							<label for="state" class="form-label"><b>Select Class</b></label>
+							<font color="red">*</font> <select class="form-select" id="state"
+								name="class_name" required onchange="getColleges(this.value)">
+								<option value="" disabled selected>Select Class</option>
+								<option th:each="class : ${classes}" th:value="${class}"
+									th:text="${class}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<script>
+            function getColleges(state) {
+              console.log("Selected Class:", state); // Print the selected class name
+              var id = $('#state').val();
+              $.ajax({
+                type: "GET",
+                url: "/search/api/getSearchResult/" + id,
+                timeout: 100000,
+                success: function(response) {
+                  console.log("SUCCESS: ", response);
+                  updateTable(response); // Call a function to update the table with the response data
+                },
+                error: function(error) {
+                  console.log("ERROR: ", error);
+                  alert("Error occurred. Please check the console.");
+                },
+                done: function() {
+                  console.log("DONE");
+                }
+              });
+            }
+            function updateTable(data) {
+              var tableBody = $('#dtBasicExample tbody');
+              tableBody.empty(); // Clear the table body before populating with new data
+              // Iterate over the data and generate table rows
+              for (var i = 0; i < data.students.length; i++) {
+                var student = data.students[i];
+                var row = '<tr>' +
+                  '<td>' + student.id + '</td>' +
+                  '<td>' + student.firstName + '</td>' +
+                  '<td>' + student.lastName + '</td>' +
+                  '<td>' + student.category + '</td>' +
+                  '<td>' + student.emailAddress + '</td>' +
+                  '<td>';
+                // Find the matching formattedResult for the current student
+                var formattedResult = data.mp[student.emailAddress];
+                if (formattedResult) {
+                  var completion = '<div class="progress-bar-container" style="height: 10px;">' +
+                    '<div style="position: relative;">' +
+                    '<span style="color: green; position: absolute; left: 50%; transform: translateX(-50%); top: 50%; transform: translateY(40%);">' +
+                    formattedResult + '%' +
+                    '</span>' +
+                    '</div>' +
+                    '<div class="progress-bar" role="progressbar" style="width: ' + formattedResult + '%;"' +
+                    'aria-valuenow="' + formattedResult + '" aria-valuemin="0" aria-valuemax="100">' +
+                    '</div>' +
+                    '</div>';;
+                  row += completion;
+                }
+                row += '</td>' + '</tr>';
+                tableBody.append(row);
+              }
+            }
+          </script><hr>
+				<div class="table-responsive">
+					<table id="dtBasicExample"
+						class="table table-light table-hover table-bordered">
+						<thead>
+							<tr class="table-info">
+								<th class="text-center">ID</th>
+								<th class="text-center">First NAME</th>
+								<th class="text-center">Last NAME</th>
+								<th class="text-center">CATEGORY</th>
+								<th class="text-center">E-MAIL</th>
+								<th class="text-center">COMPLETION</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<script>
+            $(document).ready(function() {
+              $('#dtBasicExample').DataTable({
+	    	    aLengthMenu: [
+	    	        [25, 50, 100, 200, -1],
+	    	        [25, 50, 100, 200, "All"]
+	    	    ],
+	    	    iDisplayLength: 25
+	    	});
+            });
+          </script>
+				<button onclick="downloadExcel()" class="btn btn-primary mb-2"
+					style="margin-top: 8px;">
+					<i class="fa fa-download"></i> Download Excel
+				</button>
+				<a href="javascript:void(0);" class="btn btn-primary mb-2"
+					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
+					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
+				<a th:href="@{/CompletionStatusTeacherView}"
+					class="btn btn-primary mb-2" style="margin-top: 8px;"> Back</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+      function printPageArea(areaID) {
+        var printContent = document.getElementById(areaID).innerHTML;
+        var printWindow = window.open('', '', 'height=700,width=1000');
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(printContent);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      }
+    </script>
+	<script>
+      function downloadExcel() {
+        var table = document.getElementById("printableArea");
+        var rows = table.getElementsByTagName("tr");
+        var csv = [];
+        for (var i = 0; i < rows.length; i++) {
+          var row = [],
+            cols = rows[i].querySelectorAll("td, th");
+          for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+          csv.push(row.join(","));
+        }
+        var downloadLink = document.createElement("a");
+        var blob = new Blob(["\ufeff", csv.join("\n")], {
+          type: "text/csv;charset=utf-8"
+        });
+        var url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = "data.csv";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+    </script>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>

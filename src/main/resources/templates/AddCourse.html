@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/datatables.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item active" href="AddCourse">Add
+					Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Add New Course</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<br>
+				<form class="needs-validation" novalidate th:action="addcourses"
+					method="post" id="moduleform" name="moduleform" autocomplete="off">
+
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+						id="hppCode" /> <input type="hidden" id="cid" name="cid" />
+					<div class="col-md-3 text-center mx-auto">
+						<div class="form-group">
+							<label for="course" class="form-label flex-justify"><b>Add
+									New Course</b></label> <font color="red">*</font><input
+								class="form-control" type="text" id="course" name="course"
+								pattern="[A-Za-z\s]+" required>
+							<div id="error-message" style="color: red;"></div>
+							<div class="invalid-feedback">Please provide a valid
+								Course.</div>
+						</div>
+					</div>
+					<br>
+					<button class="btn btn-primary" id="submit"
+						onclick="checkData();">Add</button>
+					<a th:href="@{/CenterDetails}" class="btn btn-primary mb-2"
+						style="margin-top: 8px;">Back</a> <hr>
+				<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+					
+			
+					<script>
+
+					function checkData() {
+
+
+						var course = document.getElementById("course").value;
+						
+
+						var inputCode = "";
+						inputCode += getInputCode(course);
+						
+						 var hppCode = getHPPCode(origHPPCode, inputCode);
+		
+						
+						document.getElementById("hppCode").value = hppCode;
+						
+						document.getElementById('moduleform').submit();
+						return false;  // Prevent default form submission
+					}
+
+				</script>
+
+
+
+
+					<script>
+						const textarea = document.getElementById('course');
+						const submitButton = document.getElementById('submit');
+						const errorMessage = document
+								.getElementById('error-message');
+						textarea
+								.addEventListener(
+										'input',
+										function() {
+											const input = textarea.value;
+											// Regular expression to check if the input contains only alphanumeric characters and spaces
+											const alphanumericRegex = /^[a-zA-Z0-9\s]*$/;
+											// If the input matches the alphanumeric regex
+											if (alphanumericRegex.test(input)) {
+												// Reset the textarea's border to its default style
+												textarea.style.border = '';
+												// Clear the error message
+												errorMessage.textContent = '';
+												// Enable the submit button
+												submitButton.disabled = false;
+											} else {
+												// Set a red border for the textarea
+												textarea.style.border = '1px solid red';
+												// Display an error message
+												errorMessage.textContent = 'Only alphanumeric characters and spaces are allowed.';
+												// Disable the submit button
+												submitButton.disabled = true;
+											}
+										});
+					</script>
+				</form>
+						
+				<div class="table-responsive">
+					<table id="approved-table" class="table table-light table-hover table-bordered">
+						<thead class="thead-dark">
+							<tr class="table-info">
+							    <th class="text-center">S.No.</th>
+								<th class="text-center">ID</th>
+								<th class="text-center">Course</th>
+								<th class="text-center">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="co,index: ${courseDetails}">
+							    <th scope="row" th:text="${index.count}"></th>
+								<td th:text="${co.id}">1</td>
+								<td th:text="${co.course}">2</td>
+								<td>														
+								<form th:action="@{'/deletecourse/'+ ${co.id}}" method="post" th:attr="id='deletecourseform'+${co.id}" name="deletecourseform">
+								<input type="hidden" name="hppCode" th:attr="id='hppCodedeletecourse'+${co.id}" />
+								<input type="hidden" name="deletecourseID" th:attr="value='' + ${co.id}, id='deletecourseID'+${co.id}" />
+								<button type="submit" class="btn btn-danger my-1" th:attr="onclick='deletecourseData(' + ${co.id} + ')'">Delete</button>
+							</form>								
+								</td>
+								
+							</tr>
+						<tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script src="/js/sha256.js"></script>
+	<script src="/js/crypto-js.js"></script>
+	<script src="/js/validation.js"></script>
+		<script>
+		
+		function deletecourseData(id) {
+			var deletecourseID=document.getElementById("deletecourseID"+id).value;
+			var inputCode = "";
+			inputCode += getInputCode(deletecourseID);				
+			var hppCode = getHPPCode(origHPPCode, inputCode);
+			document.getElementById("hppCodedeletecourse"+id).value = hppCode;
+			document.getElementById('deletecourseform'+id).submit();
+			return false; // Prevent default form submission
+		}
+		</script>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script type="text/javascript">
+(() => {
+	  'use strict'
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  const forms = document.querySelectorAll('.needs-validation')
+
+	  // Loop over them and prevent submission
+	  Array.from(forms).forEach(form => {
+	    form.addEventListener('submit', event => {
+	      if (!form.checkValidity()) {
+	        event.preventDefault()
+	        event.stopPropagation()
+	      }
+
+	      form.classList.add('was-validated')
+	    }, false)
+	  })
+	})()
+</script>
+<script>
+		$(document).ready(function() {
+			$('#approved-table').DataTable({
+	    	    aLengthMenu: [
+	    	        [25, 50, 100, 200, -1],
+	    	        [25, 50, 100, 200, "All"]
+	    	    ],
+	    	    iDisplayLength: 25
+	    	});
+		});
+	</script>
+</body>
+</html>

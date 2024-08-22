@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/login.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<style type="text/css">
+.alert-message {
+	color: red;
+	margin-top: 10px;
+}
+
+.button-container {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+/* Add a margin to the top of the section to prevent content overlap */
+.content-section {
+	margin-top: 60px;
+	/* Adjust this value as needed */
+}
+</style>
+<style>
+.text-blink {
+        animation: blinker 1s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+   
+</style>
+</head>
+
+<body>
+	<div class="navcontainerlogin">
+		<div>
+			<img class="img-fluidlogin" style="width: 90px" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+		</div>
+		<div class="button-container">
+			<div>
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a>
+			</div>
+		</div>
+	</div>
+	<section style="background-color: white;">
+		<div class="container py-5 h-100">
+			<div
+				class="row d-flex justify-content-center align-items-center h-90">
+				<div class="col-xl-10">
+					<div class="text-gyan">
+						<h1
+							style="text-align: center; font-size: 40px; font-family: Times New Roman;">
+							<b>CyberGyan</b>
+						</h1>
+					</div>
+					<div class="card rounded-3 text-black">
+						<div class="row g-0">
+							<div class="col-lg-6"
+								style="background-color: rgb(204, 218, 246)">
+								<div class="card-body p-md-5 mx-md-4">
+									<form th:action="@{/login}" th:object="${user}" method="post"
+										onsubmit="validateCaptcha()" id="moduleform" name="moduleform"
+										autocomplete="off">
+
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" /> <input type="hidden"
+											name="hppCode" id="hppCode" /> <input type="hidden" id="cid"
+											name="cid" />
+
+										<div th:if="${loginErrorMessage}" class="error-message"
+											style="color: red; font-size: 18px; font-weight: bold;">
+											<p th:text="${loginErrorMessage}"></p>
+										</div>
+										<script>
+											// Add a timer to hide the error message after 5 seconds
+											setTimeout(function () {
+												var errorMessage = document.querySelector('.error-message');
+												if (errorMessage) {
+													errorMessage.style.display = 'none';
+												}
+											}, 5000); // 5000 milliseconds (5 seconds)
+										</script>
+										<p
+											style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-weight: bold;">
+											Please login to your account</p>
+
+										<!-- form fields -->
+										<div class="form-outline mb-4">
+											<label class="form-label">Username</label> <input type="text"
+												name="username" id="email" placeholder="Enter your username"
+												class="form-control" required readonly />
+											<div id="approvalStatus" class="text-danger text-center"></div>
+											<div id="blinkingText" class="text-muted text-center">Your domain should be <strong style="color: green;">@cybergyan.in (example@cybergyan.in)</strong> instead of <strong style="color: red;">@gmail.com</strong> or any <strong style="color: red;">other domain</strong>.</div>
+										</div>									
+										<div class="form-outline mb-4">
+										    <label class="form-label">Password</label>
+										   <div class="input-group">									    
+										        <input type="password" name="password" id="password" placeholder="Enter your password" class="form-control" required readonly />
+										        <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePasswordButton">
+										            <i class="fas fa-eye-slash" aria-hidden="true"></i>
+										        </button>
+									   
+										   </div>
+																				
+										<script>
+										    document.addEventListener('DOMContentLoaded', function () {
+										        const passwordInput = document.getElementById('password');
+										        const toggleButton = document.getElementById('togglePasswordButton');
+										
+										        let isMouseDown = false;
+										
+										        toggleButton.addEventListener('mousedown', function () {
+										            isMouseDown = true;
+										            togglePassword();
+										        });
+										
+										        toggleButton.addEventListener('mouseup', function () {
+										            isMouseDown = false;
+										            togglePassword();
+										        });
+										
+										        toggleButton.addEventListener('mouseleave', function () {
+										            if (isMouseDown) {
+										                isMouseDown = false;
+										                togglePassword();
+										            }
+										        });
+										
+										        function togglePassword() {
+										            const type = isMouseDown ? 'text' : 'password';
+										            passwordInput.setAttribute('type', type);
+										            toggleButton.querySelector('i').classList.toggle('fa-eye-slash');
+										            toggleButton.querySelector('i').classList.toggle('fa-eye');
+										        }
+										    });
+										</script>
+
+										
+										</div>
+										<script>
+											// Disable autocomplete for both fields when the page loads
+											document.getElementById("email").setAttribute("autocomplete", "off");
+											document.getElementById("password").setAttribute("autocomplete", "off");
+
+											// Remove the 'readonly' attribute on focus for both fields
+											document.getElementById("email").addEventListener("focus", function () {
+												this.removeAttribute('readonly');
+											});
+											document.getElementById("password").addEventListener("focus", function () {
+												this.removeAttribute('readonly');
+											});
+										</script>
+
+										<div class="form-outline mb-4 text-center">
+											<img id="captchaImage"
+												th:src="'data:image/png;base64,' + ${captchaImage}"
+												alt="CAPTCHA Image" />
+
+											<button type="button" onclick="refreshCaptcha()">
+												<img src="/images/r_cap.png" alt="Refresh CAPTCHA"
+													style="width: 40px; height: 40px;">
+											</button>
+
+										</div>
+
+										<div class="form-outline mb-4">
+											<input type="text" name="captcha" id="captcha"
+												placeholder="Enter CAPTCHA" class="form-control" required />
+										</div>
+
+
+										<script>
+												   function refreshCaptcha() 
+												   {																							   
+												    $.ajax({
+												        url: '/refreshCaptcha',
+												        type: 'GET',
+												 success: function(response) 
+												 {																							
+												    var newChallenge = response["captchaChallenge"];
+												    var newBase64Image = response["base64Image"];											
+												    document.getElementById('captcha').value = '';
+												    if (newBase64Image) {
+												        document.getElementById('captchaImage').src = 'data:image/png;base64,' + newBase64Image;
+												    } else {
+												        console.error('New Base64 Image is undefined');
+												    }
+												    },
+												        error: function(error) 
+												        {
+												            console.error('Error refreshing CAPTCHA: ' + error);
+												        }												        
+												    });
+												}										
+											</script>
+										
+										
+										<div class="form-outline mb-4 ">
+											<input type="hidden" name="captchaChallenge"
+												th:value="${captchaChallenge}" />
+										</div>
+										<div class="form-actions  text-center">
+											<button type="submit" class="btn btn-primary"
+												onclick="checkData();">Login</button>
+										</div>
+									</form>
+
+
+									<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+									<script>
+
+				(() => {
+					  'use strict';
+
+					  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+					  const forms = document.querySelectorAll('.needs-validation');
+
+					  // Loop over them and prevent submission
+					  Array.from(forms).forEach(form => {
+					    form.addEventListener('submit', event => {
+					      if (!form.checkValidity()) {
+					        event.preventDefault();
+					        event.stopPropagation();
+					      }
+
+					      form.classList.add('was-validated');
+					    }, false);
+					  });
+					})();
+
+					function checkData() {
+					  // Validate the form
+					  const form = document.getElementById('moduleform');
+					  if (!form.checkValidity()) {
+					    // Form is not valid, do not proceed
+					    return false;
+					  }
+
+					  // Your existing checkData logic goes here
+					  var emailAddress = document.getElementById("email").value.toLowerCase();
+					  var password = document.getElementById("password").value;
+					  var inputCode = "";
+					  inputCode += getInputCode(emailAddress);
+					  inputCode += getInputCode(password);
+
+					  var encodedPassword = password;
+					  var seed =5;
+					  encodedPassword = encodePasswordNEW_1(encodedPassword,parseInt(seed));
+					
+					 document.getElementById('password').value = encodedPassword;
+					  var hppCode = getHPPCode(origHPPCode, inputCode);
+		
+					  
+					  document.getElementById("hppCode").value = hppCode;
+
+					  // Submit the form
+					  form.submit();
+					  return false; // Prevent default form submission
+					}
+
+					// Your existing functions (getInputCode, getHPPCode, etc.) go here
+
+
+				</script>
+
+
+
+
+
+									<br>
+									<div class="sign-up text-center">
+										Don't have an account? <a th:href="@{/registration}"> Sign
+											Up </a>
+									</div>
+
+									<script>
+										// Disable autocomplete for both fields when the page loads
+										document.getElementById("email").setAttribute("autocomplete", "off");
+										document.getElementById("password").setAttribute("autocomplete", "off");
+
+										// Remove the 'readonly' attribute on focus for both fields
+										document.getElementById("email").addEventListener("focus", function () {
+											this.removeAttribute('readonly');
+										});
+										document.getElementById("password").addEventListener("focus", function () {
+											this.removeAttribute('readonly');
+										});
+									</script>
+
+
+
+									<script type="text/javascript">
+										$(document).ready(function () {
+											$('#email').on('input', function () {
+												var email = $(this).val().toLowerCase();
+												// Check if email contains @ symbol
+												if (!email.includes('@')) {
+													$('#approvalStatus').text('');
+													return;
+												}
+												// Send AJAX request to check email approval status
+												$.ajax({
+													url: '/checkApprovalStatus',
+													type: 'GET',
+													data: {
+														email: email
+													},
+													success: function (response) {
+														var status = response.status;
+														if (status === "approved") {
+															$('#approvalStatus').text(' ').css({'font-size': '18px', 'font-weight': 'bold'});
+														} else
+															if (status === "not approved") {
+																$('#approvalStatus').text('You are not approved by the admin.').css({
+																	'font-size': '18px',
+																	'font-weight': 'bold'
+																});
+															} else if (status === "not registered") {
+																$('#approvalStatus').text('').css({
+																	'font-size': '18px',
+																	'font-weight': 'bold'
+																});
+															}
+													},
+													error: function () {
+														$('#approvalStatus').text('Error occurred. Please try again.');
+													}
+												});
+											});
+										});
+									</script>
+									<script>
+										function validateCaptcha() {
+											var captchaInput = document.getElementById("captcha").value;
+											if (captchaInput === "") {
+												alert("Please enter the CAPTCHA.");
+												return false;
+											}
+											return true;
+										}
+									</script>
+								</div>
+							</div>
+							<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+								<div class="text-white px-3 py-4 p-md-5 mx-md-4">
+									<div class="text-center">
+										<img src="" th:src="@{/images/cdac-wo-bg.png}"
+											style="width: 185px;" alt="logo">
+										<h2 class="mt-2 mb-5 pb-1"
+											style="background-image: -webkit-linear-gradient(rgb(13, 155, 232), rgb(26, 34, 33)); background-clip: text; -webkit-text-fill-color: rgb(255, 255, 255); position: relative; font-weight: bold; font-family: Times New Roman;">
+											CyberGyan</h2>
+									</div>
+									<h5 class="mb-3 text-center">Virtual Lab</h5>
+									<p class="small mb-0 text-center">CyberGyan is a virtual
+										training platform, designed with state of the art cyber
+										security tools for- giving a real time Attack and Defence
+										experience to the students for preparing them as a skilled
+										manpower.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</section>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+    <script>
+        // JavaScript to toggle the blink class every 1 second
+        setInterval(function() {
+            var blinkingText = document.getElementById('blinkingText');
+            blinkingText.classList.toggle('text-blink');
+        }, 1000);
+    </script>
+	<script>
+		var buttons = document.querySelectorAll('.btn')
+		buttons.forEach(function (button) {
+			var button = new bootstrap.Button(button)
+			button.toggle()
+		})
+	</script>
+</body>
+
+</html>

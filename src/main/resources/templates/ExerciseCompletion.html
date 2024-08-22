@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+
+			<!-- <li><a class="dropdown-item" href="folders">PDF List</a></li> -->
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item " href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item " href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="active" href="ExerciseCompletion" style="color: white;">
+			Reports </a>
+			
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Reports</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<table class="table">
+					<thead>
+
+						<!--<tr>
+        <th>Sr.</th>
+        <th>Types of Status</th>
+        <th>Check Status</th>
+    </tr>-->
+					</thead>
+					<tbody>
+						<tr>
+							<td><b>1.</b></td>
+							<td><b>Registered Students</b></td>
+							<td><a th:href="@{/RegisteredStudents}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>2.</b></td>
+							<td><b>Completion Status</b></td>
+							<td><a th:href="@{/Completionstatus1}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>3.</b></td>
+							<td><b>State-wise Registration Status</b></td>
+							<td><a th:href="@{/Statewise}" class="btn btn-primary mb-2"
+								style="margin-top: 8px;">Check Status</a></td>
+						</tr>
+						<tr>
+							<td><b>4.</b></td>
+							<td><b>Category-wise Registration Status</b></td>
+							<td><a th:href="@{/Categorywise}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>5.</b></td>
+							<td><b>State-wise & Category-wise Registration Status</b></td>
+							<td><a th:href="@{/StateandCategory}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>6.</b></td>
+							<td><b>Lab Completion Status</b></td>
+							<td><a th:href="@{/LabCompletion}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>7.</b></td>
+							<td><b>Quiz Completion Status</b></td>
+							<td><a th:href="@{/quizCompletion}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>8.</b></td>
+							<td><b>Batch-wise Completion Status</b></td>
+							<td><a th:href="@{/batchCompletion}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Check
+									Status</a></td>
+						</tr>
+						<tr>
+							<td><b>9.</b></td>
+							<td><b>Notification</b></td>
+							<td><a th:href="@{/releaseNote}"
+								class="btn btn-primary mb-2" style="margin-top: 8px;">Create</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Designed
+			and Developed by CDAC</p>
+	</div>
+</body>
+</html>

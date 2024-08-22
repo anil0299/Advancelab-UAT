@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/BasicDescription.css}"/>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body style="background-color: white;">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<nav aria-label="breadcrumb"
+		style="margin-top: 25px; margin-left: 10px; font-weight: bold; font-size: 20px; color: black;">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item" style="color: black;"><a
+				th:href="@{/}">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page"
+				style="color: black;">Basic Lab</li>
+		</ol>
+	</nav>
+
+	<!-- New code -->
+	<div class="lab-desc">
+		<h1
+			style="text-align: center; font-size: 30px; font-family: Times New Roman;">
+			<b>Welcome Students!</b>
+		</h1>
+		<br>
+		<div class="card1">
+			<div class="card text-center">
+				<div class="card-header" style="background-color: #0953a8;">
+					<h1 style="font-family: Times New Roman; color: white;">
+						<b>LAB DESCRIPTION</b>
+					</h1>
+				</div>
+				<div class="card-body"
+					style="text-align: start; background-color: rgb(204, 218, 246);">
+					<li>This lab has been designed to explore various preliminary
+						concepts and procedures, required to understand and work in the
+						area of cyber security.</li>
+					<li>Each student will get two preconfigured virtual machines
+						(one with Windows 10 Operating System and the other with Kali
+						Linux Operating System). These virtual machines will be available
+						to the student accounts, till the completion of Units 1,2,3, and 4
+						or 2 months, whichever is earlier.</li>
+					<li>Following are the credentials of the virtual machines
+						provided to you:</li>
+					<ul>
+						<li>For the Windows VM:</li>
+						<ul>
+							<li>Username : cdac</li>
+							<li>Password : qwerty</li>
+						</ul>
+						<li>For the Linux VM:</li>
+						<ul>
+							<li>Username : cdac</li>
+							<li>Password : cdac</li>
+						</ul>
+					</ul>
+					<li>Note: Please read the given below instructions carefully
+						before attempting the lab exercises.</li>
+					<li>You are advised to go through the User lab manuals and lab
+						videos before attempting the lab exercises (Go to the course home
+						page and click on Lab Videos and Lab Manuals Links).</li>
+					<li>Click on the &#8220;Create Lab&#8221; button.</li>
+					<li>Wait for one or two minutes, after clicking on the
+						&#8220;Create Lab&#8221; button. This will create the required VMs
+						for you.(Remember, this activity will be performed only the first
+						time, you log in to your virtual lab).</li>
+					<li>After the successful creation of the lab VMs, you will be
+						shown VM Name and its IP Address.</li>
+					<li>Open the RDP application on your host machine (laptop or
+						PC) to access the VMs with the given IP addresses and credentials.
+						Start working on your lab exercises.</li>
+					<li>After uploading the assignment, click on the MARK COMPETE
+						button on this Exercise Home Page. This will update the completion
+						status of your course.<br> &nbsp; &nbsp;<b>REMEMBER:
+							After clicking on the MARK COMPLETE button, all the VMS in this
+							exercise lab will be deleted and you will lose, all your work
+							related to the exercise.</b>
+					</li>
+					<br> <br>
+					<div class="text-center" id="container-createlab" th:if="${vmexist == false}">
+						<a th:href="@{/createbasiclab}" class="btn btn-primary mb-2" id="createLabBtn">Create Lab</a>
+					</div>
+					<div id="container-two" th:if="${vmexist == true}">
+						<div class="row text-center mx-auto">
+							<div class="col-lg mt-2">
+								<div  class="my-2">
+									<img style="width: 100px;" th:src="@{/images/linuxos.png}" alt="Image not available">
+								</div>
+								<div class="my-3">
+									<span class="h6">VM Name is </span>
+									<span class="h6 fw-bold" th:text="${vmnameshowlinux}"></span>
+									<br>
+									<span class="h6">Ip Address is </span>
+									<span class="h6 fw-bold" th:text="${ipaddresslinux}"></span>
+									<!--<form th:action="@{/launchConsole}" method="POST" target="_blank" class="my-3">
+										<input type="hidden" name="vmName" th:value="${vmnameshowlinux}">
+										<input type="hidden" name="token" th:value="${token}">
+										<button type="submit" class="btn btn-primary">Launch Console</button>														
+									</form>-->
+								</div>
+							</div>
+							<div class="col-lg mt-2">
+								<div class="my-2">
+									<img style="width: 100px;" th:src="@{/images/windows.png}" alt="Image not available">
+								</div>
+								<div class="my-3">
+									<span class="h6">VM Name is </span>
+									<span class="h6 fw-bold" th:text="${vmnameshowwin}"></span>
+									<br>
+									<span class="h6">Ip Address is </span>
+									<span class="h6 fw-bold" th:text="${ipaddresswin}"></span>
+									<!--<form th:action="@{/launchConsole}" method="POST" target="_blank" class="my-3">
+										<input type="hidden" name="vmName" th:value="${vmnameshowwin}">
+										<input type="hidden" name="token" th:value="${token}">
+										<button type="submit" class="btn btn-primary">Launch Console</button>														
+									</form>-->
+								</div>
+							</div>
+						</div>
+						<div class="text-center">
+							<form action="" th:action="@{/deletevmbasiclab}" method="post"
+								autocomplete="off" style="margin-bottom: 20px;"
+								enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-md-4" style="margin-top: 20px;">
+										<div th:if="${session.message}" id="error-message"
+											class="alert alert-danger" th:text="${session.message}"></div>
+										<label for="fileUpload" class="form-label">Upload the
+											PDF of Screenshot (10KB - 1MB)</label> <font color="red">*</font>
+										<div class="custom-file">
+											<input type="file" class="form-control" id="submissionPdf"
+												name="submissionPdf" required> <label
+												class="form-label" for="formFile"></label>
+										</div>
+									</div>
+								</div>
+								<div class="container-checkbox mx-auto text-center" style="margin-right: 170px">
+									<input type="checkbox" id="tick" onchange="document.getElementById('terms').disabled = !this.checked;" />
+									<button type="submit" class="btn btn-primary" name="terms" id="terms" disabled onclick="checker()">Mark as Complete</button>
+								</div>
+							</form>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</div>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+$(document).ready(function() {
+    $("#createLabBtn").click(function() {
+    	 $(this).addClass('disabled')
+                .html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Creating Lab...</span>')
+    });
+});
+
+function checker() {
+	var result = confirm('Are you Sure ? All your VM will be Deleted');
+	if (result == false) {
+		event.preventDefault();
+	}
+}
+
+// Add a timer to hide the error message after 5 seconds
+setTimeout(function () {
+	var errorMessage = document.getElementById('error-message');
+	if (errorMessage) {
+		errorMessage.style.display = 'none';
+	}
+}, 5000); // 5000 milliseconds (5 seconds)
+
+const idProofInput = document.getElementById('submissionPdf');
+
+idProofInput.addEventListener('change', function () {
+	const files = this.files;
+	if (files.length !== 1) {
+		alert('Please select only one PDF file.');
+		this.value = ''; // Clear the input field
+	} else {
+		const file = files[0];
+		const fileSizeKB = file.size / 1024;
+
+		if (file.type !== 'application/pdf' || fileSizeKB < 10 || fileSizeKB > 1024) {
+			alert('Please select a PDF file between 10KB and 1MB in size.');
+			this.value = ''; // Clear the input field
+		}
+
+		const fileName = file.name;
+		const validPdfNameRegex = /^[a-zA-Z0-9_-]+\.[pP][dD][fF]$/; // Valid PDF filename pattern
+
+		if (!validPdfNameRegex.test(fileName)) {
+			alert('Please select a PDF file with a valid filename.');
+			this.value = ''; // Clear the input field
+		}
+	}
+});
+</script>
+</body>
+</html>

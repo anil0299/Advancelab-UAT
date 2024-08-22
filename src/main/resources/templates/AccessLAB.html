@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AccessLAB.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+</head>
+<body style="background-color: white;">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<h1
+		style="text-align: center; font-size: 40px; font-family: Times New Roman;">
+		<b>Welcome E-Lab</b>
+	</h1>
+	<div style="text-align: center;">
+		<h3
+			style="display: inline-block; border: 3px solid black; padding: 10px;">
+			Instruction to Access Virtual Lab using RDP Services</h3>
+	</div>
+	<div class="container">
+		<div class="row my-5 ">
+			<div class="card mx-auto border-success text-justify"
+				style="max-width: 50rem;">
+				<div style="display: flex; justify-content: flex-start;">
+					<a href="/" class="btn btn-primary"><i class="fa fa-arrow-left"></i></a>
+				</div>
+				<div class="col-10 mx-auto text-start">
+					<br> <strong>The basic course has been equipped with
+						a virtual lab to give the participants hands-on exposure to the
+						basic concepts. the participants will get the lab access link on
+						the course page along with other course contents. Follow, the
+						below-given steps to access your lab properly.</strong> <br> <br>
+					1. Login into your Cyber Gyan portal and access the course page.<br>
+					<br> <img src="images/L1.png" class="img-fluid" alt="L1.png"><br>
+					<br> 2. To access the lab, click on the access lab link.
+					(Given with course units)<br> <br> <img
+						src="images/L2.png" class="img-fluid" alt="L2.png"><br>
+					<br> The credentials to access the lab will be provided on
+					your email id by the support team.<br> <br> <img
+						src="images/L3.png" class="img-fluid" alt="L3.png"><br>
+					<br> 3. Enter the given credentials provided on your
+					registered email.<br> <br> <img src="images/L4.png"
+						class="img-fluid" alt="L4.png"><br> <br> The lab
+					home page will get open.<br> <br> <img
+						src="images/L5.png" class="img-fluid" alt="L5.png"><br>
+					<br> 4. Read the instructions carefully and click on the
+					âCreate Lab â button.<br> <br> <img
+						src="images/L6.png" class="img-fluid" alt="L6.png"><br>
+					<br> 5. Press Window + R key and type mstsc to open Remote
+					Desktop Connection.<br> <br> <img src="images/L7.png"
+						class="img-fluid" alt="L7.png"><br> <br> 6. Type
+					the IP address of the Linux machine(provided with the newly created
+					VMs) and click on connect.<br> <br> <img
+						src="images/L8.png" class="img-fluid" alt="L8.png"><br>
+					<br> 7. Click on yes.<br> <br> <img
+						src="images/L9.png" class="img-fluid" alt="L9.png"><br>
+					<br> 8. Type username as "kali" and password as "kali" then
+					press ok.<br> <br> <img src="images/L10.png"
+						class="img-fluid" alt="L10.png"><br> <br> 9. For
+					authentication type "kali" as the password.<br> <br> <img
+						src="images/L11.png" class="img-fluid" alt="L11.png"><br>
+					<br> 10. Open the terminal and type sudo -i for getting the
+					privilege of root or switch to the root account type the password
+					as "kali".<br> <br> <img src="images/L12.png"
+						class="img-fluid" alt="L12.png"><br> <br> 11. The
+					same procedure for getting the remote desktop connection of the
+					windows machine type the IP address and then provide the
+					credentials given in the Lab description on the lab home page.<br>
+					<br> <img src="images/L13.png" class="img-fluid" alt="L13.png"><br>
+					<br> Remote Desktop of Windows Virtual machine. <br> <br>
+					<img src="images/L14.png" class="img-fluid" alt="L14.png"><br>
+					<br> Enjoy Working with your own e-Lab<br> <br>
+					<div style="display: flex; justify-content: center;">
+						<a href="/" class="btn btn-primary">Back</a>
+					</div>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2024-06-11T08:31:36.670626200Z</date>
+  <millis>1718094696670</millis>
+  <nanos>626200</nanos>
+  <sequence>141</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>531</thread>
+  <message>Ip not found</message>
+</record>
+<record>
+  <date>2024-06-11T08:31:44.711894Z</date>
+  <millis>1718094704711</millis>
+  <nanos>894000</nanos>
+  <sequence>142</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>531</thread>
+  <message>Ip not found</message>
+</record>
+<record>
+  <date>2024-06-11T08:32:21.457773500Z</date>
+  <millis>1718094741457</millis>
+  <nanos>773500</nanos>
+  <sequence>143</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>531</thread>
+  <message>Ip not found</message>
+</record>
+<record>
+  <date>2024-06-11T08:32:29.507008200Z</date>
+  <millis>1718094749507</millis>
+  <nanos>8200</nanos>
+  <sequence>144</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>531</thread>
+  <message>Ip not found</message>
+</record>
+<record>
+  <date>2024-06-11T08:34:02.538416100Z</date>
+  <millis>1718094842538</millis>
+  <nanos>416100</nanos>
+  <sequence>145</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>533</thread>
+  <message>Ip not found</message>
+</record>
+<record>
+  <date>2024-06-11T08:34:10.574849100Z</date>
+  <millis>1718094850574</millis>
+  <nanos>849100</nanos>
+  <sequence>146</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>533</thread>
+  <message>Ip not found</message>
+</record>

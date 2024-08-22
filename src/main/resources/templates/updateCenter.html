@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/updatecenter.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<div class="lab-desc">
+			<a class="nav-link dropdown-toggle text-white active" href="#"
+				id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+				aria-expanded="false"> Center Update </a>
+
+		</div>
+		<div class="card1">
+			<div class="card text-center">
+				<div class="card-header" style="background-color: white">
+					<h1 style="font-family: Times New Roman;">
+						<b>Update Center Details</b>
+					</h1>
+				</div>
+				<div class="card-body" style="background-color: rgb(205, 214, 224);">
+					<form class="needs-validation" novalidate
+						th:action="@{/updateCenter}" th:object="${centerDetails}"
+						method="post" id="moduleform" name="moduleform" autocomplete="off">
+
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" /> <input type="hidden" name="hppCode"
+							id="hppCode" /> <input type="hidden" id="cid" name="cid" />
+
+						<div class="card-body">
+							<input type="hidden" th:field="*{id}" />
+							<div class="row mb-3">
+								<div class="col">
+									<label for="CollegeName" class="form-label">College
+										Name</label> <input type="text" class="form-control" name="College"
+										id="College" placeholder="Name Of College"
+										pattern="[A-Za-z\s]+" required th:value="*{College}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+								<div class="col">
+									<label for="State" class="form-label">State</label> <select
+										class="form-select" id="State" name="State"
+										th:field="*{State}" onfocusout="loadDistricts()" required>
+										<option value="">Select state</option>
+									</select>
+									<div id="error-message2" style="color: red;"></div>
+									<div class="invalid-feedback">Please provide a valid
+										State.</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="district" class="form-label">District</label> <select
+										id="district" class="form-control" name="City"
+										th:value="*{City}" required>
+										<option value="">Select district</option>
+									</select>
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+								<div class="col">
+									<label for="Address" class="form-label"> Address</label> <input
+										type="text" class="form-control" name="Address" id="Address"
+										placeholder="Enter Address"
+										pattern="[A-Za-z0-9'\.\-\s\,\/\(\)]+" required
+										th:value="*{Address}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="EmailAddress" class="form-label">Email
+										Address</label> <input type="email" class="form-control"
+										name="emailAddress" id="emailAddress"
+										placeholder="Enter email"
+										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required
+										th:value="*{EmailAddress}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+								<div class="col">
+									<label for="ContactNumber" class="form-label">Contact
+										Number</label> <input type="tel" class="form-control"
+										name="ContactNumber" id="ContactNumber"
+										placeholder="Enter Contact Number" maxlength="10"
+										pattern="[0-9]{10}" th:value="*{ContactNumber}" required>
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="ContactPersonName" class="form-label">Contact
+										Person Name</label> <input type="text" class="form-control"
+										name="ContactName" id="ContactName"
+										placeholder="Contact Person Name" pattern="[A-Za-z\s]+"
+										required th:value="*{ContactName}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+								<div class="col">
+									<label for="ContactNumber" class="form-label">Contact
+										Person Phone</label> <input type="tel" class="form-control"
+										name="ContactMobileNumber" id="ContactMobileNumber"
+										placeholder="Enter Contact Person Phone" maxlength="10"
+										pattern="[0-9]{10}" required th:value="*{ContactMobileNumber}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-6 text-center mx-auto">
+									<label for="Website" class="form-label">Website (If
+										Applicable)</label> <input type="text" class="form-control"
+										id="website" name="website" placeholder="Website"
+										pattern="^[^<>]*(www\.)?[a-zA-Z0-9.]+(?:\.[a-zA-Z]{2,4})+[^<>]*$"
+										title="Enter a valid URL (e.g., www.example.com)" required
+										th:value="*{website}">
+									<div class="valid-feedback">Valid.</div>
+									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+							</div>
+							<div class="text-center btn-group">
+							    <button class="btn btn-primary" type="submit" onclick="checkData();">Update</button>
+							    <a class="btn btn-danger" th:href="@{/CenterDetails}">Back</a>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="/js/sha256.js"></script>
+		<script src="/js/crypto-js.js"></script>
+		<script src="/js/validation.js"></script>
+		<script type="text/javascript">
+  (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        } else {
+          // If the form is valid, call your custom validation function
+          checkData(form);
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })();
+
+  function checkData(form) {
+    var College = document.getElementById("College").value;
+    var Address = document.getElementById("Address").value;
+    var state = document.getElementById("State").value;
+    var district = document.getElementById("district").value;
+    var emailAddress = document.getElementById("emailAddress").value;
+    var ContactNumber = document.getElementById("ContactNumber").value;
+    var ContactName = document.getElementById("ContactName").value;
+    var ContactMobileNumber = document.getElementById("ContactMobileNumber").value;
+    var website = document.getElementById("website").value;
+    
+    
+
+    // Your custom validation logic
+    var isValid = true; // Replace this with your validation logic
+
+    if (isValid) {
+      var inputCode = "";
+      inputCode += getInputCode(College);
+      inputCode += getInputCode(Address);
+      inputCode += getInputCode(emailAddress);
+	  inputCode += getInputCode(state);
+      inputCode += getInputCode(district);
+      inputCode += getInputCode(ContactMobileNumber);
+      inputCode += getInputCode(ContactName);
+      inputCode += getInputCode(ContactNumber);
+      inputCode += getInputCode(website);
+      
+      
+	  var hppCode = getHPPCode(origHPPCode, inputCode);
+
+      document.getElementById("hppCode").value = hppCode;
+
+      form.submit(); // Submit the form if custom validation is successful
+    }
+    
+    return false;  // Prevent default form submission
+  }
+</script>
+
+
+		<br> <br> <br>
+		<div class="class-footer">
+			<p
+				style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+				<b>Copyright &copy; 2022</b>
+			</p>
+			<p
+				style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+				<b>Designed and Developed by CDAC</b>
+			</p>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/state.js}"></script>
+	<script type="text/javascript" th:src="@{/js/districts.js}"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/TeacherHome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a class="active" href="TeacherHome"
+			style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CreateClassByTeacher"
+			style="color: white; text-decoration: none;">Create Class</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="AssignExerciseByTeacher"
+			style="color: white; text-decoration: none;">Assign Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="classexercisedetails"
+			style="color: white; text-decoration: none;">Class Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CompletionStatusTeacherView"
+			style="color: white; text-decoration: none;">Completion Status
+			Lab</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="CompletionStatusTeacherlms"
+			style="color: white; text-decoration: none;">Completion Status
+			LMS</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Teacher Home Page</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<div>
+					<a href="http://cdaccybergyan.uat.dcservices.in/lms/login">
+						<h2 style="color: blue;" onmouseover="this.style.color='green'"
+							onmouseout="this.style.color='blue'">Access Basic Course</h2>
+					</a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>

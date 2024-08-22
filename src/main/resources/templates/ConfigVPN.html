@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/ConfigVPN.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+</head>
+<body style="background-color: white;">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<h1
+		style="text-align: center; font-size: 40px; font-family: Times New Roman;">
+		<b>Welcome E-Lab</b>
+	</h1>
+	<div style="text-align: center;">
+		<h3
+			style="display: inline-block; border: 3px solid black; padding: 10px;">
+			Instructions to Configure the VPN</h3>
+	</div>
+	<div class="container">
+		<div class="row my-5 ">
+			<div class="card mx-auto border-success text-justify"
+				style="max-width: 50rem;">
+				<div style="display: flex; justify-content: flex-start;">
+					<a href="/" class="btn btn-primary"><i class="fa fa-arrow-left"></i></a>
+				</div>
+				<div class="col-10 mx-auto text-start">
+					<br>
+					<p class="text-justify">
+						<strong>Welcome to the Online Cyber Security Programme on
+							Ethical Hacking and Penetration Testing under the Cyber Gyan
+							project. To access this program, you will have to connect to the
+							CDAC Noida network using a VPN connection. This step-by-step
+							guide will show you how to install and Configure VPN to connect
+							to the CDAC Noida network in a secure manner and access the URL
+							for Student registration and course content access.</strong>
+					</p>
+					<p>
+						To connect to CDAC Network using a VPN connection, you will have
+						to first install the VPN client on your machine. Follow the
+						below-given instructions to download and install the Fortinet SSL
+						VPN client on your windows machine. <br>
+						<br> 1. Download the VPN client from the using the given link
+						on lab home page.<br>
+						<br> a. This will download the FortiClient VPN online
+						installer file âFortiClientVPNOnlineInstaller.exeâ file on
+						your machine.<br>
+						<br> b. Once the file is downloaded, right-click on the file,
+						and select ârunâ (as an administrator or equivalent). This
+						will download the image file for Fortinet Client as below.
+					</p>
+					<br> <img src="images/Picture1.png" class="img-fluid"
+						alt="Picture1.png"> <br> <br> c. After the
+					download gets completed, select the license agreement and click on
+					next. <br> <br> <img src="images/CV2.png"
+						class="img-fluid" alt="CV2.png"> <br> <br> d.
+					Click on install.<br> <br> <img src="images/CV3.png"
+						class="img-fluid" alt="CV3.png"> <br> <br> e. This
+					will start FortiClient installation.<br> <br> <img
+						src="images/CV4.png" class="img-fluid" alt="CV4.png"> <br>
+					<br> f. after installation click on the Finish button. <br>
+					<br> <img src="images/CV5.png" class="img-fluid" alt="CV5.png">
+					<br> <br> Configuring Fortinet SSL VPN Client to connect
+					to CDAC Network The client is now installed and needs to be
+					configured. To configure the client, follow the below given steps.<br>
+					<br> 2. Search for FortiClient VPN in the windows search bar
+					and click on open.<br> <br> <img src="images/CV6.png"
+						class="img-fluid" alt="CV6.png"> <br> <br> 3.
+					Select the Acknowledgement on the page opened and click on I
+					accept. <br> <br> <img src="images/CV7.png"
+						class="img-fluid" alt="CV7.png"> <br> <br> 4.
+					Click on the Configure VPN link. <br> <br> <img
+						src="images/CV8.png" class="img-fluid" alt="CV8.png"> <br>
+					<br> 5. Click on âSSL-VPNâ <br> <br> <img
+						src="images/CV9.png" class="img-fluid" alt="CV9.png"> <br>
+					<br> âConnection Name (could be anything)â. Set âRemote
+					Gateway âas studentvpn.dcservices.in as given above <br> 6.
+					After installation and Configuration of the Fortinet SSL VPN
+					Client, enter your âusername and passwordâ (shared in your
+					mail) and click on âConnectâ <br> <br> <img
+						src="images/CV10.png" class="img-fluid" alt="CV10.png"> <br>
+					<br> Accessing CDAC Cyber Gyan Course Material <br> <br>
+					To access the course material, you will have to first register
+					yourself to the Cyber Gyan Web portal. Follow the below-given
+					steps. Do not forget to connect to VPN using FortiClient VPN client
+					configured on your machine. <br> a. Open a browser on your
+					system and access the below-given link. Registration Portal:
+					http://cdaccybergyan.in <br> Click on Registration button in
+					top right corner.<br> <br> <img src="images/CV11.png"
+						class="img-fluid" alt="CV11.png"> <br> <br> b.
+					After filling out the student registration details and uploading
+					the desired docu-ments click on the save button. <br> <br>
+					<img src="images/CV12.png" class="img-fluid" alt="CV12.png">
+					<br> <br> c. Once your registration is approved by admin,
+					you will get an email. from cybergyan-noida@cdac.in.<br> <br>
+					<img src="images/CV13.png" class="img-fluid" alt="CV13.png">
+					<br> <br> d. The Mail you have received is regarding
+					âyour registration is successfulâ<br> <br> <img
+						src="images/CV14.png" class="img-fluid" alt="CV14.png"> <br>
+					<br> e. Once your registration is successful, you can access
+					the portal by accessing the same URL (used for registration) and
+					clicking on the login button and log in as a student profile.<br>
+					<br> <img src="images/CV15.png" class="img-fluid"
+						alt="CV15.png"> <br> <br> Your username is your
+					email id and your password is the one , you submitted in the
+					registration form. <br> <br> <img src="images/CV16.png"
+						class="img-fluid" alt="CV16.png"> <br> <br> f.
+					After login, you will see the Dashboard of CyberGyan. In My courses
+					click on Cyber Gyan. <br> <br> <img src="images/CV17.png"
+						class="img-fluid" alt="CV17.png"> <br> <br> You
+					will see the course. contents. <br> <br> <img
+						src="images/CV18.png" class="img-fluid" alt="CV18.png"> <br>
+					<br> <img src="images/CV19.png" class="img-fluid"
+						alt="CV19.png"> <br> <br> g. The instructions to
+					access the lab are available in the announcement section of the
+					course home page. <br> <br>
+					<div style="display: flex; justify-content: center;">
+						<a href="/" class="btn btn-primary">Back</a>
+					</div>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+
+</html>

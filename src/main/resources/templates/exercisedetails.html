@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/exercisedetails.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/datatables.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item active " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Exercise Details</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<a th:href="@{/AddExercise}" class="btn btn-primary mb-2"
+					style="margin-top: 8px;">Add New Exercise</a>
+					<hr>
+				<div class="table-responsive">
+					<table class="table text-center table-bordered table-hover" id="Table">
+						<thead class="thead-dark">					
+							<tr class="table-info">
+								<th class="text-center">S. No.</th>
+								<th class="text-center">Exercise ID</th>
+								<th class="text-center">Exercise Name</th>
+								<th class="text-center">Problem Statement</th>
+								<th class="text-center">Update</th>
+								<th class="text-center">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="ex, istat: ${listexercise}" class="text-center">
+								<th scope="row" th:text="${istat.count}"></th>
+								<td th:text="${ex.Ex_id}">Exercise ID</td>
+								<td th:text="${ex.exer_name}">Exercise Name</td>
+								<td th:text="${ex.prob_statement}">Problem Statement</td>
+								<td><a th:href="@{showupdateexer(ex_id=${ex.Ex_id})}"
+									class="btn btn-primary mb-2" style="margin-top: 4px;">Update</a>
+								</td>
+								<td>
+								<form th:action="@{'/deleteexer/'+${ex.Ex_id}}" method="post" autocomplete="off" th:attr="id='deleteform'+${ex.Ex_id}">
+								
+									<input type="hidden" name="hppCode" th:attr="id='hppCodeDelete'+${ex.Ex_id}" />
+									<input
+										type="hidden" name="deleteID" th:attr="value='' + ${ex.Ex_id}, id='deleteID'+${ex.Ex_id}" />									
+									<button type="submit" class="btn btn-danger mb-2" style="margin-top: 4px;" th:attr="onclick='deleteData(' + ${ex.Ex_id} + ')'">Delete</button>
+								</form>
+								</td>
+							</tr>
+						<tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<br> <br> <br> <br> <br> <br> <br>
+	</div>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script src="/js/sha256.js"></script>
+	<script src="/js/crypto-js.js"></script>
+	<script src="/js/validation.js"></script>
+	<script>
+	function deleteData(id) {
+		var deleteID=document.getElementById("deleteID"+id).value;
+		var inputCode = "";
+		inputCode += getInputCode(deleteID);				
+		var hppCode = getHPPCode(origHPPCode, inputCode);
+		document.getElementById("hppCodeDelete"+id).value = hppCode;
+		document.getElementById('deleteform'+id).submit();
+		return false; // Prevent default form submission
+	}
+	
+	$(document).ready(function() {
+        $('#Table').DataTable({
+    	    aLengthMenu: [
+    	        [25, 50, 100, 200, -1],
+    	        [25, 50, 100, 200, "All"]
+    	    ],
+    	    iDisplayLength: 25
+    	});
+    });
+</script>
+</body>
+</html>

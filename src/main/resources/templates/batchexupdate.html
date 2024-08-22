@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/batchexupdate.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/welcome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Site Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+
+			<!-- <li><a class="dropdown-item" href="folders">PDF List</a></li> -->
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item " href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item " href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Update Batch Exercise</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<form class="needs-validation" novalidate
+					th:action="@{/updateSavebatchex}" th:object="${batchex_update}"
+					method="POST" autocomplete="off" id="moduleform" name="moduleform">
+
+					<input type="hidden" value="${batch_id}" name="batch_id"
+						id="batch_id" /> <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" /> <input
+						type="hidden" name="hppCode" id="hppCode" /> <input type="hidden"
+						id="cid" name="cid" />
+
+					<div class="form-group">
+						<div class="col-md-3 text-center mx-auto">
+							<div>
+								<label for="fname" class="form-label"><b>Batch ID</b></label><font
+									color="red"> *</font> <select class="form-control"
+									style="width: 200px;" th:field="*{batch_no}" required>
+									<option th:each="bat :${listbatch}" th:value="${bat}"
+										th:text="${bat}"></option>
+								</select>
+							</div>
+							<br>
+							<div>
+								<label for="fname" class="form-label"> <b>Select
+										Exercise</b></label><font color="red"> *</font> <select
+									class="form-control" style="width: 200px;"
+									th:field="*{exer_id}" name="exer_id" id="exer_id"
+									multiple="multiple" onchange="updateHiddenFeild()" required>
+									<option th:each="exercise_master :${listExercise}"
+										th:value="${exercise_master.ex_id}"
+										th:text="${exercise_master.prob_statement}"
+										th:data-name="${exercise_master.exer_name}"></option>
+								</select> <input type="hidden" name="exer_name" id="exer_name" value="" />
+							</div>
+							<script>
+								function updateHiddenFeild() {
+									var exer_id = document
+											.getElementById("exer_id").options[document
+											.getElementById("exer_id").selectedIndex];
+									var exerName = selectedOption
+											.getAttribute("data-name");
+									alert(exerName);
+									document.getElementById("exer_name").value = exerName;
+								}
+							</script>
+
+						</div>
+					</div>
+					<br>
+					<button type="submit" id="submit" class="btn btn-primary"
+						onclick="checkData();">Save</button>
+					&nbsp; <a th:href="@{/Batchexercise}" class="btn btn-primary mb-2"
+						style="margin-top: 8px;">Back</a> <input type="hidden"
+						th:field="*{batch_id}" />
+				</form>
+
+
+			<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+				<script>
+				    // Wait for the DOM to be ready before executing the code
+				    document.addEventListener("DOMContentLoaded", function () {
+				        // Use jQuery to handle form submission and Bootstrap validation
+				        $('#moduleform').submit(function (event) {
+				            // Prevent the form from submitting
+				            event.preventDefault();
+				
+				            // Use Bootstrap's built-in form validation
+				            var form = event.target;
+				            if (form.checkValidity() === false) {
+				                event.stopPropagation();
+				            } else {
+				                // If the form is valid, proceed with your custom logic
+				                var exerciseName = document.getElementById("exer_name").value;
+				                var inputCode = 0;
+				                inputCode += getInputCode(exerciseName);
+				                inputCode += getInputCode(inputCode + "");
+				                var hppCode = getHPPCode(origHPPCode, inputCode);
+				                document.getElementById("hppCode").value = hppCode;
+				
+				                // Now, you can submit the form
+				                form.submit();
+				            }
+				
+				            // Add Bootstrap's was-validated class to show custom validation styles
+				            form.classList.add('was-validated');
+				        });
+				    });
+				
+				    // Your existing checkData function remains mostly unchanged
+				    function checkData() {
+				        // No need to manually submit the form here; it's handled in the event listener
+				        // The rest of your existing code can stay the same
+				        var exerciseName = document.getElementById("exer_name").value;
+				        var inputCode = "";
+				        inputCode += getInputCode(exerciseName);
+				      
+				        var hppCode = getHPPCode(origHPPCode, inputCode);
+				        document.getElementById("hppCode").value = hppCode;
+				
+				        // Return false to prevent default form submission (handled in the event listener)
+				        return false;
+				    }
+              </script>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>

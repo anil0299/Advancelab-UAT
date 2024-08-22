@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link rel="stylesheet" href="" th:href="@{/css/mystyle2.css}" />
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+<body>
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div style="width: 100%; text-align: right; border: 2px solid #ccc; padding: 10px;">
+    <strong style="color: green;">Welcome, <span th:text="${#authentication.principal.username}"></span>!</strong>
+</div>
+	<nav aria-label="breadcrumb" style="margin-top: 25px; margin-left: 10px; font-weight: bold; font-size: 20px;">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+			<a th:href="@{/}" class="text-decoration-none">Home</a></li>
+			<li class="breadcrumb-item active text-black" aria-current="page">Exercise</li>
+		</ol>
+	</nav>
+	<div class="px-5 my-5 col-xxl-9 col-xl-10 pb-5">
+		<div class="list-group my-3" th:each="exercise,istat : ${exerciseslist}">
+			<a class="list-items text-decoration-none list-group-item list-group-item-action fw-bold rounded-0 border py-3 shadow-sm d-md-flex justify-content-between align-items-center" href="#" th:onclick="'redirectToExercise(' + ${exercise.Ex_id} + ')'">
+			<span th:text="${istat.count} + '. ' + ${exercise.exer_name}"></span>
+
+			<span th:if="${#lists.contains(submittedExercises, exercise.Ex_id)}" class="text-white fw-bold bg-green px-2 py-1">Submitted</span>
+			</a>
+		</th:block>
+		</div>
+	</div>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script>
+		function redirectToExercise(id) {
+		    const key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + id + "3vR3mTRMZuemwSlFt4LRXRV62";
+		    const encodedId = btoa(key);
+		    const url = `/exercise/${encodedId}`;
+		    window.location.href = url;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{css/bootstrap-select.min.css}">
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/TeacherHome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="TeacherHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CreateClassByTeacher"
+			style="color: white; text-decoration: none;">Create Class</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="active" href="AssignExerciseByTeacher"
+			style="color: white; text-decoration: none;">Assign Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="classexercisedetails"
+			style="color: white; text-decoration: none;">Class Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CompletionStatusTeacherView"
+			style="color: white; text-decoration: none;">Completion Status
+			Lab</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="CompletionStatusTeacherlms"
+			style="color: white; text-decoration: none;">Completion Status
+			LMS</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Assign Exercise</b>
+				</h1>
+			</div>
+			<div th:if="${msg}" th:text="${msg}"
+					th:class="${!msg.contains('already')} ? 'message-green' : 'message-red'"></div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<div class="container p-1">
+					<div class="row">
+						<div class="card-body">
+							<form th:action="@{/AssignExerbyClass}" method="POST" id="moduleform" name="moduleform">
+
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    <input type="hidden" name="hppCode" id="hppCode" />
+    <input type="hidden" id="cid" name="cid" />
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="state" class="form-label"><b>Select Class</b></label> <font color="red">*</font>
+            <select class="form-select" id="class_name" name="class_name" required onchange="checkSelection()">
+                <option value="" disabled selected>Select Class</option>
+                <option th:each="class : ${classes}" th:value="${class}" th:text="${class}"></option>
+            </select>
+            <div class="invalid-feedback">Please select a class</div>
+            <div class="valid-feedback">Valid.</div>
+        </div>
+
+        <div class="col">
+            <label for="college" class="form-label"><b>Exercise List</b></label> <font color="red">*</font>
+            <select class="form-select" id="exer_name" name="exer_name" required onchange="checkSelection()">
+                <option value="" disabled selected>Select Exercise</option>
+                <option th:each="exercise : ${listExercise}" th:value="${exercise.exer_name}" th:text="${exercise.exer_name}"></option>
+            </select>
+            <div class="invalid-feedback">Please select an exercise</div>
+            <div class="valid-feedback">Valid.</div>
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" id="submitBtn" disabled onclick="checkData()">Assign Exercise</button>
+</form>
+
+<script src="/js/sha256.js"></script>
+<script src="/js/crypto-js.js"></script>
+<script src="/js/validation.js"></script>
+<script>
+    function checkSelection() {
+        var classSelection = document.getElementById("class_name").value;
+        var exerciseSelection = document.getElementById("exer_name").value;
+        var submitBtn = document.getElementById("submitBtn");
+
+        if (classSelection !== "" && exerciseSelection !== "") {
+            submitBtn.removeAttribute("disabled");
+        } else {
+            submitBtn.setAttribute("disabled", "disabled");
+        }
+    }
+
+    function checkData() {
+       
+        var class_name = document.getElementById("class_name").value;
+        var exer_name = document.getElementById("exer_name").value;
+
+        // Basic form validation
+        var inputCode = "";
+        inputCode += getInputCode(class_name);
+        inputCode += getInputCode(exer_name);
+
+        var hppCode = getHPPCode(origHPPCode, inputCode);
+
+        document.getElementById("hppCode").value = hppCode;
+
+        // Submit the form if validation passes
+        document.getElementById('moduleform').submit();
+        return false; // Prevent default form submission
+    }
+</script>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+
+</html>

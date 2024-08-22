@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" href="" th:href="@{/css/StudentApproval.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+</head>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="AddExercise">Add
+					Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item active" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li><a class="dropdown-item" href="ManageCourseAccess">Manage
+					Course Access</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item " href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white " href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item " href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item " href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+	</div>
+	<div class=" m-4 mx-auto w-25">
+		<div class=" text-center  fs-1 text-primary">
+			<u><b>Pending Teacher</b></u>
+		</div>
+	</div>
+	<div class="card m-4 p-4 mx-auto" style="width: auto; height: auto">
+
+		<div id="message">
+			<th:block th:if="${session.msg}">
+				<p class="text-center fs-3 text-success">[[${session.msg}]]</p>
+				<th:block th:text="${#session.removeAttribute('msg')}">
+				</th:block>
+			</th:block>
+		</div>
+		<hr />
+		<div class="table-responsive">
+			<table id="Pending-table"
+				class="table table-light table-hover table-bordered">
+				<thead>
+					<tr class="table-info">
+					    <th class="text-center">S.No.</th>
+						<th class="text-center">ID</th>
+						<th class="text-center">First Name</th>
+						<th class="text-center">Last Name</th>
+						<th class="text-center">Gender</th>
+						<th class="text-center">Email</th>
+						<th class="text-center">College</th>
+						<th class="text-center">State</th>
+						<th class="text-center">Reg. Date</th>
+						<th class="text-center">ID proof</th>
+						<th class="text-center">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="as,index: ${teacherDtls}" class="text-center">
+					    <th scope="row" th:text="${index.count}"></th>
+						<td th:text="${as.id}" />
+						<td th:text="${as.firstName}" />						
+						<td th:text="${as.lastName}" />
+						<td th:text="${as.gender}" />
+						<td th:text="${as.emailAddress}" />
+						<td th:text="${as.college}" />
+						<td th:text="${as.state}" />
+						<td th:text="${as.registrationDate}" />
+						<td class="text-center">
+							<form th:action="@{'/displayPDF5/'+${as.id}}" method="post" th:attr="id='pdfform'+${as.id}" name="pdfform">
+								<input type="hidden" name="hppCode" th:attr="id='hppCodePDF'+${as.id}" />
+								<input type="hidden" name="pdfID" th:attr="value='' + ${as.id}, id='pdfID'+${as.id}" />
+								<button type="submit" class="border-0 bg-transparent h4" th:attr="onclick='pdfData(' + ${as.id} + ')'"><i class="text-success fas fa-eye"></i></button>
+							</form>					
+						</td>
+						<td>
+						   <div class="row">
+						    <div class="col">
+							<form
+								th:action="@{'/TeacherApproval/approve-teacherDtls/'+${as.id}}"
+								method="post" autocomplete="off" th:attr="id='approvalform'+${as.id}" name="approvalform">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> <input type="hidden" name="hppCode" th:attr="id='hppCode'+${as.id}" /> <input
+									type="hidden" name="teachID" th:attr="value='' + ${as.id}, id='teachID'+${as.id}" />
+									<div class="d-flex justify-content-end">
+										<button type="submit" class="btn btn-success" th:attr="onclick='checkData(' + ${as.id} + ')'">Approve</button>
+									</div>
+							</form>
+						  </div>
+						  <div class="col">
+							<form th:action="@{'/deleteTeacher/'+${as.id}}" method="post" autocomplete="off" 
+							th:attr="id='deleteform'+${as.id}" name="deleteform">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> 
+								<input type="hidden" name="hppCode" th:attr="id='hppCodeDelete'+${as.id}" /> <input
+									type="hidden" name="deleteID" th:attr="value='' + ${as.id}, id='deleteID'+${as.id}" />
+									<div class="d-flex justify-content-start">
+										<button type="submit" class="btn btn-danger" th:attr="onclick='deleteData(' + ${as.id} + ')'">Delete</button>
+									</div>
+							</form>
+						   </div>
+						  </div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#Pending-table').DataTable({
+	    	    aLengthMenu: [
+	    	        [25, 50, 100, 200, -1],
+	    	        [25, 50, 100, 200, "All"]
+	    	    ],
+	    	    iDisplayLength: 25
+	    	});
+		});
+	</script>
+	
+				<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+				<script>
+				function pdfData(id) {
+					var pdfID=document.getElementById("pdfID"+id).value;
+					var inputCode = "";
+					inputCode += getInputCode(pdfID);				
+					var hppCode = getHPPCode(origHPPCode, inputCode);
+					document.getElementById("hppCodePDF"+id).value = hppCode;
+					document.getElementById('pdfform'+id).submit();
+					return false; // Prevent default form submission
+				}
+				
+				function checkData(id) {
+	
+
+						var teachID = document.getElementById("teachID"+id).value;				
+
+						var inputCode = "";
+						inputCode += getInputCode(teachID);
+						
+						 var hppCode = getHPPCode(origHPPCode, inputCode);
+		
+						
+						document.getElementById("hppCode"+id).value = hppCode;
+						
+						document.getElementById('approvalform'+id).submit();
+						return false;  // Prevent default form submission
+					}
+	
+					function deleteData(id) {
+						
+
+						var deleteID = document.getElementById("deleteID"+id).value;				
+
+						var inputCode = "";
+						inputCode += getInputCode(deleteID);
+						
+						 var hppCode = getHPPCode(origHPPCode, inputCode);
+		
+						
+						document.getElementById("hppCodeDelete"+id).value = hppCode;
+						
+						document.getElementById('deleteform'+id).submit();
+						return false;  // Prevent default form submission
+					}
+			</script>
+	
+	
+	
+	
+	<br>
+	<div class=" text-center  fs-1 text-primary">
+		<div class="fw-bold text-decoration-underline">Approved Teacher</div>
+	</div>
+	<div class="card m-4 p-4 mx-auto" style="width: auto; height: auto">
+
+		<hr />
+		<div id="message">
+			<th:block th:if="${session.msg}">
+				<p class="text-center fs-3 text-success">[[${session.msg}]]</p>
+				<th:block th:text="${#session.removeAttribute('msg')}">
+				</th:block>
+			</th:block>
+		</div>
+		<div class="table-responsive">
+			<table id="Approval-table"
+				class="table table-light table-hover table-bordered">
+				<thead>
+					<tr class="table-info">
+					    <th class="text-center">S.No.</th>
+						<th class="text-center">ID</th>
+						<th class="text-center">First Name</th>
+						<th class="text-center">Last Name</th>
+						<th class="text-center">Gender</th>
+						<th class="text-center">Email</th>
+						<th class="text-center">College</th>
+						<th class="text-center">State</th>
+						<th class="text-center">Reg. Date</th>
+						<th class="text-center">ID proof</th>
+						<th class="text-center">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="as,index: ${teacherDtls1}" class="text-center">
+					    <th scope="row" th:text="${index.count}"></th>
+						<td th:text="${as.id}" />
+						<td th:text="${as.firstName}" />			
+						<td th:text="${as.lastName}" />
+						<td th:text="${as.gender}" />
+						<td th:text="${as.emailAddress}" />
+						<td th:text="${as.college}" />
+						<td th:text="${as.state}" />
+						<td th:text="${as.registrationDate}" />
+						<td class="text-center">
+						<form th:action="@{'/displayPDF5/'+${as.id}}" method="post" th:attr="id='pdfform2'+${as.id}" name="pdfform2">
+								<input type="hidden" name="hppCode" th:attr="id='hppCodePDF2'+${as.id}" />
+								<input type="hidden" name="pdf2ID" th:attr="value='' + ${as.id}, id='pdf2ID'+${as.id}" />
+								<button type="submit" class="border-0 bg-transparent h4" th:attr="onclick='pdfData2(' + ${as.id} + ')'"><i class="text-success fas fa-eye"></i></button>
+						</form>
+						</td>
+						<td>
+						<form th:action="@{'/deleteTeacher/'+${as.id}}" method="post" autocomplete="off" 
+							th:attr="id='approveddeleteform'+${as.id}" name="approveddeleteform">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> 
+								<input type="hidden" name="hppCode" th:attr="id='hppCodeApprovedDelete'+${as.id}" /> <input
+									type="hidden" name="deleteID" th:attr="value='' + ${as.id}, id='approvedDeleteID'+${as.id}" />
+								<div class="row">
+									<div>
+										<button type="submit" class="btn btn-danger" th:attr="onclick='approvedDeleteData(' + ${as.id} + ')'">Delete</button>
+									</div>
+								</div>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#Approval-table').DataTable({
+	    	    aLengthMenu: [
+	    	        [25, 50, 100, 200, -1],
+	    	        [25, 50, 100, 200, "All"]
+	    	    ],
+	    	    iDisplayLength: 25
+	    	});
+		});
+	</script>
+	<script>
+	
+	function pdfData2(id) {
+		var pdf2ID=document.getElementById("pdf2ID"+id).value;
+		var inputCode = "";
+		inputCode += getInputCode(pdf2ID);				
+		var hppCode = getHPPCode(origHPPCode, inputCode);
+		document.getElementById("hppCodePDF2"+id).value = hppCode;
+		document.getElementById('pdfform2'+id).submit();
+		return false; // Prevent default form submission
+	}
+	function approvedDeleteData(id) {
+		
+
+		var approvedDeleteID = document.getElementById("approvedDeleteID"+id).value;				
+
+		var inputCode = "";
+		inputCode += getInputCode(approvedDeleteID);
+		
+		 var hppCode = getHPPCode(origHPPCode, inputCode);
+
+		
+		document.getElementById("hppCodeApprovedDelete"+id).value = hppCode;
+		
+		document.getElementById('approveddeleteform'+id).submit();
+		return false;  // Prevent default form submission
+	}
+	</script>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer" id="footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022 </b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script>
+		function downloadExcel() {
+			var table = document.getElementById("my-table");
+			var rows = table.getElementsByTagName("tr");
+			var csv = [];
+			for (var i = 0; i < rows.length; i++) {
+				var row = [], cols = rows[i].querySelectorAll("td, th");
+				for (var j = 0; j < cols.length; j++)
+					row.push(cols[j].innerText);
+				csv.push(row.join(","));
+			}
+			var downloadLink = document.createElement("a");
+			var blob = new Blob([ "\ufeff", csv.join("\n") ], {
+				type : "text/csv;charset=utf-8"
+			});
+			var url = URL.createObjectURL(blob);
+			downloadLink.href = url;
+			downloadLink.download = "data.csv";
+			document.body.appendChild(downloadLink);
+			downloadLink.click();
+			document.body.removeChild(downloadLink);
+		}
+	</script>
+	<script>
+		$(document).ready(function() {
+			$('#rejected-table').DataTable();
+			$('.dataTables_length').addClass('bs-select');
+		});
+	</script>
+	<script>
+		// Wait for 10 seconds before removing the message
+		setTimeout(function() {
+			// Get the message element
+			var message = document.getElementById("message");
+			// Remove the message element from the DOM
+			message.parentNode.removeChild(message);
+		}, 3000); //
+	</script>
+	<script>
+		$('#row1').addClass('highlight');
+	</script>
+</body>
+</html>

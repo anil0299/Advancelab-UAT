@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body class="overflow-hidden m-0 p-0 h-100">
+	<div class="d-flex justify-content-center align-items-center vh-100 vw-100">
+		<iframe th:src="${url}" id="rdpFrame" class="h-100 w-100 border-0"></iframe>
+	</div>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/AllocateExercise.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/datatables.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+
+			</form>
+
+
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> E-LAB Details </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExercise">Add Exercise</a></li>
+			<li><a class="dropdown-item" href="exercisedetails">View
+					Exercise details</a></li>
+			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
+			<li><a class="dropdown-item" href="vmdetails">View VM
+					details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB
+					Details</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white active" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Assignment </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item active" href="AssignBatch">Assign
+					Batch</a></li>
+			<li><a class="dropdown-item" href="assignExercise">Assign
+					Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View
+					Batchwise Exercise</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Registration Approval </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="StudentApproval">Student
+					Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher
+					Approval</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Center Dashboard </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="CenterDetails">Center
+					Details</a></li>
+			<li><a class="dropdown-item" href="AddCourse">Add Course</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+
+		</ul>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Submissions </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="folders">Advance Lab</a></li>
+			<li><a class="dropdown-item" href="basiclab">Basic Lab</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+
+		</ul>
+		<a href="ExerciseCompletion" style="color: white;"> Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#"
+			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+			aria-expanded="false"> Exercise Content </a>
+		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
+			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
+			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+		</ul>
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b> Assign Batch</b>
+				</h1>
+			</div>
+
+
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<div class="container">
+					<div class="col-md-12 mx-auto">
+						<div class="card">
+							<div class="card-body">
+
+								<div id="assign">
+									<th:block th:if="${session.assign}">
+										<p class="text-center fs-3 text-success">[[${session.assign}]]</p>
+										<th:block th:text="${#session.removeAttribute('assign')}">
+										</th:block>
+									</th:block>
+								</div>
+
+								<div id="successMessage" th:if="${successMessage}"
+									class="alert alert-success">
+									<p th:text="${successMessage}"></p>
+								</div>
+
+								<div id="errorMessage" th:if="${errorMessage}"
+									class="alert alert-danger">
+									<p th:text="${errorMessage}"></p>
+								</div>
+
+								<div class="table-responsive">
+									<div class=" justify-content-center">
+										<div class="col-md-4 text-center mx-auto">
+											<div
+												class="card mx-auto border-success text-center bg-light p-4">
+
+												<div id="batchInput" th:value="${currentBatch}">
+													<label for="CurrentBatch" class="form-label"
+														style="font-size: 17px;"> <b>Current Batch -</b> <b
+														style="font-size: 17px;"><span
+															th:text="${currentBatch}" style="color: green;"></span></b>
+													</label>
+												</div>
+
+												<div class="mt-3">
+													<label for="Slots" class="form-label"
+														style="font-size: 17px;"> <b>Total slots in
+															current batch -</b> <b style="font-size: 17px;"><span
+															style="color: green;">50</span></b>
+													</label>
+												</div>
+
+												<div class="mt-3">
+													<label for="Slots" class="form-label"
+														style="font-size: 17px;"> <b>Remaining slots
+															in current batch -</b> <b style="font-size: 17px;"><span
+															th:text="${remainingSlots}" style="color: red;"></span></b>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br><hr>
+
+									<div class="mt-4">
+										<div class="table-responsive">
+											<table class="table table-bordered table-hover" id="my-table">
+												<thead class="table-info">
+													<tr>
+													    <th class="text-center">S.No.</th>
+														<th class="text-center">ID</th>
+														<th class="text-center">UserName</th>
+														<th class="text-center">College</th>
+														<th class="text-center">Teacher</th>
+														<th class="text-center">Assign Batch</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="student,index : ${studentsWithoutClassNameAndBatch}" class="text-center">
+													    <th scope="row" th:text="${index.count}"></th>
+														<td th:text="${student.id}"></td>
+														<td th:text="${student.emailAddress}"></td>
+														<td th:text="${student.college}"></td>
+														<td>
+															<div th:each="teacher : ${teachersWithSameCollege}"
+																th:if="${teacher.college == student.college}">
+																<span th:text="${teacher.emailAddress}"></span>
+															</div>
+														</td>
+														<td>
+															<form method="post" th:action="@{/assignBatch}" th:attr="id='moduleform'+${student.id}" name="moduleform">
+																<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+																<input type="hidden" name="hppCode" th:attr="id='hppCode'+${student.id}" />
+																<input type="hidden" th:attr="id='cid'+${student.id}" name="cid" />
+																<input type="hidden" th:attr="id='studentId'+${student.id}" name="studentId" class="form-control" th:value="${student.id}" />
+																<input type="hidden" th:attr="id='batch'+${student.id}" name="batch" class="form-control" th:value="${currentBatch}" />
+																<button type="submit" class="btn btn-primary" th:attr="onclick='checkData(' + ${student.id} + ')'">Add</button>
+															</form> 
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<script src="/js/sha256.js"></script>
+									<script src="/js/crypto-js.js"></script>
+									<script src="/js/validation.js"></script>
+									<script>
+									function checkData(id) {
+										var batch = document.getElementById("batch"+id).value;
+										var studentId = document.getElementById("studentId"+id).value;
+										var inputCode = "";
+										inputCode += getInputCode(batch);
+										inputCode += getInputCode(studentId);
+										var hppCode = getHPPCode(origHPPCode, inputCode);
+										document.getElementById("hppCode"+id).value = hppCode;
+										document.getElementById('moduleform'+id).submit();
+										return false;  // Prevent default form submission
+									}
+									</script>
+									<script>
+										// Automatically remove success message after 3 seconds
+										const assign = document.getElementById('assign');
+										if (assign) {
+											setTimeout(() => {
+												assign.remove();
+											}, 3000);
+										}
+									</script>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+
+	<script>
+		function searchTable() {
+			var input, filter, table, tr, td, i, j, txtValue;
+			input = document.getElementById("search-input");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("my-table");
+			tr = table.getElementsByTagName("tr");
+
+			for (i = 0; i < tr.length; i++) {
+				for (j = 0; j < 3; j++) { // only search the first 3 columns
+					td = tr[i].getElementsByTagName("td")[j];
+					if (td) {
+						txtValue = td.textContent || td.innerText;
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+							tr[i].style.display = "";
+							break;
+						} else {
+							tr[i].style.display = "none";
+						}
+					}
+				}
+			}
+		}
+	</script>
+
+	<script>
+		// Remove success message after 2 seconds
+		setTimeout(function () {
+			$('#successMessage').fadeOut('slow', function () {
+				$(this).remove();
+			});
+		}, 1000);
+	</script>
+
+	<script>
+		// Remove success message after 2 seconds
+		setTimeout(function () {
+			$('#errorMessage').fadeOut('slow', function () {
+				$(this).remove();
+			});
+		}, 1000);
+	</script>
+	<script>
+		$(document).ready(function() {
+			$('#my-table').DataTable({
+	    	    aLengthMenu: [
+	    	        [25, 50, 100, 200, -1],
+	    	        [25, 50, 100, 200, "All"]
+	    	    ],
+	    	    iDisplayLength: 25
+	    	});
+		});
+	</script>
+</body>
+</html>

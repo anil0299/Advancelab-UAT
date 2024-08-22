@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<style>
+.error-message {
+	color: red;
+	font-size: 0.9rem;
+}
+</style>
+</head>
+<body style="background-color: oldlace">
+	<nav class="navbar navbar-expand-lg  navbar-light sticky-top"
+		style="background-color: #e3f2fd;">
+		<div class="container-fluid">
+			<img src="images/cdac-logo.png" alt="img/cdac-logo.png">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto">
+					<li class="fs-5 nav-item text-decoration-none"><a
+						class="nav-link " aria-current="page" href="/welcome"
+						style="color: purple";>Home</a></li>
+				</ul>
+			</div>
+			<div class="me-5" id="btn">
+				<div class="btn-group" role="group"
+					aria-label="Button group with nested dropdown">
+					<a href="/register">
+						<button type="button" class="btn btn-primary">
+							Registration</button>
+					</a>
+					<div class="btn-group" role="group">
+						<button id="btnGroupDrop1" type="button"
+							class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+							aria-expanded="false">Login</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+							<li><a class="dropdown-item m-2" href="/login">Admin</a></li>
+							<li><a class="dropdown-item m-2"
+								href="http://cdaccybergyan.uat.dcservices.in/lms/login">Student</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<header>
+		<div id="heading">
+			<marquee direction="right" scrollamount="20"
+				style="background-color: blue;">
+				<h1 style="color: white;">CyberGyan Virtual Training Platform</h1>
+			</marquee>
+			<nav
+				aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/index">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Student
+						Registration</li>
+				</ol>
+			</nav>
+		</div>
+		<div class="container p-5">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card" style="width: 70rem; height: auto">
+						<div class="card-header text-center fs-2">Student Details
+							Update</div>
+						<th:block th:if="${session.msg}">
+							<p class="text-center fs-3 text-success">[[${session.msg}]]</p>
+							<th:block th:text="${#session.removeAttribute('msg')}">
+							</th:block>
+						</th:block>
+						<div class="card-body">
+							<form th:action="createUser" method="post"
+								th:object="${student_update}" "needs-validationnovalidate">
+								<div class="row mb-3">
+									<div class="col">
+										<label for="state" class="form-label">State</label> <select
+											class="form-select" id="state" name="state" required>
+											<option value="" disabled selected>Select State</option>
+											<option value="Assam">Assam</option>
+											<option value="Tripura">Tripura</option>
+											<option value="Manipur">Manipur</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="college" class="form-label">College</label> <select
+											class="form-select" id="college" name="college" required>
+											<option value="" disabled selected>Select College</option>
+											<option value="IIT Guwahati">IIT Guwahati</option>
+											<option value="NIT Silchar">NIT Silchar</option>
+											<option value="IIT Agartala">IIT Agartala</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="course" class="form-label">Course</label> <select
+											class="form-select" id="qualification" name="qualification"
+											required>
+											<option value="" disabled selected>Select Course</option>
+											<option value="B.Tech">B.Tech</option>
+											<option value="M.Tech">M.Tech</option>
+											<option value="MBA">MBA</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="gender" class="form-label">Gender</label> <select
+											class="form-select" id="gender" name="gender" required>
+											<option value="" disabled selected>Select Gender</option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Other">Other</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="firstName" class="form-label">First Name</label> <input
+											type="text" class="form-control" name="firstName"
+											placeholder="Enter first name" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="lastName" class="form-label">Last Name</label> <input
+											type="text" class="form-control" name="lastName"
+											placeholder="Enter last name" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="fatherName" class="form-label">Father Name</label>
+										<input type="text" class="form-control" name="fatherName"
+											placeholder="Enter father name" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="category" class="form-label">Category</label> <select
+											class="form-select" id="category"
+											name"category" name="category" required>
+											<option value="" disabled selected>Select category</option>
+											<option value="SC">SC</option>
+											<option value="ST">ST</option>
+											<option value="EWS">EWS</option>
+										</select>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="emailAddress" class="form-label">Email
+											address</label> <input type="emailAddress" class="form-control"
+											name="emailAddress" placeholder="Enter email" required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="moblieNumber" class="form-label">Mobile
+											number</label> <input type="moblieNumber" class="form-control"
+											name="moblieNumber" placeholder="Enter mobile number"
+											required>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="password" class="form-label">Password:</label> <input
+											type="password" class="form-control" name="password"
+											placeholder="Enter password" required> <small
+											id="passwordHelpBlock" class="form-text text-muted">
+											Your password must be 8-20 characters long, contain letters
+											and numbers, and must not contain spaces, special characters,
+											or emoji. </small>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+									<div class="col">
+										<label for="confirmPassword" class="form-label">Confirm
+											Password:</label> <input type="password" class="form-control"
+											name="confirmPassword" placeholder="Confirm password""required">
+										<small id="passwordHelpBlock" class="form-text text-muted">
+											Your password must be 8-20 characters long, contain letters
+											and numbers, and must not contain spaces, special characters,
+											or emoji. </small>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col">
+										<label for="fileUpload" class="form-label">Submit
+											Category/EWS Certificate (10KB - 1MB)</label>
+										<div class="custom-file">
+											<input type="file" class="form-control" id="formFile"
+												file="categoryCertificate" required="required"> <label
+												class="form-label" for="formFile"></label>
+											<div class="valid-feedback">Valid.</div>
+											<div class="invalid-feedback">Please fill out this
+												field.</div>
+										</div>
+									</div>
+									<div class="col">
+										<label for="fileUpload" class="form-label">Submit
+											Marksheet of Last Semester Attended (10KB - 1MB)</label>
+										<div class="custom-file">
+											<input type="file" class="form-control" id="formFile"
+												file="lastMarksheet" required> <label
+												class="form-label" for="formFile"></label>
+											<div class="valid-feedback">Valid.</div>
+											<div class="invalid-feedback">Please fill out this
+												field.</div>
+										</div>
+									</div>
+								</div>
+								<button class="btn btn-primary col-md-12">Register</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<footer class="text-center" id="footer">
+		<h5>Copyright © 2022</h5>
+		<h5>Designed and Developed by CDAC</h5>
+	</footer>
+	<script>
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	</script>
+	<script>
+		$breadcrumb - divider; url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E");
+	</script>
+	<script>
+		var buttons = document.querySelectorAll('.btn')
+		buttons.forEach(function (button) {
+			var button = new bootstrap.Button(button)
+			button.toggle()
+		})
+	</script>
+	<script>
+			// Disable form submissions if there are invalid fields
+			(function () {
+				'use strict';
+				window.addEventListener('load', function () {
+					// Get the forms we want to add validation styles to
+					var forms = document.getElementsByClassName('needs-validation');
+					// Loop over them and prevent submission
+					var validation = Array.prototype.filter.call(forms, function (form) {
+						form.addEventListener('submit', function (event) {
+							if (form.checkValidity() === false) {
+								event.preventDefault();
+								event.stopPropagation();
+							}
+							form.classList.add('was-validated');
+						}, false);
+					});
+				}, false);
+			})();
+	</script>
+</body>

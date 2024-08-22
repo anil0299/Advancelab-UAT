@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/StudentExercisePage.css}">
+</head>
+<body style="background-color: white;">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<nav aria-label="breadcrumb"
+		style="margin-top: 25px; margin-left: 10px; font-weight: bold; font-size: 20px; color: black;">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item" style="color: black;">
+			<a th:href="@{/}" class="text-decoration-none">Home</a></li>
+			<li class="breadcrumb-item" style="color: black;">
+			<a th:href="@{/exercisepage}" class="text-decoration-none">Exercise</a></li>
+			
+		</ol>
+	</nav>
+	
+	<div class="mb-5">
+		<div class=" text-center h2 fw-bold myfont">Welcome Students</div>
+		<div id="message">
+			    <th:block th:if="${message}">
+			        <p class="text-center fs-3 text-danger" th:text="${message}"></p>
+			    </th:block>
+		</div>
+		<div class=" mx-auto myfont col-xxl-10 col-sm-12 col-12 px-lg-5 px-sm-3 px-3">
+			<div class="card text-center">
+				<div class="card-header" style="background-color: #0953a8;">
+				    <h1 style="font-family: Times New Roman; color: white">
+				        <b th:utext="${exerciseContent.exerciseHeadingName}"></b>
+				    </h1>
+				</div>
+				<div class="card-body text-start" style="background-color: rgb(204, 218, 246)">
+					<div class="text-center mx-auto">
+						<div class="card-text h3 row">
+							<span>Title:</span>
+							<span th:utext="${exerciseContent.title}"></span>
+						</div>
+					</div>
+					<hr>
+					<span class="card-text"style="padding: 1px; font-size: 20px;">
+						<span class="fw-bold">Learning Objectives:</span>
+						<span th:utext="${exerciseContent.learningObjective}"></span>
+					</span>
+					<hr>
+					<span class="card-text" style="padding: 1px; font-size: 20px;">
+						<span class="fw-bold">Description:</span>
+						<span th:utext="${exerciseContent.description}"></span>
+					</span>
+					
+					<hr class="w-100 mx-auto /">
+					<p class="card-text" style="padding: 2px; font-size: 20px;">
+						<b> Instructions to follow before executing the Exercise:</b>
+					</p>
+					<p class="card-text" style="padding: 2px; font-size: 19px;">
+						<b>1.</b> Start by creating your lab by clicking on CREATE LAB button on this exercise home page.<br> 
+						<b>2.</b> Watch the exercise video.<br> 
+						<b>3.</b> Read the Exercise document containing a step-by-step procedure to execute it.<br>
+						<b>4.</b> Execute the Exercise, as per the steps given in the document.<br>
+						<b>5.</b> After executing the exercise, click on the MARK COMPETE button on this Exercise Home Page. This will update the completion status of your course.<br> &nbsp; &nbsp; 
+						<b>REMEMBER: After clicking on the MARK COMPLETE button, all the VMS in this exercise lab will be deleted and you will lose, all your work related to the exercise.</b>
+					</p>
+					<hr class="w-100 mx-auto /">
+					<p class="card-text text-center" style="padding: 2px; font-size: 20px;">
+						<b><a href="http://cdaccybergyan.uat.dcservices.in/lms/login"
+							target="_blank">Access Exercise Resources</a></b>
+					</p>
+					<hr class="w-100 mx-auto /">
+					<p class="card-text" style="padding: 2px; font-size: 20px;">
+						<b> About the Exercise lab infrastructure:</b>
+					</p>
+					<p class="card-text" style="padding: 1px; font-size: 20px;">
+						
+						<b th:utext="${exerciseContent.labInfraStructure}"></b>
+							
+					</p>
+					
+					<div class="img-fluid text-center">
+					    <img class="img-fluid" style="width: 700px;" th:src="@{'/images/ExerciseImage/' + ${exerciseContent.exerciseId} + '/Architecture.png'}" alt="Architecture Image">
+					</div>
+
+
+					<br>
+					<p class="card-text"style="padding: 1px; font-size: 20px;">
+							<span th:utext="${exerciseContent.attackProcedure}"></span>
+						<br>
+						<!--<p class="card-text" style="font-size: 20px;">For
+						more details, please go through the step-by-step guide provided in
+						the "Overview of SMB vulnerability" manual.</p>-->
+						<br>
+					<div class="img-fluid text-center">
+					    <img class="img-fluid" style="width: 700px;" th:src="@{'/images/ExerciseImage/' + ${exerciseContent.exerciseId} + '/Gui.png'}" alt="Architecture Image">
+					</div>
+				</div>
+				<div th:if="${!submitted}" style="background-color: rgb(204, 218, 246)">
+					<div th:if="${advanceLabUserVmDetails != null}">
+						<table
+							class="table table-bordered table-center table-light text-center">
+							<tr th:each="advanceLabUserVmDetail : ${advanceLabUserVmDetails}">
+								<td><img th:if="${#strings.toLowerCase(advanceLabUserVmDetail.vmName).contains('window')}" th:src="@{/images/windows.png}" alt="" style="height: 30px;" />
+									<img th:if="${#strings.toLowerCase(advanceLabUserVmDetail.vmName).contains('kali')}" th:src="@{/images/kali.png}" alt="" style="height: 35px;" />
+									<img th:if="${#strings.toLowerCase(advanceLabUserVmDetail.vmName).contains('android')}" th:src="@{/images/android.png}" alt="" style="height: 30px;" />
+									<img th:if="${#strings.toLowerCase(advanceLabUserVmDetail.vmName).contains('ubuntu')}" th:src="@{/images/ubuntu.png}" alt="" style="height: 30px;" />
+									<div th:text="${advanceLabUserVmDetail.vmName}"></div></td>
+								<!--<td th:if="${token != null}" style="font-family: Times New Roman; font-size: 20px;" class="align-middle">
+									<form th:action="@{/launchConsole}" method="POST" target="_blank">
+										<input type="hidden" name="vmName" th:value="${advanceLabUserVmDetail.vmName}">
+										<input type="hidden" name="token" th:value="${token}">
+										<button type="submit" class="btn btn-primary">Launch Console</button>														
+									</form>
+								</td>-->
+								<td style="font-family: Times New Roman; font-size: 20px;" class="align-middle" th:text="${advanceLabUserVmDetail.ip}"></td>
+							</tr>
+						</table>
+					</div>
+
+					<div th:if="${AtLeastOneVmNotCreated}">
+						<form th:action="@{/createAdvanceLab}" method="post" autocomplete="off" id="createlabform">
+							<input type="hidden" name="createLabexerciseId" id="createLabexerciseId" th:value="${exerciseContent.exerciseId}">
+							 <input type="hidden" name="hppCodeCreateLab" id="hppCodeCreateLab" /> 
+							<div class="row">
+							<div class="col-6 my-1 text-center mx-auto" >
+							<button type="submit" class="btn btn-primary mb-2 " id="createLabBtn" onclick="checkDataCreateLab();">Create Lab</button>
+							</div>
+							</div>
+						</form>
+					</div>
+					<div th:if="${!AtLeastOneVmNotCreated}">
+						<div class="markecon-container">
+								<form th:action="@{/deleteAdvanceLabVM}" method="post" 
+									style="margin-bottom: 20px;" enctype="multipart/form-data" autocomplete="off" id="deleteAdvanceLabVM">
+									<input type="hidden" name="deleteLabexerciseId" id="deleteLabexerciseId" th:value="${exerciseContent.exerciseId}">
+									<input type="hidden" name="hppCodeDeleteLabVm" id="hppCodeDeleteLabVm" />
+									<div class="row">
+										<div class="col-md-4" style="margin-left: 15px;">
+											<div th:if="${session.message}" id="error-message" class="alert alert-danger" th:text="${session.message}"></div>
+											<label for="fileUpload" class="form-label">Upload the
+												PDF of Screenshot (10KB - 1MB)</label> <font color="red">*</font>
+						
+											<div class="custom-file" style="margin-left: 20px;">
+												<input type="file" class="form-control" id="submissionPdf" name="submissionPdf" required> 
+												<label class="form-label" for="formFile"></label>
+											</div>
+										</div>
+									</div>
+									<div class="container-checkbox float-right"
+										style="padding-top: 20px;">
+										<input type="checkbox" id="tick" onchange="document.getElementById('terms').disabled = !this.checked;" />
+										<button type="submit" class="btn btn-primary" name="terms" id="terms" disabled onclick="checkDataDeleteLabVm()">Mark as Complete</button>
+									</div>
+								</form>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="class-footer mt-auto myfont text-center text-white fw-bold" style="font-size: 18px;">
+		<p>Copyright &copy; 2022</p>
+		<p>Designed and Developed by CDAC</p>
+	</footer>
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/StudentExercisePage.js}"></script>
+	<script type="text/javascript" th:src="@{/js/sha256.js}"></script>
+	<script type="text/javascript" th:src="@{/js/crypto-js.js}"></script>
+	<script type="text/javascript" th:src="@{/js/validation.js}"></script>
+	<script>
+  </script>
+</body>
+</html>

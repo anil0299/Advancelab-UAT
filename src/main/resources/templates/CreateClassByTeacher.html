@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/AdminHome.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/css/select2.min.css}" />
+<link rel="stylesheet" th:href="@{/css/select2-bootstrap-5-theme.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/select2.full.min.js}"></script>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class="navcontainer">
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/TeacherHome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="TeacherHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="active" href="CreateClassByTeacher"
+			style="color: white; text-decoration: none;">Create Class</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="AssignExerciseByTeacher"
+			style="color: white; text-decoration: none;">Assign Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="classexercisedetails"
+			style="color: white; text-decoration: none;">Class Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CompletionStatusTeacherView"
+			style="color: white; text-decoration: none;">Completion Status
+			Lab</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="CompletionStatusTeacherlms"
+			style="color: white; text-decoration: none;">Completion Status
+			LMS</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Create Class</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<br>
+				<div th:if="${success}" id="successMessage"
+					class="alert alert-success" role="alert">
+					<span th:text="${success}"></span>
+				</div>
+
+				<!-- Error message display -->
+				<div th:if="${error}" class="alert alert-danger" role="alert">
+					<span th:text="${error}"></span>
+				</div>
+
+				<div class="container">
+					<form class="needs-validation" novalidate
+						th:action="@{/createClass}" id="moduleform" name="moduleform"
+						method="POST" onsubmit="returncheckData()" autocomplete="off">
+
+						<input type="hidden" name="hppCode" id="hppCode" /> <input
+							type="hidden" id="cid" name="cid" />
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="className"><b>Class Name</b></label> <font
+										color="red">*</font> <input type="text" class="form-control"
+										id="className" name="className" placeholder="Enter class name"
+										pattern="^[A-Za-z0-9\-]+$" required>
+									<div class="invalid-feedback" id="errorMessage"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group d-flex flex-column w-100 ">
+									<label for="classId"><b>Student ID </b><font
+										color="red">*</font></label>
+									<div class="w-100">
+										<input type="hidden" name="teacherId" id="teacherId"
+											th:value="${#authentication.principal.username}" /> <select
+											class="form-control select2"
+											data-placeholder="Select Student" name="students"
+											id="students" multiple
+											onchange="countSelectedOptions(this, 'selected-count1')"
+											required>
+											<option th:each="student : ${List}"
+												th:value="${student.emailAddress}"
+												th:text="${student.emailAddress}"></option>
+										</select>
+									</div>
+									<div class="text-success">
+										<p>
+											<b>Selected Students: <span id="selected-count1">0</span></b>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<button type="submit" class="btn btn-primary" id="submitButton"
+									onclick="checkData();">Create Class</button>
+							</div>
+						</div>
+					</form>
+
+					<script src="/js/sha256.js"></script>
+				<script src="/js/crypto-js.js"></script>
+				<script src="/js/validation.js"></script>
+					<script>
+
+				function checkData() {
+				    var className = document.getElementById("className").value;
+				    var studentId = document.getElementById("students").value;
+				    var teacherId = document.getElementById("teacherId").value;
+				    if (className.trim() === '') {
+				        // Show the validation error message for Class Name
+				        document.getElementById('className').classList.add('is-invalid');
+				        return false; // Prevent form submission
+				    }
+				    
+				    if (studentId.trim() === '') {
+				        // Show the validation error message for Class Name
+				        document.getElementById('studentId').classList.add('is-invalid');
+				        return false; // Prevent form submission
+				    }
+
+				    // Validate Select Student dropdown
+				    var selectedStudents = document.getElementById("students");
+				    if (selectedStudents.options.length === 0 || !Array.from(selectedStudents.selectedOptions).some(option => option.value.trim() !== '')) {
+				        // Show the validation error message for Select Student
+				        selectedStudents.classList.add('is-invalid');
+				        return false; // Prevent form submission
+				    }
+
+				    // Reset the validation error messages and classes
+				    document.getElementById('className').classList.remove('is-invalid');
+				    selectedStudents.classList.remove('is-invalid');
+
+				    // Rest of your validation logic...
+		
+				    var inputCode = "";
+				    inputCode += getInputCode(className);
+				    inputCode += getInputCode(studentId);
+				    inputCode += getInputCode(teacherId);
+
+				    var hppCode = getHPPCode(origHPPCode, inputCode);
+
+				    // Update the HPP code field
+				    document.getElementById("hppCode").value = hppCode;
+
+				    // Submit the form
+				    return true; // Allow form submission
+				}
+				</script>
+
+
+				</div>
+				<br> <br>
+			</div>
+
+		</div>
+	</div>
+	<br>
+
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Assign Class</b>
+				</h1>
+			</div>
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
+				<br>
+				<div id="success1">
+					<th:block th:if="${session.success1}">
+						<p class="text-center fs-3 text-success">[[${session.success1}]]</p>
+						<th:block th:text="${#session.removeAttribute('success1')}">
+						</th:block>
+					</th:block>
+				</div>
+				<div id="error1">
+					<th:block th:if="${session.error1}">
+						<p class="text-center fs-3 text-success">[[${session.error1}]]</p>
+						<th:block th:text="${#session.removeAttribute('error1')}">
+						</th:block>
+					</th:block>
+				</div>
+				<div class="container">
+
+
+
+					<form class="needs-validation" novalidate
+						th:action="@{/assignClass}" id="moduleform2" name="moduleform2"
+						method="POST" onsubmit="returncheckData2()" autocomplete="off">
+
+						<div class="row">
+							<input type="hidden" name="hppCode" id="hppCode1" /> <input
+								type="hidden" id="cid" name="cid" />
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="className" class="form-label"><b>Select
+											Class </b><font color="red">*</font></label>
+									<div class="dropend w-100">
+										<select class="btn btn-light w-100 form-control"
+											id="className2" name="className2" required>
+											<option value="">Select class</option>
+											<option th:each="className : ${classesByTeacher}"
+												th:text="${className}" th:value="${className}"></option>
+										</select>
+									</div>
+									<div class="invalid-feedback" id="errorMessage">Please
+										select class</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group d-flex flex-column w-100 ">
+									<label for="className" class="form-label"><b>Select
+											Students </b><font color="red">*</font></label>
+									<div class="w-100">
+										<input type="hidden" name="teacherId" id="teacherId1"
+											th:value="${#authentication.principal.username}" /> <select
+											class="form-control select2"
+											data-placeholder="Select Student" name="students"
+											id="students2" multiple
+											onchange="countSelectedOptions(this, 'selected-count2')"
+											required>
+											<option th:each="student : ${List}"
+												th:value="${student.emailAddress}"
+												th:text="${student.emailAddress}"></option>
+										</select>
+									</div>
+									<div class="text-success">
+										<p>
+											<b>Selected Students: <span id="selected-count2">0</span></b>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<button type="submit" class="btn btn-primary" id="submitButton"
+									onclick="checkData2();">Assign Class</button>
+							</div>
+						</div>
+					</form>
+					<script>
+					function checkData2() {
+					    var className2 = document.getElementById("className2").value;
+					    var students2 = document.getElementById("students2").value;
+					    var teacherId1 = document.getElementById("teacherId1").value;
+						   
+					    
+					    var inputCode1 = "";
+					    inputCode1 += getInputCode(className2);
+					    inputCode1 += getInputCode(students2);
+/* 					    inputCode1 += getInputCode(teacherId1);
+ */
+					    var hppCode1 = getHPPCode(origHPPCode, inputCode1);
+
+					    // Update the HPP code field
+					    document.getElementById("hppCode1").value = hppCode1;
+				
+					    // Submit the form
+					    return true; // Allow form submission
+					}
+
+				</script>
+
+
+				</div>
+				<br> <br>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.select2').select2();
+		});
+	</script>
+	<script>
+						  const classNameInput = document.getElementById('className');
+						  const errorMessage = document.getElementById('errorMessage');
+						  classNameInput.addEventListener('input', function() {
+						    const className = this.value;
+						    validateclassName(className);
+						  });
+						  async function validateclassName(className) {
+						    try {
+						      const response = await fetch('/checkUniqueclassName?className=' + encodeURIComponent(className));
+						      if (response.ok) {
+						        const result = await response.text();
+						        if (result === 'exists') {
+						          errorMessage.textContent = 'Classname already exists.';
+						          classNameInput.setCustomValidity('Classname already exists.');
+						        } else {
+						          errorMessage.textContent = '';
+						          classNameInput.setCustomValidity('');
+						        }
+						      } else {
+						        console.error('Error occurred while checking Class Name:', response.status);
+						      }
+						    } catch (error) {
+						      console.error('Error occurred while checking Class Name:', error);
+						    }
+						  }
+</script>
+	<script>
+    function countSelectedOptions(selectElement, countId) {
+        var count = 0;
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].selected) {
+                count++;
+            }
+        }
+        document.getElementById(countId).innerHTML = count;
+    }
+</script>
+	<script>
+		function validateForm() {
+			// Perform validation logic here
+			var className = document.getElementById('className').value;
+			// Check if the class name is empty
+			if (className.trim() === '') {
+				// Show the validation error message
+				document.getElementById('className').classList
+						.add('is-invalid');
+				return false; // Prevent form submission
+			}
+			return true; // Allow form submission
+		}
+	</script>
+	<script>
+        // Automatically remove success message after 5 seconds
+        const successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.remove();
+            }, 4000);
+        }
+    </script>
+	<script>
+		function displayErrorMessage(errorMessage) {
+			var errorMessageElement = $('#errorMessage');
+			errorMessageElement.text(errorMessage);
+			errorMessageElement.addClass('d-block'); // Add the 'd-block' class to display the error message
+			errorMessageElement.css('font-weight', 'bold'); // Set the font-weight CSS property to 'bold'
+			errorMessageElement.css('font-size', '15px'); // Set the font-size CSS property to increase the size
+		}
+		$(document)
+				.ready(
+						function() {
+							var typingTimer;
+							var doneTypingInterval = 0; // in milliseconds
+							$('#className').keyup(
+									function() {
+										clearTimeout(typingTimer);
+										typingTimer = setTimeout(
+												checkClassNameUniqueness,
+												doneTypingInterval);
+									});
+							$('#className').keydown(function() {
+								clearTimeout(typingTimer);
+								$('#errorMessage').text(""); // Clear the error message when the user starts typing again
+							});
+							function checkClassNameUniqueness() {
+								var className = $('#className').val();
+								$
+										.ajax({
+											url : "/checkUniqueClassName",
+											type : "GET",
+											data : {
+												className : className
+											},
+											success : function(response) {
+												if (response.trim() === "exists") {
+													displayErrorMessage("This class name already exists.");
+													disableSubmitButton(); // Disable the submit button
+												} else {
+													displayErrorMessage("Enter Classname.");
+													enableSubmitButton(); // Enable the submit button
+												}
+											},
+											error : function(xhr) {
+												console.log(xhr.responseText);
+											}
+										});
+							}
+							function disableSubmitButton() {
+								$('#submitButton').prop('disabled', true);
+							}
+							function enableSubmitButton() {
+								$('#submitButton').prop('disabled', false);
+							}
+						});
+	</script>
+	<script>
+	(() => {
+		  'use strict'
+
+		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		  const forms = document.querySelectorAll('.needs-validation')
+
+		  // Loop over them and prevent submission
+		  Array.from(forms).forEach(form => {
+		    form.addEventListener('submit', event => {
+		      if (!form.checkValidity()) {
+		        event.preventDefault()
+		        event.stopPropagation()
+		      }
+
+		      form.classList.add('was-validated')
+		    }, false)
+		  })
+		})()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf_header" content="<your-csrf-header-value>">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/AdminHome.css}" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<style>
+.progress-bar-container {
+	width: 100%;
+	height: 20px;
+	background-color: #f2f2f2;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.progress-bar {
+	height: 100%;
+	line-height: 20px;
+	color: white;
+	text-align: right;
+	border-radius: 4px;
+	background-color: #4CAF50;
+}
+
+.heading-row {
+	background-color: lightblue;
+	/* Set the background color for the first heading row */
+}
+</style>
+</head>
+<body style="background-color: rgb(158, 191, 251);">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/TeacherHome}" class="btn btn-primary mb-2"
+					style="margin-top: 10px;">Home</a> <input type="submit"
+					class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<div class="lab-desc">
+		<a href="TeacherHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CreateClassByTeacher"
+			style="color: white; text-decoration: none;">Create Class</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="AssignExerciseByTeacher"
+			style="color: white; text-decoration: none;">Assign Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="classexercisedetails"
+			style="color: white; text-decoration: none;">Class Exercise</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="CompletionStatusTeacherView"
+			style="color: white; text-decoration: none;">Completion Status
+			Lab</a>&nbsp;&nbsp;&nbsp;&nbsp; <a class="active"
+			href="CompletionStatusTeacherlms"
+			style="color: white; text-decoration: none;">Completion Status
+			LMS</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+	<div class="card1">
+		<div class="card text-center">
+			<div class="card-header" style="background-color: white;">
+				<h1 style="font-family: Times New Roman;">
+					<b>Completion Status</b>
+				</h1>
+			</div>
+			<div class="card-body" id="printableArea"
+				style="background-color: rgb(205, 214, 224);">
+				<div class="container">
+					<div class="row justify-content-center mb-2">
+						<div class="col-sm-2">
+							<label for="state" class="form-label"><b>Select Class</b>
+								<font color="red">*</font></label> <select class="form-select"
+								id="class_name" name="class_name" required
+								onchange="getStudentList()">
+								<option value="" disabled selected>Select Class</option>
+								<option th:each="class : ${classes}" th:value="${class}"
+									th:text="${class}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div id="studentListContainer">
+
+					<!-- This is where the student data will be displayed -->
+				</div>
+				<script>
+            function getStudentList() {
+              // Get the selected class name from the dropdown
+              var selectedClassName = document.getElementById("class_name").value;
+              // Make an AJAX request to the controller's endpoint
+              $.ajax({
+                type: "GET",
+                url: "/getStudentlist",
+                data: {
+                  className: selectedClassName
+                },
+                success: function(data) {
+                  // Handle the response data here and update the HTML page
+                  console.log("Received student data:", data);
+                  // Clear the existing student data
+                  var studentListContainer = document.getElementById("studentListContainer");
+                  studentListContainer.innerHTML = data; // Assuming that the data is HTML content
+                },
+                error: function(error) {
+                  console.error("Error:", error);
+                }
+              });
+            }
+          </script>
+				<script>
+            $(document).ready(function() {
+              $('#dtBasicExample').DataTable();
+              $('.dataTables_length').addClass('bs-select');
+            });
+          </script>
+				<button onclick="downloadExcel()" class="btn btn-primary mb-2"
+					style="margin-top: 8px;">
+					<i class="fa fa-download"></i> Download Excel
+				</button>
+				<a href="javascript:void(0);" class="btn btn-primary mb-2"
+					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
+					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
+				<a th:href="@{/CompletionStatusTeacherView}"
+					class="btn btn-primary mb-2" style="margin-top: 8px;"> Back</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+      function printPageArea(areaID) {
+        var printContent = document.getElementById(areaID).innerHTML;
+        var printWindow = window.open('', '', 'height=700,width=1000');
+        printWindow.document.write('<html><head><title>Print</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(printContent);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      }
+    </script>
+	<script>
+      function downloadExcel() {
+        var table = document.getElementById("printableArea");
+        var rows = table.getElementsByTagName("tr");
+        var csv = [];
+        for (var i = 0; i < rows.length; i++) {
+          var row = [],
+            cols = rows[i].querySelectorAll("td, th");
+          for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+          csv.push(row.join(","));
+        }
+        var downloadLink = document.createElement("a");
+        var blob = new Blob(["\ufeff", csv.join("\n")], {
+          type: "text/csv;charset=utf-8"
+        });
+        var url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = "data.csv";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+    </script>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="class-footer">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022</b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+</body>
+</html>
