@@ -86,7 +86,7 @@ import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtilit
 import com.Advanceelab.cdacelabAdvance.service.AdvanceLabService;
 import com.Advanceelab.cdacelabAdvance.service.Batch_Service;
 import com.Advanceelab.cdacelabAdvance.service.ExerciseImageService;
-import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
+//import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
 
 
 @Controller
@@ -150,8 +150,8 @@ public class AdminController {
 	@Autowired
 	private Exercise_MasterRepo exercise_MasterRepo;
 	
-	@Autowired
-	private GuacamoleService guacamoleService;
+//	@Autowired
+//	private GuacamoleService guacamoleService;
 	
 	@Autowired
 	private AdvanceLabUserVmDetailsRepository advanceLabUserVmDetailsRepository;
@@ -1133,16 +1133,16 @@ public class AdminController {
 	       for(AdvanceLabUserVmDetails ALUVD : advanceLabUserVmDetails)
 	       {
 	    	   advanceLabService.deleteVm(ALUVD.getUUID());
-	    	   TimeUnit.SECONDS.sleep(10);
-			   String authToken = guacamoleService.getAdminToken().get();
-			   String connectionIdentifier = guacamoleService.getConnectionIdentifier(ALUVD.getVmName(), authToken).get();
-			   boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
+	    	   TimeUnit.SECONDS.sleep(5);
+//			   String authToken = guacamoleService.getAdminToken().get();
+//			   String connectionIdentifier = guacamoleService.getConnectionIdentifier(ALUVD.getVmName(), authToken).get();
+//			   boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
 			   advanceLabUserVmDetailsRepository.deleteById(ALUVD.getId());
-			   if(!status)
-			   {
-				   redirectAttributes.addFlashAttribute("msg", "An error occurred while deleting connection " + ALUVD.getVmName() + " from Guacamole kindly delete manually.");
-				   return "redirect:/deleteAllVmDetails";
-			   }
+//			   if(!status)
+//			   {
+//				   redirectAttributes.addFlashAttribute("msg", "An error occurred while deleting connection " + ALUVD.getVmName() + " from Guacamole kindly delete manually.");
+//				   return "redirect:/deleteAllVmDetails";
+//			   }
 	       }
 	       redirectAttributes.addFlashAttribute("msg", "Successfully deleted.");
 	       return "redirect:/deleteAllVmDetails";

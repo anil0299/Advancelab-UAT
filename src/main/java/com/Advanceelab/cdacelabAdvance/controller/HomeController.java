@@ -64,7 +64,7 @@ import com.Advanceelab.cdacelabAdvance.repository.UserRepository;
 import com.Advanceelab.cdacelabAdvance.repository.Vm_MasterRepo;
 import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtility;
 import com.Advanceelab.cdacelabAdvance.service.AdvanceLabService;
-import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
+//import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
 
 import java.util.Optional;
 
@@ -116,8 +116,8 @@ public class HomeController {
 	@Autowired
 	private ReleaseNote1Repo releaseNote1Repo;
 	
-	@Autowired
-	private GuacamoleService guacamoleService;
+//	@Autowired
+//	private GuacamoleService guacamoleService;
 	
 	@Autowired
 	private ExerciseSubmission_Repo exerciseSubmission_Repo;
@@ -364,38 +364,38 @@ public class HomeController {
             boolean submitted = advanceLabService.checkExerciseSubmitted(labemail,exerciseId);
             boolean AtLeastOneVmNotCreated = false;
             List<AdvanceLabUserVmDetails> advanceLabUserVmDetails = new ArrayList<>();
-            String userToken = null;
+//          String userToken = null;
             if(submitted == false)
             {
-            	advanceLabUserVmDetails = advanceLabService.checkVmAllReadyCreated(exerciseId, labemail);
-            	
-            	String username = labemail.substring(0, labemail.indexOf('@'));
-            	StudentDtls studentDtls = studentRepo.findByLabemail(labemail);
-                String hcipassword = advanceLabService.generateHciPassword(studentDtls.getFirstName(),studentDtls.getDob());
-            	String authToken = guacamoleService.getAdminToken().get();
-                boolean userFound = guacamoleService.checkDetailsOfUser(username, authToken).get();
-                
-                if(!userFound && !advanceLabUserVmDetails.isEmpty()) {
-                	System.out.println("User not found in Guacamole, but VM for the exercise is present; proceeding to delete the VM.");
-                	
-	                for(AdvanceLabUserVmDetails vm: advanceLabUserVmDetails) {
-	                	
-	                	String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm.getVmName(), authToken).get();
-	                	guacamoleService.deleteConnection(connectionIdentifier, authToken);
-	                	advanceLabService.deleteAdvanceLabVM(labemail, exerciseId);
-	                }
-                }
+//            	advanceLabUserVmDetails = advanceLabService.checkVmAllReadyCreated(exerciseId, labemail);
+//            	
+//            	String username = labemail.substring(0, labemail.indexOf('@'));
+//            	StudentDtls studentDtls = studentRepo.findByLabemail(labemail);
+//            	String hcipassword = advanceLabService.generateHciPassword(studentDtls.getFirstName(),studentDtls.getDob());
+//            	String authToken = guacamoleService.getAdminToken().get();
+//                boolean userFound = guacamoleService.checkDetailsOfUser(username, authToken).get();
+//                
+//                if(!userFound && !advanceLabUserVmDetails.isEmpty()) {
+//                	System.out.println("User not found in Guacamole, but VM for the exercise is present; proceeding to delete the VM.");
+//                	
+//	                for(AdvanceLabUserVmDetails vm: advanceLabUserVmDetails) {
+//	                	
+//	                	String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm.getVmName(), authToken).get();
+//	                	guacamoleService.deleteConnection(connectionIdentifier, authToken);
+//	                	advanceLabService.deleteAdvanceLabVM(labemail, exerciseId);
+//	                }
+//                }
                 
                 AtLeastOneVmNotCreated = advanceLabService.checkAtLeastOneVmNotCreated(exerciseId, labemail);
                 advanceLabUserVmDetails = advanceLabService.checkVmAllReadyCreated(exerciseId, labemail);
                 
-            	//Generating user token
-            	if(!advanceLabUserVmDetails.isEmpty()) {
-       
-	            	userToken = guacamoleService.getUserToken(username, hcipassword).get();
-	        		userToken = Base64.getEncoder().encodeToString(userToken.getBytes());
-	        		model.addAttribute("token", userToken);
-            	}
+//            	//Generating user token
+//            	if(!advanceLabUserVmDetails.isEmpty()) {
+//       
+//	            	userToken = guacamoleService.getUserToken(username, hcipassword).get();
+//	        		userToken = Base64.getEncoder().encodeToString(userToken.getBytes());
+//	        		model.addAttribute("token", userToken);
+//            	}
             }
             
             model.addAttribute("AtLeastOneVmNotCreated", AtLeastOneVmNotCreated);
@@ -409,18 +409,18 @@ public class HomeController {
         }
     }
 	
-	@PostMapping("/launchConsole")
-	public ModelAndView launchConsole(@RequestParam ("vmName") String vmName, @RequestParam ("token") String userToken) throws InterruptedException, ExecutionException {
-
-    	String url = guacamoleService.getVMUrl(vmName);
-    	
-    	byte[] userTokenBytes = Base64.getDecoder().decode(userToken);
-
-    	String token = new String(userTokenBytes);
-    	
-		url = url + "?token=" + token;
-		return new ModelAndView("console", "url", url);
-	}
+//	@PostMapping("/launchConsole")
+//	public ModelAndView launchConsole(@RequestParam ("vmName") String vmName, @RequestParam ("token") String userToken) throws InterruptedException, ExecutionException {
+//
+//    	String url = guacamoleService.getVMUrl(vmName);
+//    	
+//    	byte[] userTokenBytes = Base64.getDecoder().decode(userToken);
+//
+//    	String token = new String(userTokenBytes);
+//    	
+//		url = url + "?token=" + token;
+//		return new ModelAndView("console", "url", url);
+//	}
 	
 	@PostMapping("/createAdvanceLab")
 	public String createAdvanceLab(@RequestParam(value="createLabexerciseId") long exerciseId, @RequestParam(value="hppCodeCreateLab") String hppCodeCreateLab)
@@ -469,50 +469,50 @@ public class HomeController {
 				advanceLabService.powerOn(clonedVmUUID.get(), password);
 				TimeUnit.SECONDS.sleep(15);
 				
-				//Guacamole Code for user creation
-            	String authToken = guacamoleService.getAdminToken().get();
-            	StudentDtls studentDtls = studentRepo.findByLabemail(labemail);
-        		String fullName = studentDtls.getFirstName()+" "+studentDtls.getLastName();
-        		String username = null;
-        		String hcipassword = null;
-        		if (authToken !=null) {
-        			username = labemail.substring(0, labemail.indexOf('@'));
-        			boolean userFound = guacamoleService.checkDetailsOfUser(username, authToken).get();
-        			if(!userFound) {
-        				hcipassword = advanceLabService.generateHciPassword(studentDtls.getFirstName(),studentDtls.getDob());
-        				String response = guacamoleService.createUser(username, hcipassword, authToken, fullName).get();
-        				//System.out.println(hcipassword);
-        				if(response != null) {
-        					System.out.println(response);
-        				} else {
-        					System.out.println("User not created");
-        				}
-        			}
-        		}
-        		
-        		//Create connection in guacamole & assign the connection to the user
-				String connectionIdentifier = null;
-				String hostname = clonedVmIp.get();
-				
-				String response = guacamoleService.createConnection(vmName, hostname, authToken).get();
-				System.out.println(response);
-				if(response.equals("RDP connection created in guacamole.") || response.equals("RDP connection already exists.")) {
-					connectionIdentifier = guacamoleService.getConnectionIdentifier(vmName, authToken).get();
-					if(connectionIdentifier != null) {
-						//System.out.println(connectionIdentifier);
-						boolean assigned = guacamoleService.assignConnection(username, authToken, connectionIdentifier).get();
-						if(assigned) {
-							System.out.println("Connection assigned to the user");
-						} else {
-							System.out.println("Connection not assigned");
-						}
-					} else {
-						System.out.println("Machine Identifier not found");
-					}
-				}
-				else {
-					System.err.println("Connection creation failed");
-				}
+//				//Guacamole Code for user creation
+//            	String authToken = guacamoleService.getAdminToken().get();
+//            	StudentDtls studentDtls = studentRepo.findByLabemail(labemail);
+//        		String fullName = studentDtls.getFirstName()+" "+studentDtls.getLastName();
+//        		String username = null;
+//        		String hcipassword = null;
+//        		if (authToken !=null) {
+//        			username = labemail.substring(0, labemail.indexOf('@'));
+//        			boolean userFound = guacamoleService.checkDetailsOfUser(username, authToken).get();
+//        			if(!userFound) {
+//        				hcipassword = advanceLabService.generateHciPassword(studentDtls.getFirstName(),studentDtls.getDob());
+//        				String response = guacamoleService.createUser(username, hcipassword, authToken, fullName).get();
+//        				//System.out.println(hcipassword);
+//        				if(response != null) {
+//        					System.out.println(response);
+//        				} else {
+//        					System.out.println("User not created");
+//        				}
+//        			}
+//        		}
+//        		
+//        		//Create connection in guacamole & assign the connection to the user
+//				String connectionIdentifier = null;
+//				String hostname = clonedVmIp.get();
+//				
+//				String response = guacamoleService.createConnection(vmName, hostname, authToken).get();
+//				System.out.println(response);
+//				if(response.equals("RDP connection created in guacamole.") || response.equals("RDP connection already exists.")) {
+//					connectionIdentifier = guacamoleService.getConnectionIdentifier(vmName, authToken).get();
+//					if(connectionIdentifier != null) {
+//						//System.out.println(connectionIdentifier);
+//						boolean assigned = guacamoleService.assignConnection(username, authToken, connectionIdentifier).get();
+//						if(assigned) {
+//							System.out.println("Connection assigned to the user");
+//						} else {
+//							System.out.println("Connection not assigned");
+//						}
+//					} else {
+//						System.out.println("Machine Identifier not found");
+//					}
+//				}
+//				else {
+//					System.err.println("Connection creation failed");
+//				}
 			}
 			else { 
 				if(clonedVmUUID.get() != null) 
@@ -544,17 +544,17 @@ public class HomeController {
 		int userId = user.getId();
 		String pdfMessage = advanceLabService.saveAdvanceLabUserExercise(username,userId,exerciseId,submissionPdf);
 		if(pdfMessage.equals("valid")) {
-			Set<String> allVMName = advanceLabUserVmDetailsRepository.findByUsername(username, exerciseId);
+//			Set<String> allVMName = advanceLabUserVmDetailsRepository.findByUsername(username, exerciseId);
 			
 			advanceLabService.deleteAdvanceLabVM(username,exerciseId);
 			
-			String authToken = guacamoleService.getAdminToken().get();
+//			String authToken = guacamoleService.getAdminToken().get();
 			
-			for (String vm: allVMName) {
-				String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm, authToken).get();
-				boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
-				System.out.println(status);
-			}
+//			for (String vm: allVMName) {
+//				String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm, authToken).get();
+//				boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
+//				System.out.println(status);
+//			}
 		}
 		else {
 			session.setAttribute("msg","Your file is malicious.");

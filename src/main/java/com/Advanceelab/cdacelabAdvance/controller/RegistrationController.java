@@ -3,7 +3,6 @@ package com.Advanceelab.cdacelabAdvance.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +26,8 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +38,6 @@ import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.Passwordhistory;
 import com.Advanceelab.cdacelabAdvance.entity.RejectedStudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
-import com.Advanceelab.cdacelabAdvance.entity.StudentTrackTime;
 import com.Advanceelab.cdacelabAdvance.entity.User;
 import com.Advanceelab.cdacelabAdvance.mailSender.EmailSenderService;
 import com.Advanceelab.cdacelabAdvance.repository.AddCenterRepo;
@@ -49,16 +45,14 @@ import com.Advanceelab.cdacelabAdvance.repository.AddCoursesRepo;
 import com.Advanceelab.cdacelabAdvance.repository.AdvanceLabUserVmDetailsRepository;
 import com.Advanceelab.cdacelabAdvance.repository.PasswordhistoryRepository;
 import com.Advanceelab.cdacelabAdvance.repository.RejectedStudentRepository;
-import com.Advanceelab.cdacelabAdvance.repository.StudentDtlsCopyRepository;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
-import com.Advanceelab.cdacelabAdvance.repository.StudentTrackTimeRepository;
 import com.Advanceelab.cdacelabAdvance.repository.UserRepository;
 import com.Advanceelab.cdacelabAdvance.security.EncodingUtility2;
 import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtility;
 import com.Advanceelab.cdacelabAdvance.service.ActiveDirectoryService;
 import com.Advanceelab.cdacelabAdvance.service.AdvanceLabService;
 import com.Advanceelab.cdacelabAdvance.service.BasicLabService;
-import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
+//import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -89,8 +83,8 @@ public class RegistrationController {
 	@Autowired
 	private PasswordhistoryRepository passwordRepo;
 	
-	@Autowired
-	private GuacamoleService guacamoleService;
+//	@Autowired
+//	private GuacamoleService guacamoleService;
 	
 	@Autowired
 	private ActiveDirectoryService activeDirectoryService;
@@ -229,18 +223,18 @@ public class RegistrationController {
 			}
 
 			//Deleting user from Guacamole Server
-			String authToken = guacamoleService.getAdminToken().get();
-			String username = emailAddress.substring(0, emailAddress.indexOf('@'));
+//			String authToken = guacamoleService.getAdminToken().get();
+//			String username = emailAddress.substring(0, emailAddress.indexOf('@'));
 			
 			List<AdvanceLabUserVmDetails> allUserVM = advanceLabUserVmDetailsRepository.findByUsername(user.getUsername());
 			for(AdvanceLabUserVmDetails vm : allUserVM) {
-				String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm.getVmName(), authToken).get();
-				boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
-				System.out.println("Connection deleted: " + status);
+//				String connectionIdentifier = guacamoleService.getConnectionIdentifier(vm.getVmName(), authToken).get();
+//				boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
+//				System.out.println("Connection deleted: " + status);
 				advanceLabUserVmDetailsRepository.delete(vm);
 				advanceLabService.deleteVm(vm.getUUID());
 			}
-			guacamoleService.deleteUser(username, authToken);
+//			guacamoleService.deleteUser(username, authToken);
 			
 			// Delete the user from the user table
 			userRepo.deleteByEmailAddress(emailAddress);

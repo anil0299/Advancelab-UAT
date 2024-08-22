@@ -17,7 +17,7 @@ public class ActiveDirectoryService {
 
     private final String host = "10.10.87.202";
     private final String username = "Administrator";
-    private final String password = "JP@123456789";
+    private final String password = "CDAC@123456";
 
     public String createUserInAD(String displayName, String password, String samAccountName, String userPrincipalName, String name) {
     	

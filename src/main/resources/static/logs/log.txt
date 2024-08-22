@@ -625,3 +625,82 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2024-08-22T06:15:54.382370200Z</date>
+  <millis>1724307354382</millis>
+  <nanos>370200</nanos>
+  <sequence>4</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>55</thread>
+  <message>Ip found: 172.31.101.253</message>
+</record>
+<record>
+  <date>2024-08-22T06:15:56.373063600Z</date>
+  <millis>1724307356373</millis>
+  <nanos>63600</nanos>
+  <sequence>5</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>64</thread>
+  <message>Ip found: 172.31.99.224</message>
+</record>
+<record>
+  <date>2024-08-22T06:17:14.308650400Z</date>
+  <millis>1724307434308</millis>
+  <nanos>650400</nanos>
+  <sequence>6</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>64</thread>
+  <message>Ip found: 172.31.110.154</message>
+</record>
+<record>
+  <date>2024-08-22T06:17:16.132956100Z</date>
+  <millis>1724307436132</millis>
+  <nanos>956100</nanos>
+  <sequence>7</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>55</thread>
+  <message>Ip found: 172.31.96.22</message>
+</record>
+<record>
+  <date>2024-08-22T06:17:24.204834400Z</date>
+  <millis>1724307444204</millis>
+  <nanos>834400</nanos>
+  <sequence>8</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>55</thread>
+  <message>Ip found: 172.31.110.154</message>
+</record>
+<record>
+  <date>2024-08-22T06:17:26.088012600Z</date>
+  <millis>1724307446088</millis>
+  <nanos>12600</nanos>
+  <sequence>9</sequence>
+  <logger>com.Advanceelab.cdacelabAdvance.service.VmFunction</logger>
+  <level>INFO</level>
+  <class>com.Advanceelab.cdacelabAdvance.service.VmFunction</class>
+  <method>lambda$searchIp$1</method>
+  <thread>64</thread>
+  <message>Ip found: 172.31.96.22</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+</log>
