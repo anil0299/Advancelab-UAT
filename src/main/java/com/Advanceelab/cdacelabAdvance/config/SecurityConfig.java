@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				
 				.antMatchers("/css/**","/fontawesome/**", "/welcome/**", "/registration/**", "/TeacherRegistration/**", "/createUser/**",
 						"/registerTeacher/**", "/images/**", "/js/**", "/favicon.ico", "/colleges/**",
-						"/checkUniqueEmail/**", "/checkUniqueEmailteacher/**", "/checkApprovalStatus/**","/refreshCaptcha","/","/displayPDFNote/**").permitAll()
+						"/checkUniqueEmail/**", "/checkUniqueEmailteacher/**", "/checkApprovalStatus/**","/refreshCaptcha","/","/displayPDFNote/**","/resetPassword/**").permitAll()
 				
 				.antMatchers("/home", "/ConfigVPN/**", "/filter/**", "/AccessLAB/**", "/dashboard","/createAdvanceLab/**","/launchConsole").hasAuthority("USER")
 				

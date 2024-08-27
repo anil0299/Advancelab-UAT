@@ -667,17 +667,28 @@ public class RegistrationController {
 				String output = activeDirectoryService.createUserInAD(firstName+" "+lastName, hciPassword, samAccountName, newEmail, username);
 				System.out.println(output);
 				
-				String confirmationEmail = "Confirmation Email:\n\n" +
-				        "Greetings from Cyber Gyan Team!\n\n" +
-				        "Your registration to the Cyber Security Programme on Ethical Hacking and Penetration Testing has been successfully completed!\n\n" +
+				String confirmationEmail = "Dear Applicant,\n\n" +
+				        "We are pleased to confirm your enrollment in Batch 5 of the Cyber Gyan Virtual Training and Internship Program!\n\n" +
+				        "Program Details:\n\n" + "•	Start Date: 2nd September 2024\n" +"•	Duration: 6 weeks (45 days)\n" + "•	Mode: Virtual & Self-Paced\n\n" +
+				        "What to Expect:\n\n" + "•	Week 1: Complete all quizzes from the basic module on the Cyber Gyan portal.\n" +
+				        "•	Week 2 & 3: Complete any 5 exercises from the advanced module.\n" + "•	Week 4: Project exercises will be assigned to those who complete the course.\n" +
+				        "•	Final Week (Week 6): Submit your project (Document + PPT) and participate in the valedictory session for certification.\n\n" + 
+				        "Important Notes:\n\n" + "•	Only those who complete the Quizzes and 5 exercises by the end of 3rd will be eligible for the internship project.\n" + 
+				        "•	Others will receive a course completion certificate (for completing quizzes and any 5 exercises).\n\n" + 
+				        "Benefits of the Program:\n\n" +
+				        "•	Hands-on cybersecurity training.\n" + "•	Certificate from C-DAC, recognized by MeitY, Government of India.\n" + 
+				        "•	First preference in future C-DAC opportunities.\n\n" + 
+				        "Please ensure that you are ready to begin the training on time. We look forward to your active participation and successful completion of the program.\n" + 
+				        "Please ensure that you join the WhatsApp group for Batch 5 to stay updated with all necessary information.\n\n" + 
+				        "WhatsApp Group Link: https://chat.whatsapp.com/FR5dZfWl1JfC6bk87EAHHv\n\n" + 
 				        "Please access your course content using the following URL: https://cdaccybergyan.uat.dcservices.in/welcome\n\n" +
-				        "We have also created a dedicated WhatsApp group exclusively for registered participants. This group will serve as a platform for all updates, notifications, doubt clearing sessions, and certification-related information for the training program.\n\n" +
-				        "Join the WhatsApp group using the following link: https://chat.whatsapp.com/JbFMvLM6tARFsUL6LIH6WG\n\n" +
 				        "Happy Learning! 😊\n\n" +
 				        "Best Regards,\n" +
-				        "CyberGyan Team";
+				        "CyberGyan Team\n" +
+				        "C-DAC Noida\n" + 
+				        "A Scientific Organization of MeitY, Government of India";
 
-				senderService.sendEmail(emailAddress, "Confirmation of Registration - Virtual Internship Programme on Cyber Security", confirmationEmail);
+				senderService.sendEmail(emailAddress, "Confirmation for Enrollment in Cyber Gyan Virtual Training Batch 5", confirmationEmail);
 
 
 			}

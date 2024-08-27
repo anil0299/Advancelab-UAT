@@ -233,6 +233,5 @@ public class EncodingUtility2 {
 	    return output.toString();
 	}
 
-
 	
 }
