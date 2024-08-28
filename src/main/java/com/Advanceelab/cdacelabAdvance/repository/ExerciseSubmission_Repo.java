@@ -2,15 +2,18 @@ package com.Advanceelab.cdacelabAdvance.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.Advanceelab.cdacelabAdvance.entity.ExerciseSubmission;
 
 @Repository
-public interface ExerciseSubmission_Repo extends JpaRepository<ExerciseSubmission, Long>{		
+public interface ExerciseSubmission_Repo extends JpaRepository<ExerciseSubmission, Long>, PagingAndSortingRepository<ExerciseSubmission, Long> {		
 	
 	
 //	@Query(value="SELECT EXISTS(SELECT u FROM exercise_submission u WHERE u.userid = :userid AND u.exer_id = :exer_id)",nativeQuery =true) 
@@ -27,5 +30,8 @@ public interface ExerciseSubmission_Repo extends JpaRepository<ExerciseSubmissio
 
 	@Query(value = "SELECT exer_id FROM exercise_submission WHERE username = :username", nativeQuery = true)
 	List<Long> findExerciseIdByUsername(String username);
+	
+	@Query("SELECT e FROM ExerciseSubmission e WHERE (:searchTerm IS NULL OR :searchTerm = '' OR e.username LIKE %:searchTerm% OR e.pdfname LIKE %:searchTerm%)")
+    Page<ExerciseSubmission> searchSubmissions(@Param("searchTerm") String searchTerm, Pageable pageable);
 
 }

@@ -254,4 +254,7 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 	Page<StudentDtls> findByApprovedAndRole(boolean approved,String role,Pageable pageable);
 	
 	Page<StudentDtls> findByEmailAddressContainingIgnoreCaseAndApprovedAndRole(String emailAddress,boolean approved,String role,Pageable pageable);
+	
+	@Query("SELECT CONCAT(s.firstName, ' ', s.lastName) " + "FROM StudentDtls s WHERE s.labemail = :labemail")
+	List<String> findFullNamesByLabemail(String labemail);
 }

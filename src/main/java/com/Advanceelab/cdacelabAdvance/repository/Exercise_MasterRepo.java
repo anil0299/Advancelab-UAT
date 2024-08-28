@@ -23,10 +23,10 @@ public interface Exercise_MasterRepo extends JpaRepository<Exercise_Master,Long>
 	@Query(value="select u.Ex_id FROM Exercise u WHERE u.exercise_name = :exercise_name",nativeQuery = true)
 	long findExidByExer_name(@Param("exercise_name") String exercise_name);
 	
-	 @Query(value = "SELECT e FROM Exercise_Master e WHERE e.Ex_id IN :exIds")
-	    List<Exercise_Master> findByEx_idIn(List<Long> exIds);
+	@Query(value = "SELECT e FROM Exercise_Master e WHERE e.Ex_id IN :exIds")
+	List<Exercise_Master> findByEx_idIn(List<Long> exIds);
 
-	    @Query(value = "select ex_id from exercise where topic_id =:topicId",nativeQuery = true)
-	  public Long findByTopicId(int topicId);
+    @Query(value = "select ex_id from exercise where topic_id =:topicId",nativeQuery = true)
+    public Long findByTopicId(int topicId);
 
 }

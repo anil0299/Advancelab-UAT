@@ -908,7 +908,7 @@ public class RegistrationController {
 
 		
 		
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 			boolean emailExists = studentRepo.existsByEmailAddress(emailAddress)
 					|| RejectRepo.existsByEmailAddress(emailAddress);
 			if (emailExists) {

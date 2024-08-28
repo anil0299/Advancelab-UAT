@@ -28,6 +28,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +53,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.Advanceelab.cdacelabAdvance.dto.AdvanceLabSubmission;
 import com.Advanceelab.cdacelabAdvance.dto.BatchCompletionStatus;
+import com.Advanceelab.cdacelabAdvance.dto.DataTable;
 import com.Advanceelab.cdacelabAdvance.entity.AddCourse;
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.BasicLabSubmission;
@@ -362,21 +368,90 @@ public class AdminController {
 		return "pdf-list";
 	}
 
+//	@GetMapping("/folders")
+//	public String displayPDF(Model model) throws IOException {
+//
+//		List<ExerciseSubmission> exerciseSubmission = exerciseSubmission_Repo.findAll();
+//		Map<ExerciseSubmission, String> submissionsWithEmails = new HashMap<>();
+//		if(exerciseSubmission != null)
+//		{
+//			for(ExerciseSubmission exSubmission : exerciseSubmission)
+//			{
+//				String emailAddress = userRepo.findEmailAddressByUsername(exSubmission.getUsername());
+//				submissionsWithEmails.put(exSubmission, emailAddress);
+//			}
+//		}
+//		model.addAttribute("submissionsWithEmails", submissionsWithEmails);
+//		return "pdf-list";
+//	}
 	@GetMapping("/folders")
-	public String displayPDF(Model model) throws IOException {
+	public String displayPdfList(Model model) {
+	    return "pdf-list"; 
+	}
+	
+	@GetMapping("/submissionData")
+	public ResponseEntity<DataTable<AdvanceLabSubmission>> fetchPdfData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+		
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "exsubmit_id"; break;
+            case 1: sortBy = "username"; break;
+            case 2: sortBy = "username"; break;
+            case 3: sortBy = "exer_id"; break;
+            case 4: sortBy = "pdfname"; break;
+            default: sortBy = "exsubmit_id"; // Default sorting
+        }
 
-		List<ExerciseSubmission> exerciseSubmission = exerciseSubmission_Repo.findAll();
-		Map<ExerciseSubmission, String> submissionsWithEmails = new HashMap<>();
-		if(exerciseSubmission != null)
-		{
-			for(ExerciseSubmission exSubmission : exerciseSubmission)
-			{
-				String emailAddress = userRepo.findEmailAddressByUsername(exSubmission.getUsername());
-				submissionsWithEmails.put(exSubmission, emailAddress);
-			}
-		}
-		model.addAttribute("submissionsWithEmails", submissionsWithEmails);
-		return "pdf-list";
+		int page = start / length; 
+
+		Pageable pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+		
+	    Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.searchSubmissions(searchTerm, pageable);
+
+	   // Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.findAll(pageable);
+	   	List<AdvanceLabSubmission> allAdvancedLabSubmission = new ArrayList<>();
+	   	
+	    for(ExerciseSubmission e : responseData) {
+	    	AdvanceLabSubmission advanceLabSubmission = new AdvanceLabSubmission();
+	    	List<String> list = studentRepo.findFullNamesByLabemail(e.getUsername());
+	    	if(list.isEmpty()) {
+	    		//this is written due to some dummy record of submission is inserted in the table
+	    		continue;
+	    	}
+	    	if(list.size()>1) {
+	    		//this is because multiple records of same email is present
+	    		advanceLabSubmission.setName(list.get(list.size()-1));
+	    	} else {
+	    		advanceLabSubmission.setName(list.get(0));
+	    	}
+	    	list = userRepo.findAllEmailAddressByUsername(e.getUsername());
+	    	if(list.size()>1) {
+	    		//this is because multiple records of same email is present
+	    		advanceLabSubmission.setEmail(list.get(list.size()-1));
+	    	} else {
+	    		advanceLabSubmission.setEmail(list.get(0));
+	    	}
+	    	advanceLabSubmission.setExerciseName(exercise_MasterRepo.findExerciseByEx_id(e.getExer_id()));
+	    	advanceLabSubmission.setPdfName(e.getPdfname());
+	    	advanceLabSubmission.setExerciseSubmitId(e.getExsubmit_id());
+	    	allAdvancedLabSubmission.add(advanceLabSubmission);
+	    	advanceLabSubmission = null;
+	    }
+	    
+	    DataTable<AdvanceLabSubmission> dataTable = new DataTable<AdvanceLabSubmission>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(allAdvancedLabSubmission);
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+   
+	    return ResponseEntity.ok(dataTable);
 	}
 
 	@GetMapping("/basiclab")
@@ -387,19 +462,21 @@ public class AdminController {
 		return "AssignBasic";
 	}
 
-	@PostMapping("/pdf")
-	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id,@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
-		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
-		if (csrf.getToken().equals(csrfToken)) {
-			String a=String.valueOf(id);
-			String[] params = new String[] { a };
-					
-			if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
-	            logger.info("HTTP Parameter pollution");
-	            // Render the error page and include it in the response
-	            return handleBadRequest();
-	        }
-		}
+//	@PostMapping("/pdf")
+//	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id,@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
+//		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
+//		if (csrf.getToken().equals(csrfToken)) {
+//			String a=String.valueOf(id);
+//			String[] params = new String[] { a };
+//					
+//			if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
+//	            logger.info("HTTP Parameter pollution");
+//	            // Render the error page and include it in the response
+//	            return handleBadRequest();
+//	        }
+//		}
+	@GetMapping("/pdf")
+	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
 		ExerciseSubmission submission = exerciseSubmission_Repo.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("ExerciseSubmission with id " + id + " not found"));
 

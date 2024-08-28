@@ -118,14 +118,15 @@
 		    <thead>
 		        <tr class="table-info">
 		            <th class="text-center">S.No.</th>
-		            <th class="text-center">User Name</th>
+		            <th class="text-center">Name</th>
 		            <th class="text-center">Email Address</th>
+   		            <th class="text-center">Exercise Name</th>
 		            <th class="text-center">PDF Name</th>
 		            <th class="text-center">PDF File</th>
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <tr th:each="entry, index : ${submissionsWithEmails}" class="text-center">
+		       <!--  <tr th:each="entry, index : ${submissionsWithEmails}" class="text-center">
 		            <th scope="row" th:text="${index.count}"></th>
 		            <td style="text-align: center;" th:text="${entry.key.username}"></td>
 		            <td style="text-align: center;" th:text="${entry.value}"></td>
@@ -139,24 +140,10 @@
 		                    </button>
 		                </form>
 		            </td>
-		        </tr>
+		        </tr> -->
 		    </tbody>
 		</table>
 		</div>
-		<script src="/js/sha256.js"></script>
-		<script src="/js/crypto-js.js"></script>
-		<script src="/js/validation.js"></script>
-		<script>
-			function pdfData(id) {
-				var pdfID = document.getElementById("pdfID" + id).value;
-				var inputCode = "";
-				inputCode += getInputCode(pdfID);
-				var hppCode = getHPPCode(origHPPCode, inputCode);
-				document.getElementById("hppCodePDF" + id).value = hppCode;
-				document.getElementById('pdfform' + id).submit();
-				return false; // Prevent default form submission
-			}
-		</script>
 	</div>
 	<br>
 	<br>
@@ -175,16 +162,66 @@
 			<b>Designed and Developed by CDAC</b>
 		</p>
 	</div>
+	<script src="/js/sha256.js"></script>
+	<script src="/js/crypto-js.js"></script>
+	<script src="/js/validation.js"></script>
 	<script>
-		$(document).ready(
-				function() {
-					$('#approved-table').DataTable(
-							{
-								aLengthMenu : [ [ 25, 50, 100, 200, -1 ],
-										[ 25, 50, 100, 200, "All" ] ],
-								iDisplayLength : 25
-							});
-				});
+		function pdfData(id) {
+			var pdfID = document.getElementById("pdfID" + id).value;
+			var inputCode = "";
+			inputCode += getInputCode(pdfID);
+			var hppCode = getHPPCode(origHPPCode, inputCode);
+			document.getElementById("hppCodePDF" + id).value = hppCode;
+			document.getElementById('pdfform' + id).submit();
+			return false; // Prevent default form submission
+		}
+	
+		$(document).ready(function() {
+		    $('#approved-table').DataTable({
+		        processing: true,
+		        serverSide: true,
+		        ajax: {
+		            url: '/submissionData', // Ensure this URL matches your backend endpoint
+		            method: 'GET',
+		            data: function(d) {
+		                // Ensure the correct parameters are sent
+		                console.log("Data sent to server:", d);
+		                return $.extend({}, d, {
+		                    // Optionally add more data to be sent
+		                });
+		            },
+		            dataSrc: function(response) {
+		                // Log the response to verify its structure
+		                console.log("Response from server:", response);
+		                return response.data; // Adjust if necessary
+		            }
+		        },
+		        columns: [
+		            { data: 'exerciseSubmitId', title: 'S.No.' },
+		            { data: 'name', title: 'Name' },
+		            { data: 'email', title: 'Email Address'},
+		            { data: 'exerciseName', title: 'ExerciseName' },
+		            { data: 'pdfName', title: 'PDF Name' },
+		            { data: '', title: 'PDF File', render: function(data, type, row) {
+		                return `
+		                    <form action="/pdf" method="get" id="pdfform${row.exerciseSubmitId}" class="text-center mx-auto" name="pdfform" target="_blank">
+		                   		<input type="hidden" name="hppCode" id="hppCodePDF${row.exerciseSubmitId}" />
+		                   		<input type="hidden" name="id" value="${row.exerciseSubmitId}" />
+			                    <input type="hidden" name="pdfID" value="${row.exerciseSubmitId}" id="pdfID${row.exerciseSubmitId}" />
+		                        <button type="submit" class="btn btn-transparent" onclick="pdfData(${row.exerciseSubmitId})">
+		                            <i class="text-success fas fa-eye h5"></i>
+		                        </button>
+		                    </form>
+		                `;
+		            }}
+		        ],
+		        searching: true,
+		        ordering: true,
+		        paging: true,
+		        lengthChange: true,
+		        pageLength: 25
+		    });
+		});
 	</script>
 </body>
 </html>

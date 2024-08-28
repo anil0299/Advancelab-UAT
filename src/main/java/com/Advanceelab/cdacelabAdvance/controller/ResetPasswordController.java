@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ import com.Advanceelab.cdacelabAdvance.service.ResetPasswordService;
 
 @Controller
 @RequestMapping("/resetPassword")
-public class RestPasswordController {
+public class ResetPasswordController {
 	
 	@Autowired
 	private ResetPasswordRepository resetPasswordRepository;
@@ -47,7 +48,7 @@ public class RestPasswordController {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private PasswordHistoryNewRepository passwordHistoryNewRepository;
@@ -113,7 +114,7 @@ public class RestPasswordController {
 	{
 		String emailAddress = email.toLowerCase();
 		String otp = otp1+otp2+otp3+otp4+otp5+otp6;
-		System.out.println("otp : " + otp);
+		//System.out.println("otp : " + otp);
 		ResetPassword resetPassword = resetPasswordRepository.findByEmailAddress(emailAddress);
 		if(resetPassword != null)
 		{
@@ -140,12 +141,12 @@ public class RestPasswordController {
 								@RequestParam(value = "password", required = true) String password,
 								Model model)
 	{
-		String encodedPassword = bCryptPasswordEncoder.encode(password);
+		String encodedPassword = passwordEncoder.encode(password);
 		List<PasswordHistoryNew> oldFivePassword = passwordHistoryNewRepository.findAllByEmailAddress(email.toLowerCase());
 		
 		for(PasswordHistoryNew oldPassword: oldFivePassword)
 		{
-			if(bCryptPasswordEncoder.matches(password, oldPassword.getPassword()))
+			if(passwordEncoder.matches(password, oldPassword.getPassword()))
 			{
 				model.addAttribute("msg", "To create a new password, you cannot use the previous five passwords.");
 				model.addAttribute("email", email);
@@ -215,11 +216,4 @@ public class RestPasswordController {
 		return "resetPasswordSucess";
 	}
 	
-	@GetMapping("/reset")
-	public String resetPassword() {
-		List<PasswordHistoryNew> oldPassword = passwordHistoryNewRepository.findAllByEmailAddress("thelocaljobseekers@gmail.com");
-		for(PasswordHistoryNew phn:oldPassword)
-			System.out.println(phn);
-		return "resetPassword";
-	}
 }
