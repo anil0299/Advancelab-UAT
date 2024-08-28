@@ -63,7 +63,9 @@ public class StudentDtls {
 
 	private String labemail;
 	
-	
+	@Column(name="is_active")
+	private boolean isActive; 
+
 	@Column(name = "hppcode")
 	private String hppCode;
 	@Column(name = "cid")
@@ -278,10 +280,6 @@ public class StudentDtls {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * public Integer getbatch() { // TODO Auto-generated method stub return null; }
-	 */
-
 	public Object getStatus() {
 		// TODO Auto-generated method stub
 		return null;
@@ -297,10 +295,6 @@ public class StudentDtls {
 		return null;
 	}
 
-//	public void setBatch(@Min(1) int batch2) { // TODO Auto-generated method stub
-//
-//	}
-
 
 	public String getLabemail() {
 		return labemail;
@@ -310,5 +304,12 @@ public class StudentDtls {
 		this.labemail = labemail;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 }

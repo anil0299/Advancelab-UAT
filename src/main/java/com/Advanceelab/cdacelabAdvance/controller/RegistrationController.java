@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
+import com.Advanceelab.cdacelabAdvance.entity.PasswordHistoryNew;
 import com.Advanceelab.cdacelabAdvance.entity.Passwordhistory;
 import com.Advanceelab.cdacelabAdvance.entity.RejectedStudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
@@ -43,6 +44,7 @@ import com.Advanceelab.cdacelabAdvance.mailSender.EmailSenderService;
 import com.Advanceelab.cdacelabAdvance.repository.AddCenterRepo;
 import com.Advanceelab.cdacelabAdvance.repository.AddCoursesRepo;
 import com.Advanceelab.cdacelabAdvance.repository.AdvanceLabUserVmDetailsRepository;
+import com.Advanceelab.cdacelabAdvance.repository.PasswordHistoryNewRepository;
 import com.Advanceelab.cdacelabAdvance.repository.PasswordhistoryRepository;
 import com.Advanceelab.cdacelabAdvance.repository.RejectedStudentRepository;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
@@ -98,6 +100,8 @@ public class RegistrationController {
 	@Autowired
 	private AdvanceLabUserVmDetailsRepository advanceLabUserVmDetailsRepository;
 
+	@Autowired
+	private PasswordHistoryNewRepository passwordHistoryNewRepository;
 	
 	@GetMapping("/registration")
 	public String register(Model model) {
@@ -614,16 +618,16 @@ public class RegistrationController {
 				StudentDtls studentDtls = studentDtlsOptional.get();
 				String emailAddress = studentDtls.getEmailAddress();
 				String password = studentDtls.getPassword();
-				if (userRepo.existsByUsernameOrEmailAddress(emailAddress, emailAddress)) {
+				int atIndex = emailAddress.indexOf('@');
+				String username = emailAddress.substring(0, atIndex);
+				String newEmail = username + "@cybergyan.in";
+				if (userRepo.existsByUsernameOrEmailAddress(newEmail, emailAddress)) {
 					redirectAttributes.addFlashAttribute("error", "Email or username already exists"); 
 					List<RejectedStudentDtls> newRejectedStudentDtls = RejectRepo.findAll();
 					model.addAttribute("newrejectedStudentDtls", newRejectedStudentDtls);
 					return "redirect:/StudentApproval";
 				}
 
-				int atIndex = emailAddress.indexOf('@');
-				String username = emailAddress.substring(0, atIndex);
-				String newEmail = username + "@cybergyan.in";
 				User user = new User();
 				user.setUsername(newEmail);
 				user.setPassword(password);
@@ -642,13 +646,19 @@ public class RegistrationController {
 					user.setApprovalDate(approvedDate);
 				}
 				userRepo.save(user);
+				
+				PasswordHistoryNew passwordHistoryNew = new PasswordHistoryNew();
+				passwordHistoryNew.setEmailAddress(emailAddress.toLowerCase());
+				passwordHistoryNew.setPassword(password);
+				passwordHistoryNewRepository.save(passwordHistoryNew);
+				
 
-		        Passwordhistory phistory = new Passwordhistory();
-		        phistory.setId(studentDtlsId);
-		        phistory.setEmailAddress(emailAddress);
-		        phistory.setPassword(password);
-		        phistory.setRegistrationDate(LocalDateTime.now());       
-		        passwordRepo.save(phistory);
+//		        Passwordhistory phistory = new Passwordhistory();
+//		        phistory.setId(studentDtlsId);
+//		        phistory.setEmailAddress(emailAddress);
+//		        phistory.setPassword(password);
+//		        phistory.setRegistrationDate(LocalDateTime.now());       
+//		        passwordRepo.save(phistory);
 				studentDtls.setApproved(true);
 				studentDtls.setClassName("");
 				LocalDate validTill = LocalDate.now().plusDays(90);
