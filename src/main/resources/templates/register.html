@@ -494,13 +494,13 @@
 									})();
 				
 									function checkData() {
+									 
 									  // Validate the form
 									  const form = document.getElementById('moduleform');
 									  if (!form.checkValidity()) {
 									    // Form is not valid, do not proceed
 									    return false;
 									  }
-				
 									  // Your existing checkData logic goes here
 									  var state = document.getElementById("state").value;
 									  var colleges = document.getElementById("college").value;
@@ -546,6 +546,7 @@
 				
 									  // Submit the form
 									  form.submit();
+									  $('#submitButton').addClass('disabled');
 									  return false; // Prevent default form submission
 									}
                         </script>

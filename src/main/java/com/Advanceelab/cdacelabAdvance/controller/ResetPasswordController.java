@@ -1,5 +1,7 @@
 package com.Advanceelab.cdacelabAdvance.controller;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Advanceelab.cdacelabAdvance.entity.EmailCountRP;
 import com.Advanceelab.cdacelabAdvance.entity.LoginAttempt;
 import com.Advanceelab.cdacelabAdvance.entity.PasswordHistoryNew;
 import com.Advanceelab.cdacelabAdvance.entity.ResetPassword;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.User;
 import com.Advanceelab.cdacelabAdvance.mailSender.EmailSenderService;
+import com.Advanceelab.cdacelabAdvance.repository.EmailCountRPRepository;
 import com.Advanceelab.cdacelabAdvance.repository.LoginAttemptRepository;
 import com.Advanceelab.cdacelabAdvance.repository.PasswordHistoryNewRepository;
 import com.Advanceelab.cdacelabAdvance.repository.ResetPasswordRepository;
@@ -55,11 +59,34 @@ public class ResetPasswordController {
 	
 	@Autowired
 	private LoginAttemptRepository loginAttemptRepository;
+	
+	@Autowired
+	private EmailCountRPRepository emailCountRPRepository;
 
 	@GetMapping("/forgotPassword")
 	public String forgotPassword()
 	{
 		return "forgotPassword";
+	}
+	
+	private void sentOTP(String emailAddress, Model model)
+	{
+		StudentDtls studentDtls = studentRepository.findByEmailAddress(emailAddress);
+		String otp = resetPasswordService.generateOTP();
+		String mailBody;
+		mailBody = "Dear " + studentDtls.getFirstName() + "\nYour Reset password OTP is : " + otp ;
+		emailSenderService.sendEmail(emailAddress, "Your OTP for Password Reset", mailBody);
+		
+		List<ResetPassword> AllReadyOTP = resetPasswordRepository.findAllByEmailAddress(emailAddress);
+		for(ResetPassword RP: AllReadyOTP)
+		{
+			resetPasswordRepository.deleteById(RP.getId());
+		}
+		
+		ResetPassword resetPassword = new ResetPassword();
+		resetPassword.setEmailAddress(emailAddress);
+		resetPassword.setOtp(otp);
+		resetPasswordRepository.save(resetPassword);
 	}
 	
 	@PostMapping("/getOTP")
@@ -73,25 +100,49 @@ public class ResetPasswordController {
 		{
 			if(user != null)
 			{
-				String otp = resetPasswordService.generateOTP();
-				String mailBody;
-				mailBody = "Dear " + studentDtls.getFirstName() + "\nYour Reset password OTP is : " + otp ;
-				emailSenderService.sendEmail(emailAddress, "Your OTP for Password Reset", mailBody);
-				
-				List<ResetPassword> AllReadyOTP = resetPasswordRepository.findAllByEmailAddress(emailAddress);
-				for(ResetPassword RP: AllReadyOTP)
+				EmailCountRP emailCountRP = emailCountRPRepository.findByEmailAddress(emailAddress);
+				if(emailCountRP != null)
 				{
-					resetPasswordRepository.deleteById(RP.getId());
+					ZonedDateTime curreDateTime = ZonedDateTime.now();
+					Duration duration = Duration.between(emailCountRP.getLastMailSentTime(), curreDateTime);
+					if(emailCountRP.getCount()>=5 && duration.toMinutes()<=30)
+					{
+						model.addAttribute("msg", "You cannot send more than 5 emails in 30 minutes.");
+						return "forgotPassword";
+					}
+					else if (emailCountRP.getCount()>=5 && duration.toMinutes()>30)
+					{
+						emailCountRP.setCount(1);
+						emailCountRP.setLastMailSentTime(curreDateTime);
+						emailCountRPRepository.save(emailCountRP);
+						sentOTP(emailAddress,model);
+						model.addAttribute("email", emailAddress);
+				        model.addAttribute("otpMsg", "OTP sent to your registered email.");
+				        return "verifyOTP";
+					}
+					else
+					{
+						emailCountRP.setCount(emailCountRP.getCount()+1);
+						emailCountRP.setLastMailSentTime(curreDateTime);
+						emailCountRPRepository.save(emailCountRP);
+						sentOTP(emailAddress,model);
+						model.addAttribute("email", emailAddress);
+				        model.addAttribute("otpMsg", "OTP sent to your registered email.");
+				        return "verifyOTP";
+					}
 				}
-				
-				ResetPassword resetPassword = new ResetPassword();
-				resetPassword.setEmailAddress(emailAddress);
-				resetPassword.setOtp(otp);
-				resetPasswordRepository.save(resetPassword);
-				
-				model.addAttribute("email", emailAddress);
-	            model.addAttribute("otpMsg", "OTP sent to your registered email.");
-	            return "verifyOTP";
+				else
+				{
+					EmailCountRP emailCountRP2 = new EmailCountRP();
+					emailCountRP2.setEmailAddress(emailAddress);
+					emailCountRP2.setCount(1);
+					emailCountRP2.setLastMailSentTime(ZonedDateTime.now());
+					emailCountRPRepository.save(emailCountRP2);
+					sentOTP(emailAddress,model);
+					model.addAttribute("email", emailAddress);
+			        model.addAttribute("otpMsg", "OTP sent to your registered email.");
+			        return "verifyOTP";
+				}
 			}
 			else
 			{

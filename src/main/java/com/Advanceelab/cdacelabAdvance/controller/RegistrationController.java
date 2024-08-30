@@ -82,9 +82,6 @@ public class RegistrationController {
 	
 	private Logger logger = Logger.getLogger(getClass().getName());
 
-	@Autowired
-	private PasswordhistoryRepository passwordRepo;
-	
 //	@Autowired
 //	private GuacamoleService guacamoleService;
 	
@@ -133,7 +130,7 @@ public class RegistrationController {
 		}
 		String username = email.substring(0,email.indexOf("@"));
 		String labmail = username+"@cybergyan.in";
-		boolean exists = studentRepo.existsByEmailAddress(email) || RejectRepo.existsByEmailAddress(email) || studentRepo.existsByLabemail(labmail);
+		boolean exists = studentRepo.existsByLabemail(labmail) || RejectRepo.existsByEmailAddressContaining(username+"@");
 		if (exists) {
 			// System.out.println("exists");
 			return "exists";
