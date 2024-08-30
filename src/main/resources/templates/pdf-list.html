@@ -12,6 +12,16 @@
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
 <script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<style>
+.export-menu .export-item {
+    color: #000;
+}
+
+.export-menu .export-item:hover {
+    background-color: #157347;
+    color: white;
+}
+</style>
 </head>
 <body style="background-color: rgb(158, 191, 251);">
 	<div class=navcontainer>
@@ -107,52 +117,44 @@
 		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-	<div class="card">
+	<div class="card mb-5">
 		<div class="card-header" style="background-color: white;">
 			<h1 style="font-family: Times New Roman;" class="text-center">
 				<b>PDF List</b>
 			</h1>
 		</div>
-		<div class="card-body" style="background-color: rgb(205, 214, 224);">
-		<table class="table table-light table-hover table-bordered" id="approved-table">
-		    <thead>
-		        <tr class="table-info">
-		            <th class="text-center">S.No.</th>
-		            <th class="text-center">Name</th>
-		            <th class="text-center">Email Address</th>
-   		            <th class="text-center">Exercise Name</th>
-		            <th class="text-center">PDF Name</th>
-		            <th class="text-center">PDF File</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		       <!--  <tr th:each="entry, index : ${submissionsWithEmails}" class="text-center">
-		            <th scope="row" th:text="${index.count}"></th>
-		            <td style="text-align: center;" th:text="${entry.key.username}"></td>
-		            <td style="text-align: center;" th:text="${entry.value}"></td>
-		            <td style="text-align: center;" th:text="${entry.key.pdfname}"></td>
-		            <td style="text-align: center;">
-		                <form th:action="@{/pdf(id=${entry.key.exsubmit_id})}" method="post" th:attr="id='pdfform'+${entry.key.exsubmit_id}" name="pdfform" target="_blank">
-		                    <input type="hidden" name="hppCode" th:attr="id='hppCodePDF'+${entry.key.exsubmit_id}" />
-		                    <input type="hidden" name="pdfID" th:attr="value=${entry.key.exsubmit_id}, id='pdfID'+${entry.key.exsubmit_id}" />
-		                    <button type="submit" class="border-0 bg-transparent h4" th:attr="onclick='pdfData(' + ${entry.key.exsubmit_id} + ')'">
-		                        <i class="text-success fas fa-eye"></i>
-		                    </button>
-		                </form>
-		            </td>
-		        </tr> -->
-		    </tbody>
-		</table>
+		<div class="card-body table-responsive" style="background-color: rgb(205, 214, 224);">
+			<!-- <div class="d-flex justify-content-end mb-3">
+			    <button type="button" id="exportExcel" class="btn btn-primary">Export as Excel</button>
+			</div> -->
+			<div class="dropdown d-flex justify-content-end mb-3">
+			  <button class="btn btn-success dropdown-toggle" type="button" id="exportExcel" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-file-excel me-2"></i>Export as Excel</button>
+			  <ul class="dropdown-menu export-menu text-center">
+			    <li><a class="dropdown-item export-item" href="#" id="exportAllExcel">All Records</a></li>
+			    <li><a class="dropdown-item export-item" href="#" id="exportDisplayedExcel">Displayed Records</a></li>
+			  </ul>
+			</div>
+			<table class="table table-light table-hover table-bordered w-100" id="approved-table">
+			    <thead>
+			        <tr class="table-info">
+			            <th class="text-center">S.No.</th>
+			            <th class="text-center">Name</th>
+			            <th class="text-center">Email Address</th>
+	   		            <th class="text-center">Exercise Name</th>
+			            <th class="text-center">PDF Name</th>
+			            <th class="text-center">PDF File</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    	<!-- This will be populated by DataTable -->
+			    </tbody>
+			</table>
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<div class="class-footer">
+
+	<input type="hidden" id="csrf" th:value="${_csrf.token}" />
+
+	<footer class="bg-violet w-100 mt-auto">
 		<p
 			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
 			<b>Copyright &copy; 2022</b>
@@ -161,53 +163,160 @@
 			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
 			<b>Designed and Developed by CDAC</b>
 		</p>
-	</div>
+	</footer>
+	
 	<script src="/js/sha256.js"></script>
 	<script src="/js/crypto-js.js"></script>
 	<script src="/js/validation.js"></script>
+	<script src="/js/xlsx.full.min.js"></script>
 	<script>
-		function pdfData(id) {
-			var pdfID = document.getElementById("pdfID" + id).value;
-			var inputCode = "";
-			inputCode += getInputCode(pdfID);
-			var hppCode = getHPPCode(origHPPCode, inputCode);
-			document.getElementById("hppCodePDF" + id).value = hppCode;
-			document.getElementById('pdfform' + id).submit();
-			return false; // Prevent default form submission
-		}
-	
+		$(document).ready(function() {
+			$('#exportAllExcel').click(function() {
+				var dropdownElement = $('#exportExcel');
+				var dropdown = new bootstrap.Dropdown(dropdownElement);
+			    dropdown.hide();
+				$('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+				$.ajax({
+					  url: "/submissionData",
+					  type:'GET',
+					  data: {
+						  draw:1,
+						  start:0,
+						  length:-1
+					  },
+					  cache: false,
+					  success: function(table) {
+
+					        var data = table.data;
+			                var wb = XLSX.utils.book_new();
+			                var ws_data = [];
+
+			                ws_data.push(['S.No.', 'Name', 'Email Address', 'Exercise Name', 'PDF Name']);
+							
+			                data.sort(function(a, b) {
+			                    return a.exerciseSubmitId - b.exerciseSubmitId;
+			                });
+			                
+			                data.forEach(function(row) {
+			                    ws_data.push([
+			                        row.exerciseSubmitId,
+			                        row.name,
+			                        row.email,
+			                        row.exerciseName || '',
+			                        row.pdfName
+			                    ]);
+			                });
+
+			                var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+			                function getColumnWidth(columnData) {
+			                    var minWidth = 50;
+			                    var maxWidth = 300;
+			                    var baseWidth = 10;
+			                    var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+			                    var calculatedWidth = baseWidth + maxLength * 7; 
+			                    return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+			                }
+
+			                var colWidths = ws_data[0].map(function(_, i) {
+			                    var columnData = ws_data.map(row => row[i]);
+			                    return getColumnWidth(columnData);
+			                });
+
+			                ws['!cols'] = colWidths;
+
+			                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+			                XLSX.writeFile(wb, 'Submission.xlsx');
+			                $('#exportExcel').removeClass('disabled').html('Export to Excel');
+			            },
+			            error: function(){
+			            	$('#exportExcel').removeClass('disabled').html('Export to Excel');
+			            }
+				});
+		    });
+			$('#exportDisplayedExcel').click(function() {
+				var dropdownElement = $('#exportExcel');
+				var dropdown = new bootstrap.Dropdown(dropdownElement);
+			    dropdown.hide();
+				$('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+					var table = $('#approved-table').DataTable();
+					
+					var data = table.rows().data().toArray();
+	                
+					var wb = XLSX.utils.book_new();
+	                var ws_data = [];
+
+	                ws_data.push(['S.No.', 'Name', 'Email Address', 'Exercise Name', 'PDF Name']);
+					
+	                data.sort(function(a, b) {
+	                    return a.exerciseSubmitId - b.exerciseSubmitId;
+	                });
+	                
+	                data.forEach(function(row) {
+	                    ws_data.push([
+	                        row.exerciseSubmitId,
+	                        row.name,
+	                        row.email,
+	                        row.exerciseName || '',
+	                        row.pdfName
+	                    ]);
+	                });
+
+	                var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	                function getColumnWidth(columnData) {
+	                    var minWidth = 50;
+	                    var maxWidth = 300;
+	                    var baseWidth = 10;
+	                    var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+	                    var calculatedWidth = baseWidth + maxLength * 7; 
+	                    return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+	                }
+
+	                var colWidths = ws_data[0].map(function(_, i) {
+	                    var columnData = ws_data.map(row => row[i]);
+	                    return getColumnWidth(columnData);
+	                });
+
+	                ws['!cols'] = colWidths;
+
+	                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+	                XLSX.writeFile(wb, 'Submission.xlsx');
+	                $('#exportExcel').removeClass('disabled').html('Export to Excel');
+		    	});
+			});
 		$(document).ready(function() {
 		    $('#approved-table').DataTable({
 		        processing: true,
 		        serverSide: true,
 		        ajax: {
-		            url: '/submissionData', // Ensure this URL matches your backend endpoint
+		            url: '/submissionData',
 		            method: 'GET',
 		            data: function(d) {
-		                // Ensure the correct parameters are sent
-		                console.log("Data sent to server:", d);
+		            	//console.log(d);
 		                return $.extend({}, d, {
-		                    // Optionally add more data to be sent
 		                });
 		            },
 		            dataSrc: function(response) {
-		                // Log the response to verify its structure
-		                console.log("Response from server:", response);
-		                return response.data; // Adjust if necessary
+		            	//console.log(response);
+		                return response.data;
 		            }
 		        },
 		        columns: [
-		            { data: 'exerciseSubmitId', title: 'S.No.' },
-		            { data: 'name', title: 'Name' },
-		            { data: 'email', title: 'Email Address'},
-		            { data: 'exerciseName', title: 'ExerciseName' },
-		            { data: 'pdfName', title: 'PDF Name' },
-		            { data: '', title: 'PDF File', render: function(data, type, row) {
+		            { data: 'exerciseSubmitId', title: 'S.No.' , className: 'text-center'},
+		            { data: 'name', title: 'Name' , className: 'text-center'},
+		            { data: 'email', title: 'Email Address' , className: 'text-center'},
+		            { data: 'exerciseName', title: 'ExerciseName' , className: 'text-center'},
+		            { data: 'pdfName', title: 'PDF Name' , className: 'text-center'},
+		            { data: '', title: 'PDF File', className: 'text-center', render: function(data, type, row, ) {
 		                return `
-		                    <form action="/pdf" method="get" id="pdfform${row.exerciseSubmitId}" class="text-center mx-auto" name="pdfform" target="_blank">
-		                   		<input type="hidden" name="hppCode" id="hppCodePDF${row.exerciseSubmitId}" />
-		                   		<input type="hidden" name="id" value="${row.exerciseSubmitId}" />
-			                    <input type="hidden" name="pdfID" value="${row.exerciseSubmitId}" id="pdfID${row.exerciseSubmitId}" />
+		                    <form action="/pdf" method="POST" name="pdfform" target="_blank" id="pdfform${row.exerciseSubmitId}">
+		                    	<input type="hidden" name="_csrf" id="csrf${row.exerciseSubmitId}">
+		                   		<input type="hidden" name="hppCode" id="hppCodePDF${row.exerciseSubmitId}">
+		                   		<input type="hidden" name="id" value="${row.exerciseSubmitId}">
+			                    <input type="hidden" name="pdfID" value="${row.exerciseSubmitId}" id="pdfID${row.exerciseSubmitId}">
 		                        <button type="submit" class="btn btn-transparent" onclick="pdfData(${row.exerciseSubmitId})">
 		                            <i class="text-success fas fa-eye h5"></i>
 		                        </button>
@@ -215,13 +324,32 @@
 		                `;
 		            }}
 		        ],
+		        lengthMenu: [
+		            [10, 25, 50, 100, -1],
+		            [10, 25, 50, 100, 'All']
+		        ],
 		        searching: true,
 		        ordering: true,
 		        paging: true,
 		        lengthChange: true,
-		        pageLength: 25
+		        pageLength: 10
 		    });
-		});
+		    
+	   });
+		
+		function pdfData(id) {
+			var pdfID = document.getElementById("pdfID" + id).value;
+			var inputCode = "";
+			inputCode += getInputCode(pdfID);
+			var hppCode = getHPPCode(origHPPCode, inputCode);
+			document.getElementById("hppCodePDF" + id).value = hppCode;
+			
+			var csrf = document.getElementById('csrf').value;
+			document.getElementById('csrf' + id).value = csrf;
+			
+			document.getElementById('pdfform' + id).submit();			
+			return false;
+		}
 	</script>
 </body>
 </html>

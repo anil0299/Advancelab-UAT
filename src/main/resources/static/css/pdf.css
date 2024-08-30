@@ -42,3 +42,11 @@
 .card-body{
 	background-color: rgb(205, 214, 224);
 }
+
+.bg-violet {
+	background-color: #0953a8;
+}
+
+html {
+       height: 100%;
+   }

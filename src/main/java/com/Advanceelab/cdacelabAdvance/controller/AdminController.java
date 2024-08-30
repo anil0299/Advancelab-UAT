@@ -397,7 +397,7 @@ public class AdminController {
             @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
             @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
             @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
-		
+
 		String sortBy;
         switch (sortColumnIndex) {
         	case 0: sortBy = "exsubmit_id"; break;
@@ -408,10 +408,15 @@ public class AdminController {
             default: sortBy = "exsubmit_id"; // Default sorting
         }
 
-		int page = start / length; 
-
-		Pageable pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
-		
+        Pageable pageable;
+        if (length == -1) {
+            // No pagination
+            pageable = Pageable.unpaged();
+        } else {
+            // Regular pagination
+            int page = start / length;
+            pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        }
 	    Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.searchSubmissions(searchTerm, pageable);
 
 	   // Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.findAll(pageable);
@@ -450,7 +455,7 @@ public class AdminController {
 	    dataTable.setData(allAdvancedLabSubmission);
 	    dataTable.setRecordsTotal(responseData.getTotalElements());
 	    dataTable.setRecordsFiltered(responseData.getTotalElements());
-   
+
 	    return ResponseEntity.ok(dataTable);
 	}
 
@@ -462,21 +467,17 @@ public class AdminController {
 		return "AssignBasic";
 	}
 
-//	@PostMapping("/pdf")
-//	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id,@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
-//		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
-//		if (csrf.getToken().equals(csrfToken)) {
-//			String a=String.valueOf(id);
-//			String[] params = new String[] { a };
-//					
-//			if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
-//	            logger.info("HTTP Parameter pollution");
-//	            // Render the error page and include it in the response
-//	            return handleBadRequest();
-//	        }
-//		}
-	@GetMapping("/pdf")
-	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
+	@PostMapping("/pdf")
+	public ResponseEntity<byte[]> getPdfAdvance(@RequestParam Long id, HttpServletRequest request, @RequestParam(value = "hppCode") String hppCode) {
+			String a=String.valueOf(id);
+			String[] params = new String[] { a };
+					
+			if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
+	            logger.info("HTTP Parameter pollution");
+	            // Render the error page and include it in the response
+	            return handleBadRequest();
+	        }
+
 		ExerciseSubmission submission = exerciseSubmission_Repo.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("ExerciseSubmission with id " + id + " not found"));
 
@@ -486,7 +487,7 @@ public class AdminController {
 		headers.setContentDisposition(ContentDisposition.builder("inline").filename(submission.getPdfname()).build());
 
 		return new ResponseEntity<>(submission.getSubmission_pdf(), headers, HttpStatus.OK);
-	}	
+	}
 	
 	@PostMapping("/pdfbasic")
 	public ResponseEntity<byte[]> getPdfBasic(@RequestParam Long id,@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {

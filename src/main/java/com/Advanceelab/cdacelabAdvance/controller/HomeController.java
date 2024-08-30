@@ -3,6 +3,7 @@ package com.Advanceelab.cdacelabAdvance.controller;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -63,8 +64,10 @@ import com.Advanceelab.cdacelabAdvance.repository.TeacherRepository;
 import com.Advanceelab.cdacelabAdvance.repository.UserRepository;
 import com.Advanceelab.cdacelabAdvance.repository.Vm_MasterRepo;
 import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtility;
+import com.Advanceelab.cdacelabAdvance.service.ActiveDirectoryService;
 import com.Advanceelab.cdacelabAdvance.service.AdvanceLabService;
 //import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
+import com.Advanceelab.cdacelabAdvance.service.BasicLabService;
 
 import java.util.Optional;
 
@@ -115,6 +118,12 @@ public class HomeController {
 	
 	@Autowired
 	private ReleaseNote1Repo releaseNote1Repo;
+	
+	@Autowired
+	private BasicLabService basicLabService;
+	
+	@Autowired
+	private ActiveDirectoryService activeDirectoryService;
 	
 //	@Autowired
 //	private GuacamoleService guacamoleService;
@@ -289,7 +298,20 @@ public class HomeController {
 			
 			modelandview.setViewName("TeacherHome.html");
 		} else {
-
+			/////////////////////////////////////////////////////////////////////////
+			//Creating account in AD-Cybergyan start here
+			StudentDtls studentDtls = studentRepo.findByLabemail(userlogin);
+			String firstName = studentDtls.getFirstName();
+			String lastName = studentDtls.getLastName();
+			LocalDate dob = studentDtls.getDob();
+			String hciPassword = basicLabService.generateHciPassword(firstName, dob);
+			String samAccountName = studentDtls.getId()+"";
+			String username = userlogin.substring(0, userlogin.indexOf("@"));
+			String output = activeDirectoryService.createUserInAD(firstName+" "+lastName, hciPassword, samAccountName, userlogin, username);
+			System.out.println(output);
+			
+			//AD-Cybergyan ends here
+			///////////////////////////////////////////////////////////////////////////
 			User user=userRepo.findByUsername(userlogin);
         	user.setLoginAttempt(0);
         	user.setLoginTime(null);

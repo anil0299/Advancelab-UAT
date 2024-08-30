@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/adminpage", "/pdfs/**", "/folders/**", "/dashboard", "/LabDetails", "/filter",
 						"/AssignBatch", "/extend-validity/", "/TeacherApproval", "/basiclab","/pdfbasic", "/ExerciseCompletion",
 						"/RegisteredStudents", "/Completionstatus1", "/Statewise", "/Categorywise", "/StateandCategory",
-						"/TeacherApproval/approve-teachertDtls/**","/deleteuser/**","/deletecourse/**","/updateSavebatchex/**","/quizCompletion/**", "/submissionData", "/submissionData/**")
+						"/TeacherApproval/approve-teachertDtls/**","/deleteuser/**","/deletecourse/**","/updateSavebatchex/**","/quizCompletion/**", "/submissionData", "/submissionData/**","/pdf","/pdf/**")
 				.hasAuthority("ADMIN")
 				
 				.antMatchers("/AddExercise", "/StudentApproval", "/teacherApproval", "/exercisedetails", "/AdminHome",
