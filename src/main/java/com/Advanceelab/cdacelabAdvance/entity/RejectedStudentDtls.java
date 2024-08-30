@@ -35,6 +35,7 @@ public class RejectedStudentDtls
 	
 	private LocalDate dob;
 	
+	@Column(unique = true)
 	private String emailAddress;
 	
 	private String mobileNumber;

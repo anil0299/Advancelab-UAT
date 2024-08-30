@@ -21,6 +21,7 @@ public class User {
 	private String password;
 	private String role;
 	private int batch;
+	@Column(unique = true)
 	private String emailAddress;
 	private LocalDate registrationDate;
 	private LocalDate approvalDate;
