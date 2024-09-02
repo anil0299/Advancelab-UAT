@@ -30,6 +30,7 @@ import com.Advanceelab.cdacelabAdvance.repository.PasswordHistoryNewRepository;
 import com.Advanceelab.cdacelabAdvance.repository.ResetPasswordRepository;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
 import com.Advanceelab.cdacelabAdvance.repository.UserRepository;
+import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtility;
 import com.Advanceelab.cdacelabAdvance.service.ResetPasswordService;
 
 @Controller
@@ -90,8 +91,13 @@ public class ResetPasswordController {
 	}
 	
 	@PostMapping("/getOTP")
-	public String getOTP(@RequestParam(value = "email") String email, Model model)
+	public String getOTP(@RequestParam(value = "email") String email, @RequestParam(value = "hppCode") String hppCode,Model model)
 	{
+		String[] params = new String[]{email};
+		if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
+            System.out.println("HTTP Parameter pollution");
+            return "error.html";
+        }
 		String emailAddress = email.toLowerCase();
 		StudentDtls studentDtls = studentRepository.findByEmailAddress(emailAddress);
 		User user = userRepository.findByEmailAddress(emailAddress);
@@ -161,8 +167,13 @@ public class ResetPasswordController {
 	public String verifyOTP(@RequestParam(value = "email") String email, @RequestParam(value = "otp1") String otp1,
 							@RequestParam(value = "otp2") String otp2, @RequestParam(value = "otp3") String otp3,
 							@RequestParam(value = "otp4") String otp4, @RequestParam(value = "otp5") String otp5,
-							@RequestParam(value = "otp6") String otp6, Model model)
+							@RequestParam(value = "otp6") String otp6, @RequestParam(value = "hppCode") String hppCode, Model model)
 	{
+		String[] params = new String[]{email,otp1,otp2,otp3,otp4,otp5,otp6};
+		if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
+            System.out.println("HTTP Parameter pollution");
+            return "error.html";
+        }
 		String emailAddress = email.toLowerCase();
 		String otp = otp1+otp2+otp3+otp4+otp5+otp6;
 		//System.out.println("otp : " + otp);
@@ -190,8 +201,14 @@ public class ResetPasswordController {
 	@PostMapping("/reset-password")
 	public String resetPassword(@RequestParam(value = "email", required = true) String email,
 								@RequestParam(value = "password", required = true) String password,
-								Model model)
+								@RequestParam(value="hppCode") String hppCode,Model model)
 	{
+		
+		String[] params = new String[]{email,password};
+		if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
+            System.out.println("HTTP Parameter pollution");
+            return "error.html";
+        }
 		String encodedPassword = passwordEncoder.encode(password);
 		List<PasswordHistoryNew> oldFivePassword = passwordHistoryNewRepository.findAllByEmailAddress(email.toLowerCase());
 		

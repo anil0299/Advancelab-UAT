@@ -107,8 +107,9 @@
 		        <p style="color: red;" th:text="${msg}"></p>
 		    </th:block>
 		</div>
-        <form th:action="@{/resetPassword/verifyOTP}" method="post">
-            <input type="hidden" name="email" id ="name" th:value="${email}" />
+        <form th:action="@{/resetPassword/verifyOTP}" method="post" id="verifyOTPform" name="verifyOTPform">
+			<input type="hidden" name="hppCode" id="hppCode" />
+            <input type="hidden" name="email" id ="email" th:value="${email}" />
             <div class="input-group">
                 <label for="otp">Enter OTP</label>
                <div class="otp-group">
@@ -120,7 +121,7 @@
 				    <input type="text" id="otp6" name="otp6" maxlength="1" autocomplete="off" required>
 				</div>
             </div>
-            <button type="submit" class="btn">Verify OTP</button>
+            <button type="submit" onclick="checkData();" class="btn">Verify OTP</button>
         </form>
 
         <div class="footer-text">
@@ -128,6 +129,11 @@
         </div>
     </div>
     <div id="otpContainer" th:if="${otpMsg != null}" th:data-otpmsg="${otpMsg}"></div>
+
+<script type="text/javascript" src="/js/sha256.js"></script>
+<script type="text/javascript" src="/js/crypto-js.js"></script>
+<script type="text/javascript" src="/js/validation.js"></script>
+ 
 <script type="text/javascript">
     var otpContainer = document.getElementById('otpContainer');
     var otpMsg = otpContainer ? otpContainer.dataset.otpmsg : null;
@@ -136,17 +142,42 @@
     }
 </script>
 <script>
-	setTimeout(function() {
-		var message = document.getElementById("message");
-		message.parentNode.removeChild(message);
-		}, 5000); //
-</script>
-<script>
 	function moveToNext(current, nextFieldID) {
 	    if (current.value.length >= current.maxLength) {
 	        document.getElementById(nextFieldID).focus();
 	    }
 	}
 </script>
+
+<script>
+	
+	function checkData() {
+		var email = document.getElementById("email").value;
+		var otp1 = document.getElementById("otp1").value;
+		var otp2 = document.getElementById("otp2").value;
+		var otp3 = document.getElementById("otp3").value;
+		var otp4 = document.getElementById("otp4").value;
+		var otp5 = document.getElementById("otp5").value;
+		var otp6 = document.getElementById("otp6").value;
+		var inputCode = "";
+		inputCode += getInputCode(email);
+		inputCode += getInputCode(otp1);
+		inputCode += getInputCode(otp2);
+		inputCode += getInputCode(otp3);
+		inputCode += getInputCode(otp4);
+		inputCode += getInputCode(otp5);
+		inputCode += getInputCode(otp6);		
+		var hppCode = getHPPCode(origHPPCode, inputCode);
+		document.getElementById("hppCode").value = hppCode;
+		document.getElementById('verifyOTPform').submit();
+		return false; // Prevent default form submission
+	}
+	
+	setTimeout(function() {
+		var message = document.getElementById("message");
+		message.parentNode.removeChild(message);
+		}, 5000); //
+</script>
+
 </body>
 </html>
