@@ -257,4 +257,6 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 	
 	@Query("SELECT CONCAT(s.firstName, ' ', s.lastName) " + "FROM StudentDtls s WHERE s.labemail = :labemail")
 	List<String> findFullNamesByLabemail(String labemail);
+	
+	boolean existsByMobileNumber(String mobile);
 }

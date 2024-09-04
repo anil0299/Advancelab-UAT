@@ -283,7 +283,43 @@
 										class="form-control" id="mobileNumber" name="mobileNumber"
 										placeholder="Enter 10-digit mobile number" maxlength="10"
 										pattern="[0-9]{10}" required>
+										<div class="invalid-feedback" id="errorMessageMobileNumber"></div>
+										<div th:if="${sameMobileNumberMsg}" class="alert alert-danger">
+											<span th:text="${sameMobileNumberMsg}"></span>
+										</div>
 								</div>
+								
+								<script>
+								    const mobileNumberInput = document.getElementById('mobileNumber');
+								    const errorMessageMobileNumber = document.getElementById('errorMessageMobileNumber');
+								
+								    mobileNumberInput.addEventListener('input', function () {
+								        const mobileNumber = this.value;
+								        validateMobileNumber(mobileNumber);
+								    });
+								
+								    async function validateMobileNumber(mobileNumber) {
+								        try {
+								            const response = await fetch('/checkMobileNumber?mobileNumber=' + encodeURIComponent(mobileNumber));
+								            if (response.ok) {
+								                const result = await response.text();
+								                if (result === 'exists') {
+								                    errorMessageMobileNumber.textContent = 'Mobile number already exists.';
+								                    mobileNumberInput.setCustomValidity('Mobile number already exists.');
+								                } else {
+								                    errorMessageMobileNumber.textContent = '';
+								                    mobileNumberInput.setCustomValidity('');
+								                }
+								            } else {
+								                console.error('Error occurred while checking mobile number:', response.status);
+								            }
+								        } catch (error) {
+								            console.error('Error occurred while checking mobile number:', error);
+								        }
+								    }
+								</script>
+								
+								
 							</div>
 							<div class="row mb-3">
 							    <div class="col">

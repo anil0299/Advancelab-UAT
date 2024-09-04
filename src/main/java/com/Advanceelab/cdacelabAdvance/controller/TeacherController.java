@@ -126,6 +126,21 @@ public class TeacherController {
 		return "TeacherRegistration";
 
 	}
+	
+	@GetMapping("/checkMobileNumber2")
+	@ResponseBody
+	public String checkMobileNumber2(@RequestParam("mobileNumber") String mobile) {
+		boolean teacherExists = teacherRepo.existsByMobileNumber(mobile);
+		boolean studentExists = studentRepo.existsByMobileNumber(mobile);
+		if (teacherExists || studentExists) {
+			//System.out.println("exists");
+			return "exists";
+		} else {
+			//System.out.println("not exists");
+			return "notExists";
+		}
+		
+	}
 
 	@GetMapping("/checkUniqueEmailteacher")
 	@ResponseBody

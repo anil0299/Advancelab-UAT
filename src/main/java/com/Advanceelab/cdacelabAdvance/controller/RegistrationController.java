@@ -48,6 +48,7 @@ import com.Advanceelab.cdacelabAdvance.repository.PasswordHistoryNewRepository;
 import com.Advanceelab.cdacelabAdvance.repository.PasswordhistoryRepository;
 import com.Advanceelab.cdacelabAdvance.repository.RejectedStudentRepository;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
+import com.Advanceelab.cdacelabAdvance.repository.TeacherRepository;
 import com.Advanceelab.cdacelabAdvance.repository.UserRepository;
 import com.Advanceelab.cdacelabAdvance.security.EncodingUtility2;
 import com.Advanceelab.cdacelabAdvance.security.RequestParameterValidationUtility;
@@ -93,6 +94,9 @@ public class RegistrationController {
 	
 	@Autowired
 	private AdvanceLabService advanceLabService;
+	
+	@Autowired
+	private TeacherRepository teacherRepo;
 
 	@Autowired
 	private AdvanceLabUserVmDetailsRepository advanceLabUserVmDetailsRepository;
@@ -121,6 +125,21 @@ public class RegistrationController {
 		return colleges;
 	}
 
+	@GetMapping("/checkMobileNumber")
+	@ResponseBody
+	public String checkMobileNumber(@RequestParam("mobileNumber") String mobile) {
+		boolean teacherExists = teacherRepo.existsByMobileNumber(mobile);
+		boolean studentExists = studentRepo.existsByMobileNumber(mobile);
+		if (teacherExists || studentExists) {
+			//System.out.println("exists");
+			return "exists";
+		} else {
+			//System.out.println("not exists");
+			return "notExists";
+		}
+		
+	}
+	
 	@GetMapping("/checkUniqueEmail")
 	@ResponseBody
 	public String checkUniqueEmail(@RequestParam("email") String email) {
