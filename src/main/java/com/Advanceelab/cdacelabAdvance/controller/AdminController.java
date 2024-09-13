@@ -403,20 +403,17 @@ public class AdminController {
         	case 0: sortBy = "exsubmit_id"; break;
             case 1: sortBy = "username"; break;
             case 2: sortBy = "username"; break;
-            case 3: sortBy = "exer_id"; break;
-            case 4: sortBy = "pdfname"; break;
+            case 3: sortBy = "username"; break;
+            case 4: sortBy = "exer_id"; break;
+            case 5: sortBy = "pdfname"; break;
             default: sortBy = "exsubmit_id"; // Default sorting
         }
 
         Pageable pageable;
-        if (length == -1) {
-            // No pagination
-            pageable = Pageable.unpaged();
-        } else {
-            // Regular pagination
-            int page = start / length;
-            pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
-        }
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+    
 	    Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.searchSubmissions(searchTerm, pageable);
 
 	   // Page<ExerciseSubmission> responseData = exerciseSubmission_Repo.findAll(pageable);
@@ -442,6 +439,8 @@ public class AdminController {
 	    	} else {
 	    		advanceLabSubmission.setEmail(list.get(0));
 	    	}
+	    	String mobile = studentRepo.findMobileNumberByLabemail(e.getUsername());
+	    	advanceLabSubmission.setMobile(mobile);
 	    	advanceLabSubmission.setExerciseName(exercise_MasterRepo.findExerciseByEx_id(e.getExer_id()));
 	    	advanceLabSubmission.setPdfName(e.getPdfname());
 	    	advanceLabSubmission.setExerciseSubmitId(e.getExsubmit_id());

@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.transaction.Transactional;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -67,8 +70,9 @@ public class AdvanceLabService {
                         .header("Authorization", "Basic " + password)
                         .method("POST", HttpRequest.BodyPublishers.ofString("{\n  \"override_spec\": {\n    \"name\": \"" + vmName + "\"\n   }\n   }"))
                         .build();
-                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-                String responseBody = response.body();
+                httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                //HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                //String responseBody = response.body();
                 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -90,7 +94,13 @@ public class AdvanceLabService {
 	                        .build();
 	                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	                String responseBody = response.body();
-	                return JsonPath.read(responseBody, "$.entities[0].metadata.uuid");
+	                boolean entitiesExists = Integer.parseInt(JsonPath.read(responseBody,"$.entities.length()").toString())>0;
+	                if(entitiesExists) {
+	                	return JsonPath.read(responseBody, "$.entities[0].metadata.uuid");
+	                } else {
+	                	return null;
+	                }
+	                
 	            } catch (Exception ex) {
 	                ex.printStackTrace();
 	                return null;
@@ -109,8 +119,14 @@ public class AdvanceLabService {
 		                        .build();
 		                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 		                String responseBody = response.body();
-		                String ip = JsonPath.read(responseBody, "$.entities[0].status.resources.nic_list[0].ip_endpoint_list.[0].ip");
-		                return ip;
+		                boolean entitiesExists = Integer.parseInt(JsonPath.read(responseBody,"$.entities.length()").toString())>0;
+		                if(entitiesExists) {
+		                	String ip = JsonPath.read(responseBody, "$.entities[0].status.resources.nic_list[0].ip_endpoint_list.[0].ip");
+		                	System.out.println(ip);
+		                	return ip;
+		                } else {
+		                	return null;
+		                }
 		            } catch (Exception ex) {
 	                    return null;
 		            }
@@ -127,7 +143,7 @@ public class AdvanceLabService {
 	                        .method("POST", HttpRequest.BodyPublishers.ofString("[{\"generic_dto\":{\"transition\":\"on\",\"uuid\":\"" + UUID + "\"},\"cluster_uuid\":\"0005a833-66d0-008c-62e3-08f1ea7d7714\"}]"))
 	                        .build();
 	                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-	                System.out.println(response.body());
+	                //System.out.println(response.body());
 	            } catch (Exception ex) {
 	                ex.printStackTrace();
 	            }
@@ -227,33 +243,41 @@ public class AdvanceLabService {
 		return vmAllreadyCreated;
 	}
 	
-	public String saveAdvanceLabUserExercise(String username,int userId,Long exerciseId,MultipartFile submissionPdf) throws IOException
+	@Transactional
+	public CompletableFuture<Boolean> saveAdvanceLabUserExercise(String username, int userId, Long exerciseId, MultipartFile submissionPdf) throws IOException
 	{
-		String pdfMessage = "valid";
-		try (PDDocument pdfDocument = PDDocument.load(submissionPdf.getInputStream()))
-		{
-		    PDFTextStripper textStripper = new PDFTextStripper();
-		    String pdfContent = textStripper.getText(pdfDocument);
-
-		    if (pdfContent.contains("<script>")) {
-		        pdfMessage ="MALICIOUS";
-		        return pdfMessage;
-		    } 
-		}  	
-		 catch (Exception e) {
-		    e.printStackTrace();
-		}
+		return CompletableFuture.supplyAsync(() -> {
+			try {
+				try (PDDocument pdfDocument = PDDocument.load(submissionPdf.getInputStream())) {
+					
+				    PDFTextStripper textStripper = new PDFTextStripper();
+				    String pdfContent = textStripper.getText(pdfDocument);
 		
-		if (exerciseSubmission_Repo.checkSubmitted((long)(userId), exerciseId) == null) {
-			ExerciseSubmission exerciseSubmission = new ExerciseSubmission();
-			exerciseSubmission.setUsername(username);
-			exerciseSubmission.setUserid((long)(userId));
-			exerciseSubmission.setExer_id(exerciseId);
-			exerciseSubmission.setSubmission_pdf(submissionPdf.getBytes());
-			exerciseSubmission.setPdfname(submissionPdf.getOriginalFilename());
-			exerciseSubmission_Repo.save(exerciseSubmission);
-		}
-		return pdfMessage;
+				    if (pdfContent.contains("<script>")) {
+				        return false;
+				    }
+				}
+		
+				ExerciseSubmission existingSubmission = exerciseSubmission_Repo.checkSubmitted((long) userId, exerciseId);
+				
+				if (existingSubmission != null) {
+					return false;
+				}
+				
+				ExerciseSubmission exerciseSubmission = new ExerciseSubmission();
+				exerciseSubmission.setUsername(username);
+				exerciseSubmission.setUserid((long)(userId));
+				exerciseSubmission.setExer_id(exerciseId);
+				exerciseSubmission.setSubmission_pdf(submissionPdf.getBytes());
+				exerciseSubmission.setPdfname(submissionPdf.getOriginalFilename());
+				exerciseSubmission_Repo.save(exerciseSubmission);
+				
+				return true;
+			} catch(Exception e) {
+	            logger.log(Level.SEVERE, "Error processing exercise submission: ", e);
+				return false;
+			}
+		});
 	}
 	
 	
@@ -262,31 +286,31 @@ public class AdvanceLabService {
 		List<AdvanceLabUserVmDetails> AllUserVmInThisExercise = advanceLabUserVmDetailsRepository.findAllByUsername(username, exerciseId);
 		for(AdvanceLabUserVmDetails AD:AllUserVmInThisExercise)
 		{
-			advanceLabUserVmDetailsRepository.delete(AD);
 			deleteVm(AD.getUUID());
+			advanceLabUserVmDetailsRepository.delete(AD);
 			TimeUnit.SECONDS.sleep(5);
 		}
 	}
 	
-	public String checkInputFeildValidation(long exerciseId,String hppCode)
+	public boolean checkInputFieldValidation(long exerciseId,String hppCode)
 	{
 		String tId=String.valueOf(exerciseId);
 		String[] params = new String[] {tId};		
 		if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
             logger.info("HTTP Parameter pollution");
-            return "error";
+            return false;
         }
-		return "notError";
+		return true;
 	}
 	
-	public String checkInputFeildValidationForDeleteVm(long exerciseId,String fileNmae,String hppCode)
+	public boolean checkInputFieldValidationForDeleteVm(long exerciseId,String fileName,String hppCode)
 	{
 		String tId=String.valueOf(exerciseId);
-		String[] params = new String[] {tId,fileNmae};		
+		String[] params = new String[] {tId,fileName};		
 		if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
             logger.info("HTTP Parameter pollution");
-            return "error";
+            return false;
         }
-		return "notError";
+		return true;
 	}
 }

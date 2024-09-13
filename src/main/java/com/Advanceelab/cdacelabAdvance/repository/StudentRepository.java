@@ -259,4 +259,7 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 	List<String> findFullNamesByLabemail(String labemail);
 	
 	boolean existsByMobileNumber(String mobile);
+
+	@Query("SELECT mobileNumber FROM StudentDtls s WHERE s.labemail = :labemail")
+	String findMobileNumberByLabemail(String labemail);
 }

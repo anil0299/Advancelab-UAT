@@ -265,7 +265,7 @@
 										(This would be used as your username)</label> <font color="red">*</font>
 									<input type="email" class="form-control" name="emailAddress"
 										placeholder="Enter email" id="emailAddress"
-										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+										pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
 									<div class="invalid-feedback" id="errorMessage"></div>
 									<div th:if="${sameEmailMsg}" class="alert alert-danger">
 										<span th:text="${sameEmailMsg}"></span>
@@ -634,6 +634,7 @@
     });
     
     // Prevent form submission on pressing enter inside password field
+    const passwordInput = document.getElementById('password');
     passwordInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -641,12 +642,12 @@
     });
     
     // Prevent form submission on pressing enter inside confirm password field
+    const confirmPasswordInput = document.getElementById('confirmPassword');
     confirmPasswordInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
         }
     });
 </script>
-<script type="text/javascript" th:src="@{/js/register2.js}"></script>
 </body>
 </html>

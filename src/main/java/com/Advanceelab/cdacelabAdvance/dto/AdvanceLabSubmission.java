@@ -4,6 +4,7 @@ public class AdvanceLabSubmission {
 
 	String name;
 	String email;
+	String mobile;
 	String exerciseName;
 	String pdfName;
 	Long exerciseSubmitId;
@@ -24,6 +25,14 @@ public class AdvanceLabSubmission {
 		this.email = email;
 	}
 	
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public String getExerciseName() {
 		return exerciseName;
 	}
@@ -48,23 +57,24 @@ public class AdvanceLabSubmission {
 		this.exerciseSubmitId = exerciseSubmitId;
 	}
 	
-	public AdvanceLabSubmission(String name, String email, String exerciseName, String pdfName, Long exerciseSubmitId) {
-
+	public AdvanceLabSubmission(String name, String email, String mobile, String exerciseName, String pdfName,
+			Long exerciseSubmitId) {
 		this.name = name;
 		this.email = email;
+		this.mobile = mobile;
 		this.exerciseName = exerciseName;
 		this.pdfName = pdfName;
 		this.exerciseSubmitId = exerciseSubmitId;
 	}
-	
+
 	public AdvanceLabSubmission() {
 
 	}
-	
+
 	@Override
 	public String toString() {
-		return "AdvanceLabSubmission [name=" + name + ", email=" + email + ", exerciseName=" + exerciseName
-				+ ", pdfName=" + pdfName + ", exerciseSubmitId=" + exerciseSubmitId + "]";
+		return "AdvanceLabSubmission [name=" + name + ", email=" + email + ", mobile=" + mobile + ", exerciseName="
+				+ exerciseName + ", pdfName=" + pdfName + ", exerciseSubmitId=" + exerciseSubmitId + "]";
 	}
-			
+	
 }

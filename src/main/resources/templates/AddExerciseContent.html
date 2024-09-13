@@ -158,7 +158,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="exerciseHeadingNameInput" class="form-label"><b>Exercise Heading Name</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="exerciseHeadingNameInput" name="exerciseHeadingNameInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="exerciseHeadingNameInput" class="form-control quill-editor"></div>
 		                <div id="error-message1" class="invalid-feedback">Exercise Heading Name is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -166,7 +166,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="titleInput" class="form-label"><b>Title Name</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="titleInput" name="titleInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="titleInput" class="form-control quill-editor"></div>
 		                <div id="error-message2" class="invalid-feedback">Title is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -174,7 +174,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="learningObjectiveInput" class="form-label"><b>Learning Objective</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="learningObjectiveInput" name="learningObjectiveInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="learningObjectiveInput" class="form-control quill-editor"></div>
 		                <div id="error-message3" class="invalid-feedback">Learning Objective is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -182,7 +182,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="descriptionInput" class="form-label"><b>Description</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="descriptionInput" name="descriptionInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="descriptionInput" class="form-control quill-editor"></div>
 		                <div id="error-message4" class="invalid-feedback">Description is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -190,7 +190,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="labInfraStructureInput" class="form-label"><b>About the Exercise lab infrastructure</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="labInfraStructureInput" name="labInfraStructureInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="labInfraStructureInput" class="form-control quill-editor"></div>
 		                <div id="error-message5" class="invalid-feedback">Lab Infrastructure is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -198,7 +198,7 @@ width:100%!important;
 		            <div class="form-group">
 		                <label for="attackProcedureInput" class="form-label"><b>Attack Procedure</b></label>
 		                <font color="red">*</font>
-		                <div type="text" id="attackProcedureInput" name="attackProcedureInput" class="form-control quill-editor" pattern="[A-Za-z0-9 ]+" required></div>
+		                <div id="attackProcedureInput" class="form-control quill-editor"></div>
 		                <div id="error-message6" class="invalid-feedback">Attack Procedure is required and must be alphanumeric.</div>
 		            </div>
 		            <br>
@@ -249,7 +249,7 @@ width:100%!important;
 
     function validateQuillContent(id, errorMessage) {
         const content = quillEditors[id].root.innerText.trim();
-        const regex = /^[A-Za-z0-9 ]+$/;
+        const regex = /^[A-Za-z0-9 .,/-]+$/;
         const field = document.getElementById(id);
         const errorElement = document.getElementById(`error-message${editorIds.indexOf(id) + 1}`);
         

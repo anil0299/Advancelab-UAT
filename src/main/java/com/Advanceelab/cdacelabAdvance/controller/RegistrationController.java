@@ -56,6 +56,7 @@ import com.Advanceelab.cdacelabAdvance.service.ActiveDirectoryService;
 import com.Advanceelab.cdacelabAdvance.service.AdvanceLabService;
 import com.Advanceelab.cdacelabAdvance.service.BasicLabService;
 //import com.Advanceelab.cdacelabAdvance.service.GuacamoleService;
+import com.Advanceelab.cdacelabAdvance.service.UserService;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -103,6 +104,9 @@ public class RegistrationController {
 
 	@Autowired
 	private PasswordHistoryNewRepository passwordHistoryNewRepository;
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/registration")
 	public String register(Model model) {
@@ -706,7 +710,7 @@ public class RegistrationController {
 				        "•	First preference in future C-DAC opportunities.\n\n" + 
 				        "Please ensure that you are ready to begin the training on time. We look forward to your active participation and successful completion of the program.\n" + 
 				        "Please ensure that you join the WhatsApp group for Batch 5 to stay updated with all necessary information.\n\n" + 
-				        "WhatsApp Group Link: https://chat.whatsapp.com/FR5dZfWl1JfC6bk87EAHHv\n\n" + 
+				        "WhatsApp Group Link: https://chat.whatsapp.com/KDPrbfVye1oLycOqrfSryS\n\n" + 
 				        "Please access your course content using the following URL: https://cdaccybergyan.uat.dcservices.in/welcome\n\n" +
 				        "Happy Learning! 😊\n\n" +
 				        "Best Regards,\n" +
@@ -730,47 +734,50 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/extend-validity/{studentDtlsId}")
-	public String extendValidity(@PathVariable("studentDtlsId") int studentDtlsId,
-			@RequestParam(value = "validTill") String dobStr,
-			HttpSession session, Model model, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,
-			@RequestParam(value="hppCode") String hppCode) {
+	@Transactional
+	public String extendValidity(@PathVariable("studentDtlsId") int studentDtlsId, @RequestParam(value = "validTill") String extendedDob,
+			HttpSession session, Model model, @RequestParam("_csrf") String csrfToken, HttpServletRequest request, @RequestParam(value="hppCode") String hppCode) {
 
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
-
 		if (csrf.getToken().equals(csrfToken)) {
 			Optional<StudentDtls> studentDtlsOptional = studentRepo.findById(studentDtlsId);
-			
-				String[] params = new String[] { dobStr };
-			
-			
+			String[] params = new String[] { extendedDob };
 			if (!RequestParameterValidationUtility.validateRequestForHPP(params, hppCode)) {
 				logger.info("HTTP Parameter pollution");
 				return "error.html";
 			} 
-			
-			LocalDate dob = null;
+			LocalDate typeCastDOB = null;
 			try {
-				dob = LocalDate.parse(dobStr);
+				typeCastDOB = LocalDate.parse(extendedDob);
 			} catch (DateTimeParseException ex) {
-				// handle invalid date
-				throw new IllegalArgumentException("Invalid date format: " + dobStr);
+				throw new IllegalArgumentException("Invalid date format: " + extendedDob);
 			}
-			
-			
-			
+			LocalDate newValidTillDate = null;
 			if (studentDtlsOptional.isPresent()) {
 				StudentDtls studentDtls = studentDtlsOptional.get();
-
-				// Update the student's validity date
-				studentDtls.setValidTill(dob);
-				studentRepo.save(studentDtls);
-
-				// Update the associated User entity's validity date if user is not null
-				User user1 = userRepo.findByEmailAddress(studentDtls.getEmailAddress());
-				user1.setValidTill(dob);
-				userRepo.save(user1);
+				if(typeCastDOB.equals(studentDtls.getValidTill()))
+				{
+					newValidTillDate = typeCastDOB.plusMonths(3);
+					studentDtls.setValidTill(newValidTillDate);
+					studentRepo.save(studentDtls);
+				}
+				else
+				{
+					newValidTillDate = typeCastDOB;
+					studentDtls.setValidTill(newValidTillDate);
+					studentRepo.save(studentDtls);
+				}
+				User user = userRepo.findByEmailAddress(studentDtls.getEmailAddress());
+				if(user != null)
+				{
+					user.setValidTill(newValidTillDate);
+					userRepo.save(user);
+				}
+				else
+				{
+					userService.saveLoginUser(studentDtls.getEmailAddress(), newValidTillDate, studentDtls);
+				}
 			}
-
 			session.setAttribute("extend", "Validity Extended Successfully !!!");
 			return "redirect:/StudentApproval";
 		} else {

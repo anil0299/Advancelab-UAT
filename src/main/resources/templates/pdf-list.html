@@ -140,6 +140,7 @@
 			            <th class="text-center">S.No.</th>
 			            <th class="text-center">Name</th>
 			            <th class="text-center">Email Address</th>
+			            <th class="text-center">Mobile Number</th>
 	   		            <th class="text-center">Exercise Name</th>
 			            <th class="text-center">PDF Name</th>
 			            <th class="text-center">PDF File</th>
@@ -172,68 +173,86 @@
 	<script>
 		$(document).ready(function() {
 			$('#exportAllExcel').click(function() {
-				var dropdownElement = $('#exportExcel');
-				var dropdown = new bootstrap.Dropdown(dropdownElement);
-			    dropdown.hide();
-				$('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
-				$.ajax({
-					  url: "/submissionData",
-					  type:'GET',
-					  data: {
-						  draw:1,
-						  start:0,
-						  length:-1
-					  },
-					  cache: false,
-					  success: function(table) {
+		        var dropdownElement = $('#exportExcel');
+		        var dropdown = new bootstrap.Dropdown(dropdownElement);
+		        dropdown.hide();
+		        $('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+		        
+		        var allData = [];
+		        var batchSize = 200;
+		        var start = 0;
+		        
+		        function fetchData() {
+		            $.ajax({
+		                url: "/submissionData",
+		                type: 'GET',
+		                data: {
+		                    draw: 1,
+		                    start: start,
+		                    length: batchSize
+		                },
+		                cache: false,
+		                success: function(response) {
+		                    var data = response.data;
+		                    if (data.length > 0) {
+		                        allData = allData.concat(data);
+		                        start += batchSize;
+		                        fetchData();
+		                    } else {
+		                        generateExcel();
+		                    }
+		                },
+		                error: function() {
+		                    $('#exportExcel').removeClass('disabled').html('Export to Excel');
+		                }
+		            });
+		        }
 
-					        var data = table.data;
-			                var wb = XLSX.utils.book_new();
-			                var ws_data = [];
+		        function generateExcel() {
+		            var wb = XLSX.utils.book_new();
+		            var ws_data = [];
 
-			                ws_data.push(['S.No.', 'Name', 'Email Address', 'Exercise Name', 'PDF Name']);
-							
-			                data.sort(function(a, b) {
-			                    return a.exerciseSubmitId - b.exerciseSubmitId;
-			                });
-			                
-			                data.forEach(function(row) {
-			                    ws_data.push([
-			                        row.exerciseSubmitId,
-			                        row.name,
-			                        row.email,
-			                        row.exerciseName || '',
-			                        row.pdfName
-			                    ]);
-			                });
+		            ws_data.push(['S.No.', 'Name', 'Email Address', 'Mobile Number', 'Exercise Name', 'PDF Name']);
 
-			                var ws = XLSX.utils.aoa_to_sheet(ws_data);
+		            allData.sort(function(a, b) {
+		                return a.exerciseSubmitId - b.exerciseSubmitId;
+		            });
 
-			                function getColumnWidth(columnData) {
-			                    var minWidth = 50;
-			                    var maxWidth = 300;
-			                    var baseWidth = 10;
-			                    var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
-			                    var calculatedWidth = baseWidth + maxLength * 7; 
-			                    return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
-			                }
+		            allData.forEach(function(row) {
+		                ws_data.push([
+		                    row.exerciseSubmitId,
+		                    row.name,
+		                    row.email,
+		                    row.mobile,
+		                    row.exerciseName || '',
+		                    row.pdfName
+		                ]);
+		            });
 
-			                var colWidths = ws_data[0].map(function(_, i) {
-			                    var columnData = ws_data.map(row => row[i]);
-			                    return getColumnWidth(columnData);
-			                });
+		            var ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-			                ws['!cols'] = colWidths;
+		            function getColumnWidth(columnData) {
+		                var minWidth = 50;
+		                var maxWidth = 300;
+		                var baseWidth = 10;
+		                var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+		                var calculatedWidth = baseWidth + maxLength * 7;
+		                return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+		            }
 
-			                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+		            var colWidths = ws_data[0].map(function(_, i) {
+		                var columnData = ws_data.map(row => row[i]);
+		                return getColumnWidth(columnData);
+		            });
 
-			                XLSX.writeFile(wb, 'Submission.xlsx');
-			                $('#exportExcel').removeClass('disabled').html('Export to Excel');
-			            },
-			            error: function(){
-			            	$('#exportExcel').removeClass('disabled').html('Export to Excel');
-			            }
-				});
+		            ws['!cols'] = colWidths;
+
+		            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+		            XLSX.writeFile(wb, 'Submission.xlsx');
+		            $('#exportExcel').removeClass('disabled').html('Export to Excel');
+		        }
+
+		        fetchData();
 		    });
 			$('#exportDisplayedExcel').click(function() {
 				var dropdownElement = $('#exportExcel');
@@ -247,7 +266,7 @@
 					var wb = XLSX.utils.book_new();
 	                var ws_data = [];
 
-	                ws_data.push(['S.No.', 'Name', 'Email Address', 'Exercise Name', 'PDF Name']);
+	                ws_data.push(['S.No.', 'Name', 'Email Address','Mobile Number', 'Exercise Name', 'PDF Name']);
 					
 	                data.sort(function(a, b) {
 	                    return a.exerciseSubmitId - b.exerciseSubmitId;
@@ -258,6 +277,7 @@
 	                        row.exerciseSubmitId,
 	                        row.name,
 	                        row.email,
+	                        row.mobile,
 	                        row.exerciseName || '',
 	                        row.pdfName
 	                    ]);
@@ -308,7 +328,8 @@
 		            { data: 'exerciseSubmitId', title: 'S.No.' , className: 'text-center'},
 		            { data: 'name', title: 'Name' , className: 'text-center'},
 		            { data: 'email', title: 'Email Address' , className: 'text-center'},
-		            { data: 'exerciseName', title: 'ExerciseName' , className: 'text-center'},
+		            { data: 'mobile', title: 'Mobile Number' , className: 'text-center'},
+		            { data: 'exerciseName', title: 'Exercise Name' , className: 'text-center'},
 		            { data: 'pdfName', title: 'PDF Name' , className: 'text-center'},
 		            { data: '', title: 'PDF File', className: 'text-center', render: function(data, type, row, ) {
 		                return `
@@ -325,8 +346,8 @@
 		            }}
 		        ],
 		        lengthMenu: [
-		            [10, 25, 50, 100, -1],
-		            [10, 25, 50, 100, 'All']
+		            [10, 25, 50, 100, 500],
+		            [10, 25, 50, 100, 500]
 		        ],
 		        searching: true,
 		        ordering: true,

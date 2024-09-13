@@ -448,9 +448,10 @@ public class HomeController {
 	public String createAdvanceLab(@RequestParam(value="createLabexerciseId") long exerciseId, @RequestParam(value="hppCodeCreateLab") String hppCodeCreateLab)
 									throws InterruptedException, ExecutionException
 	{
-		String validation = advanceLabService.checkInputFeildValidation(exerciseId, hppCodeCreateLab);
-		if(validation.equals("error"))
+		boolean valid = advanceLabService.checkInputFieldValidation(exerciseId, hppCodeCreateLab);
+		if(!valid) {
 			return "error.html";
+		}
 		String labemail = getUsername();
 		String password = advanceLabService.generateUserPass(labemail);
 		List<Vm_Master> AllVmOfTheExercise = vm_MasterRepo.findAllByExerciseId(Long.valueOf(exerciseId));
@@ -468,19 +469,19 @@ public class HomeController {
 			CompletableFuture<String> clonedVmIp = advanceLabService.searchIp(vmName, password);
 			for(int i=0;i<10;i++)
 			{
-				System.out.println("UUID Not found");
 				if(clonedVmUUID.get() != null)
 					break;
-				
+
+				System.out.println("UUID not found");
 				clonedVmUUID = advanceLabService.searchUuid(vmName,password);
 				TimeUnit.SECONDS.sleep(5);
 			}
 			for(int i=0;i<10;i++)
 			{
-				System.out.println("IP Not found");
 				if(clonedVmIp.get() != null)
 					break;
 				
+				System.out.println("IP not found");
 				clonedVmIp = advanceLabService.searchIp(vmName, password);
 				TimeUnit.SECONDS.sleep(5);
 			}
@@ -545,30 +546,27 @@ public class HomeController {
 			}
 		}
 			
-		Optional<Exercise_Master> exId = exercise_MasterRepo.findById(exerciseId);
-		long exerId = exId.get().getEx_id();
-		String key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + exerId + "3vR3mTRMZuemwSlFt4LRXRV62";
+		String key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + exerciseId + "3vR3mTRMZuemwSlFt4LRXRV62";
 		String encodedExId = Base64.getEncoder().encodeToString(key.getBytes());
 		return "redirect:/exercise/" + encodedExId;
-	}
-	
+	}	
 	
 	@PostMapping("/deleteAdvanceLabVM")
 	public String deleteAdvanceLabVM(@RequestParam(value="deleteLabexerciseId") long exerciseId,@RequestParam("submissionPdf") MultipartFile submissionPdf, 
 									 HttpServletRequest request, HttpSession session,@RequestParam(value = "hppCodeDeleteLabVm") String hppCodeDeleteLabVm) throws InterruptedException, IOException, ExecutionException
 	{
-		String validation = advanceLabService.checkInputFeildValidationForDeleteVm(exerciseId, submissionPdf.getOriginalFilename(), hppCodeDeleteLabVm);
-		if(validation.equals("error"))
+		boolean valid = advanceLabService.checkInputFieldValidationForDeleteVm(exerciseId, submissionPdf.getOriginalFilename(), hppCodeDeleteLabVm);
+		if(!valid) {
 			return "error.html";
-		
+		}
 		String username = getUsername();
 		User user = userRepo.findByUsername(username);
 		int userId = user.getId();
-		String pdfMessage = advanceLabService.saveAdvanceLabUserExercise(username,userId,exerciseId,submissionPdf);
-		if(pdfMessage.equals("valid")) {
+		boolean validPdf = advanceLabService.saveAdvanceLabUserExercise(username, userId, exerciseId, submissionPdf).get();
+		if(validPdf) {
 //			Set<String> allVMName = advanceLabUserVmDetailsRepository.findByUsername(username, exerciseId);
 			
-			advanceLabService.deleteAdvanceLabVM(username,exerciseId);
+			advanceLabService.deleteAdvanceLabVM(username, exerciseId);
 			
 //			String authToken = guacamoleService.getAdminToken().get();
 			
@@ -577,13 +575,11 @@ public class HomeController {
 //				boolean status = guacamoleService.deleteConnection(connectionIdentifier, authToken).get();
 //				System.out.println(status);
 //			}
-		}
-		else {
+		} else {
 			session.setAttribute("msg","Your file is malicious.");
-		}	
-		Optional<Exercise_Master> exId = exercise_MasterRepo.findById(exerciseId);
-		long exerId = exId.get().getEx_id();
-		String key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + exerId + "3vR3mTRMZuemwSlFt4LRXRV62";
+		}
+		
+		String key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + exerciseId + "3vR3mTRMZuemwSlFt4LRXRV62";
 		String encodedExId = Base64.getEncoder().encodeToString(key.getBytes());
 		return "redirect:/exercise/" + encodedExId;
 	}
