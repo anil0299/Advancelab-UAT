@@ -368,22 +368,6 @@ public class AdminController {
 		return "pdf-list";
 	}
 
-//	@GetMapping("/folders")
-//	public String displayPDF(Model model) throws IOException {
-//
-//		List<ExerciseSubmission> exerciseSubmission = exerciseSubmission_Repo.findAll();
-//		Map<ExerciseSubmission, String> submissionsWithEmails = new HashMap<>();
-//		if(exerciseSubmission != null)
-//		{
-//			for(ExerciseSubmission exSubmission : exerciseSubmission)
-//			{
-//				String emailAddress = userRepo.findEmailAddressByUsername(exSubmission.getUsername());
-//				submissionsWithEmails.put(exSubmission, emailAddress);
-//			}
-//		}
-//		model.addAttribute("submissionsWithEmails", submissionsWithEmails);
-//		return "pdf-list";
-//	}
 	@GetMapping("/folders")
 	public String displayPdfList(Model model) {
 	    return "pdf-list"; 

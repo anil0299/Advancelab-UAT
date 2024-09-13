@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CyberGyan</title>
-<link rel="stylesheet" href="" th:href="@{/css/pdf.css}" />
+<link rel="stylesheet" th:href="@{/css/pdf.css}" />
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link th:href="@{/css/datatables.css}" rel="stylesheet">
 <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -137,7 +137,7 @@
 			<table class="table table-light table-hover table-bordered w-100" id="approved-table">
 			    <thead>
 			        <tr class="table-info">
-			            <th class="text-center">S.No.</th>
+			            <th class="text-center">ID</th>
 			            <th class="text-center">Name</th>
 			            <th class="text-center">Email Address</th>
 			            <th class="text-center">Mobile Number</th>
@@ -179,7 +179,7 @@
 		        $('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
 		        
 		        var allData = [];
-		        var batchSize = 200;
+		        var batchSize = 100;
 		        var start = 0;
 		        
 		        function fetchData() {
@@ -212,7 +212,7 @@
 		            var wb = XLSX.utils.book_new();
 		            var ws_data = [];
 
-		            ws_data.push(['S.No.', 'Name', 'Email Address', 'Mobile Number', 'Exercise Name', 'PDF Name']);
+		            ws_data.push(['ID', 'Name', 'Email Address', 'Mobile Number', 'Exercise Name', 'PDF Name']);
 
 		            allData.sort(function(a, b) {
 		                return a.exerciseSubmitId - b.exerciseSubmitId;
@@ -266,7 +266,7 @@
 					var wb = XLSX.utils.book_new();
 	                var ws_data = [];
 
-	                ws_data.push(['S.No.', 'Name', 'Email Address','Mobile Number', 'Exercise Name', 'PDF Name']);
+	                ws_data.push(['ID', 'Name', 'Email Address','Mobile Number', 'Exercise Name', 'PDF Name']);
 					
 	                data.sort(function(a, b) {
 	                    return a.exerciseSubmitId - b.exerciseSubmitId;
@@ -325,7 +325,7 @@
 		            }
 		        },
 		        columns: [
-		            { data: 'exerciseSubmitId', title: 'S.No.' , className: 'text-center'},
+		            { data: 'exerciseSubmitId', title: 'ID' , className: 'text-center'},
 		            { data: 'name', title: 'Name' , className: 'text-center'},
 		            { data: 'email', title: 'Email Address' , className: 'text-center'},
 		            { data: 'mobile', title: 'Mobile Number' , className: 'text-center'},

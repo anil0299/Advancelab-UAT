@@ -59,10 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/home", "/ConfigVPN/**", "/filter/**", "/AccessLAB/**", "/dashboard","/createAdvanceLab/**","/launchConsole").hasAuthority("USER")
 				
 				.antMatchers("/adminpage", "/pdfs/**", "/folders/**", "/dashboard", "/LabDetails", "/filter",
-						"/AssignBatch", "/extend-validity/", "/TeacherApproval", "/basiclab","/pdfbasic", "/ExerciseCompletion",
-						"/RegisteredStudents", "/Completionstatus1", "/Statewise", "/Categorywise", "/StateandCategory",
-						"/TeacherApproval/approve-teachertDtls/**","/deleteuser/**","/deletecourse/**","/updateSavebatchex/**","/quizCompletion/**", "/submissionData", "/submissionData/**","/pdf","/pdf/**")
-				.hasAuthority("ADMIN")
+                        "/AssignBatch", "/extend-validity/", "/TeacherApproval", "/basiclab", "/pdfbasic", "/ExerciseCompletion",
+                        "/RegisteredStudents", "/Completionstatus1", "/Statewise", "/Categorywise", "/StateandCategory",
+                        "/TeacherApproval/approve-teachertDtls/**", "/deleteuser/**", "/deletecourse/**", "/updateSavebatchex/**", "/quizCompletion/**", "/submissionData", "/submissionData/**", "/pdf", "/pdf/**",
+                        "/registeredStudentsData", "/registeredStudentsData/**","/basicCompletionStatusData","/basicCompletionStatusData/**","/advanceCompletionStatusData","/advanceCompletionStatusData/**")
+                .hasAuthority("ADMIN")
 				
 				.antMatchers("/AddExercise", "/StudentApproval", "/teacherApproval", "/exercisedetails", "/AdminHome",
 						"/vmdetails", "/addvm", "/assignExercise", "/Batchexercise", "/CenterDetails", "/AddCourse",

@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CyberGyan</title>
-<link rel="stylesheet" href="" th:href="@{/css/StudentApproval.css}" />
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link th:href="@{/css/datatables.css}" rel="stylesheet">
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/datatables.css}">
+<link rel="stylesheet" th:href="@{/css/StudentApproval.css}" />
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}">
+<link rel="stylesheet" th:href="@{/css/datatables.css}">
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{/js/xlsx.full.min.js}"></script>
 <style>
 .progress-bar-container {
 	width: 100%;
@@ -29,9 +30,13 @@
 	border-radius: 4px;
 	background-color: #4CAF50;
 }
+
+.tableBody .column-success {
+	color: #198754;
+}
 </style>
 </head>
-<body style="background-color: rgb(158, 191, 251);">
+<body style="background-color: rgb(158, 191, 251);" class="vh-100">
 	<div class=navcontainer>
 		<div class="img-fluid">
 			<img style="width: 90px; margin-left: 30px;" src=""
@@ -131,11 +136,9 @@
 					<b>Basic Level Completion Status</b>
 				</h1>
 			</div>
-			<div class="card-body" style="background-color: rgb(205, 214, 224);"
-				id="printableArea">
+			<div class="card-body" style="background-color: rgb(205, 214, 224);" id="printableArea">
 				<div class="table-responsive">
-					<table id="dtBasicExample"
-						class="table table-light table-hover table-bordered">
+					<table id="basicCompletion" class="table table-light table-hover table-bordered w-100">
 						<thead>
 							<tr class="table-info">
 							    <th class="text-center">S.No.</th>
@@ -152,50 +155,13 @@
 								<th class="text-center">COMPLETION</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="student1,index : ${studentBasic1}" class="text-center">
-							    <th scope="row" th:text="${index.count}"></th>
-								<td th:text="${student1.id}"></td>
-								<td th:text="${student1.userId}"></td>
-								<td th:text="${student1.courseId}"></td>
-								<td th:text="${student1.courseName}"></td>
-								<td th:text="${student1.firstName}"></td>
-								<td th:text="${student1.lastName}"></td>
-								<td th:text="${student1.email}"></td>
-								<td th:text="${student1.college}"></td>
-								<td th:text="${student1.state}"></td>
-								<td th:text="${student1.batch}"></td>
-								<td><span> <span
-										th:text="${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')} + '%'"
-										th:style="'color: green;'"></span>
-										<span class="progress-bar-container" style="height: 10px;">
-											<span class="progress-bar " role="progressbar"
-												th:style="'width: ' +${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')} + '%;'"
-												th:attr="aria-valuenow=${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')}, aria-valuemin=0, aria-valuemax=100">
-											</span>
-										</span>
-								</span></td>
-							</tr>
+						<tbody class="tableBody">
+							
 						</tbody>
 					</table>
 				</div>
-					
-				<script>
-					$(document).ready(function () {
-						$('#dtBasicExample').DataTable({
-				    	    aLengthMenu: [
-				    	        [25, 50, 100, 200, -1],
-				    	        [25, 50, 100, 200, "All"]
-				    	    ],
-				    	    iDisplayLength: 25
-				    	});
-					});
-				</script>
 				<div class="text-center">
-				<button onclick="downloadExcel()" class="btn btn-primary mb-2"
-					style="margin-top: 8px;">
-					<i class="fa fa-download"></i> Download Excel
-				</button>
+				<button class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportBasicExcel"><i class="fa fa-download"></i> Download Excel</button>
 				<a href="javascript:void(0);" class="btn btn-primary mb-2"
 					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
 					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
@@ -204,7 +170,7 @@
 				</div>
 			</div>
 		</div>
-	<div class="card">
+	<div class="card mb-5">
 			<div class="card-header" style="background-color: white;">
 				<h1 style="font-family: Times New Roman;" class="text-center">
 					<b>Advance Level Completion Status</b>
@@ -213,8 +179,7 @@
 			<div class="card-body" style="background-color: rgb(205, 214, 224);"
 				id="printableArea">
 				<div class="table-responsive">
-					<table id="dtBasicExample1"
-						class="table table-bordered table-hover">
+					<table id="advanceCompletion" class="table table-bordered table-hover w-100">
 						<thead>
 							<tr class="table-info">
 							    <th class="text-center">S.No.</th>
@@ -231,49 +196,13 @@
 								<th class="text-center">COMPLETION</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="student1,index : ${studentAdvance1}" class="text-center">
-							    <th scope="row" th:text="${index.count}"></th>
-								<td th:text="${student1.id}"></td>
-								<td th:text="${student1.userId}"></td>
-								<td th:text="${student1.courseId}"></td>
-								<td th:text="${student1.courseName}"></td>
-								<td th:text="${student1.firstName}"></td>
-								<td th:text="${student1.lastName}"></td>
-								<td th:text="${student1.email}"></td>
-								<td th:text="${student1.college}"></td>
-								<td th:text="${student1.state}"></td>
-								<td th:text="${student1.batch}"></td>
-								<td><span> <span
-										th:text="${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')} + '%'"
-										th:style="'color: green;'"></span>
-										<span class="progress-bar-container" style="height: 10px;">
-											<span class="progress-bar " role="progressbar"
-												th:style="'width: ' +${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')} + '%;'"
-												th:attr="aria-valuenow=${#numbers.formatDecimal(student1.percetageStatus, 0, 'COMMA', 2, 'POINT')}, aria-valuemin=0, aria-valuemax=100">
-											</span>
-										</span>
-								</span></td>
-							</tr>
+						<tbody class="tableBody">
+							
 						</tbody>
 					</table>
 				</div>
-				<script>
-					$(document).ready(function () {
-						$('#dtBasicExample1').DataTable({
-				    	    aLengthMenu: [
-				    	        [25, 50, 100, 200, -1],
-				    	        [25, 50, 100, 200, "All"]
-				    	    ],
-				    	    iDisplayLength: 25
-				    	});
-					});
-				</script>
 				<div class="text-center">
-				<button onclick="downloadExcel()" class="btn btn-primary mb-2"
-					style="margin-top: 8px;">
-					<i class="fa fa-download"></i> Download Excel
-				</button>
+				<button class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportAdvanceExcel"><i class="fa fa-download"></i> Download Excel</button>
 				<a href="javascript:void(0);" class="btn btn-primary mb-2"
 					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
 					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
@@ -297,41 +226,311 @@
 		}
 	</script>
 	<script>
-		function downloadExcel() {
-			var table = document.getElementById("printableArea");
-			var rows = table.getElementsByTagName("tr");
-			var csv = [];
-			for (var i = 0; i < rows.length; i++) {
-				var row = [], cols = rows[i].querySelectorAll("td, th");
-				for (var j = 0; j < cols.length; j++)
-					row.push(cols[j].innerText);
-				csv.push(row.join(","));
-			}
-			var downloadLink = document.createElement("a");
-			var blob = new Blob(["\ufeff", csv.join("\n")], {type: "text/csv;charset=utf-8"});
-			var url = URL.createObjectURL(blob);
-			downloadLink.href = url;
-			downloadLink.download = "data.csv";
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-		}
+	//Basic 
+	$(document).ready(function() {
+	    $('#basicCompletion').DataTable({
+	        processing: true,
+	        serverSide: true,
+	        ajax: {
+	            url: '/basicCompletionStatusData',
+	            method: 'GET',
+	            data: function(d) {
+	            	//console.log(d);
+	                return $.extend({}, d, {
+	                });
+	            },
+	            dataSrc: function(response) {
+	            	//console.log(response);
+	                return response.data;
+	            }
+	        },
+	        columns: [
+	        	{ 
+	        		data: null,
+	                className: "text-center",
+	                title: "S. No",
+	                render: function (data, type, row, meta) {
+	                    return meta.row + meta.settings._iDisplayStart + 1;
+	                }
+	            },
+	            { data: 'id', title: 'ID' , className: 'text-center'},
+	            { data: 'userId', title: 'User ID' , className: 'text-center'},
+	            { data: 'courseId', title: 'Course ID' , className: 'text-center'},
+	            { data: 'courseName', title: 'Course Name' , className: 'text-center'},
+	            { data: 'firstName', title: 'First Name' , className: 'text-center'},
+	            { data: 'lastName', title: 'Last Name' , className: 'text-center'},
+	            { data: 'email', title: 'Email Address' , className: 'text-center'},
+	            { data: 'college', title: 'College' , className: 'text-center'},
+	            { data: 'state', title: 'State' , className: 'text-center'},
+	            { data: 'batch', title: 'Batch/Class' , className: 'text-center'},
+	            { 
+	                data: 'percetageStatus', 
+	                title: 'Completion', 
+	                className: 'text-center column-success fw-bold',
+	                render: function (data, type, row) {
+	                    if (type === 'display' && !isNaN(parseFloat(data))) {
+	                        return parseFloat(data).toFixed(2) + "%";
+	                    }
+	                    return data + "%";
+	                }
+	            }
+	        ],
+	        lengthMenu: [
+	            [10, 25, 50, 100, 500],
+	            [10, 25, 50, 100, 500]
+	        ],
+	        searching: true,
+	        ordering: true,
+	        paging: true,
+	        lengthChange: true,
+	        pageLength: 10
+	    });
+	    
+	});
+	
+	//Basic export Excel
+	$(document).ready(function() {
+		$('#exportBasicExcel').click(function() {
+	        $('#exportBasicExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+	        
+	        var allData = [];
+	        var batchSize = 100;
+	        var start = 0;
+	        
+	        function fetchData() {
+	            $.ajax({
+	                url: "/basicCompletionStatusData",
+	                type: 'GET',
+	                data: {
+	                    draw: 1,
+	                    start: start,
+	                    length: batchSize
+	                },
+	                cache: false,
+	                success: function(response) {
+	                    var data = response.data;
+	                    if (data.length > 0) {
+	                        allData = allData.concat(data);
+	                        start += batchSize;
+	                        fetchData();
+	                    } else {
+	                        generateExcel();
+	                    }
+	                },
+	                error: function() {
+	                    $('#exportBasicExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	                }
+	            });
+	        }
+
+	        function generateExcel() {
+	            var wb = XLSX.utils.book_new();
+	            var ws_data = [];
+
+	            ws_data.push(['ID', 'User ID', 'Course ID', 'Course Name', 'First Name', 'Last Name', 'Email Address', 'College', 'State', 'Batch/Class', 'Completion']);
+
+	            allData.sort(function(a, b) {
+	                return a.exerciseSubmitId - b.exerciseSubmitId;
+	            });
+
+	            allData.forEach(function(row) {
+	                ws_data.push([
+	                    row.id,
+	                    row.userId,
+	                    row.courseId,
+	                    row.courseName,
+	                    row.firstName,
+	                    row.lastName,
+	                    row.email,
+	                    row.college,
+	                    row.state,
+	                    row.batch,
+	                    parseFloat(row.percetageStatus).toFixed(2)
+	                ]);
+	            });
+
+	            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	            function getColumnWidth(columnData) {
+	                var minWidth = 50;
+	                var maxWidth = 300;
+	                var baseWidth = 10;
+	                var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+	                var calculatedWidth = baseWidth + maxLength * 7;
+	                return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+	            }
+
+	            var colWidths = ws_data[0].map(function(_, i) {
+	                var columnData = ws_data.map(row => row[i]);
+	                return getColumnWidth(columnData);
+	            });
+
+	            ws['!cols'] = colWidths;
+
+	            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	            XLSX.writeFile(wb, 'Basic Level Completion.xlsx');
+	            $('#exportBasicExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	        }
+
+	        fetchData();
+	    });
+	});
+	
+	//Advance
+	$(document).ready(function() {
+	    $('#advanceCompletion').DataTable({
+	        processing: true,
+	        serverSide: true,
+	        ajax: {
+	            url: '/advanceCompletionStatusData',
+	            method: 'GET',
+	            data: function(d) {
+	            	//console.log(d);
+	                return $.extend({}, d, {
+	                });
+	            },
+	            dataSrc: function(response) {
+	            	//console.log(response);
+	                return response.data;
+	            }
+	        },
+	        columns: [
+	        	{ 
+	        		data: null,
+	                className: "text-center",
+	                title: "S. No",
+	                render: function (data, type, row, meta) {
+	                    return meta.row + meta.settings._iDisplayStart + 1;
+	                }
+	            },
+	            { data: 'id', title: 'ID' , className: 'text-center'},
+	            { data: 'userId', title: 'User ID' , className: 'text-center'},
+	            { data: 'courseId', title: 'Course ID' , className: 'text-center'},
+	            { data: 'courseName', title: 'Course Name' , className: 'text-center'},
+	            { data: 'firstName', title: 'First Name' , className: 'text-center'},
+	            { data: 'lastName', title: 'Last Name' , className: 'text-center'},
+	            { data: 'email', title: 'Email Address' , className: 'text-center'},
+	            { data: 'college', title: 'College' , className: 'text-center'},
+	            { data: 'state', title: 'State' , className: 'text-center'},
+	            { data: 'batch', title: 'Batch/Class' , className: 'text-center'},
+	            { 
+	                data: 'percetageStatus', 
+	                title: 'Completion', 
+	                className: 'text-center column-success fw-bold',
+	                render: function (data, type, row) {
+	                    if (type === 'display' && !isNaN(parseFloat(data))) {
+	                        return parseFloat(data).toFixed(2) + "%";
+	                    }
+	                    return data + "%";
+	                }
+	            }
+	        ],
+	        lengthMenu: [
+	            [10, 25, 50, 100, 500],
+	            [10, 25, 50, 100, 500]
+	        ],
+	        searching: true,
+	        ordering: true,
+	        paging: true,
+	        lengthChange: true,
+	        pageLength: 10
+	    });
+	    
+	});
+	
+	//Advance export Excel
+	$(document).ready(function() {
+		$('#exportAdvanceExcel').click(function() {
+	        $('#exportAdvanceExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+	        
+	        var allData = [];
+	        var batchSize = 100;
+	        var start = 0;
+	        
+	        function fetchData() {
+	            $.ajax({
+	                url: "/advanceCompletionStatusData",
+	                type: 'GET',
+	                data: {
+	                    draw: 1,
+	                    start: start,
+	                    length: batchSize
+	                },
+	                cache: false,
+	                success: function(response) {
+	                    var data = response.data;
+	                    if (data.length > 0) {
+	                        allData = allData.concat(data);
+	                        start += batchSize;
+	                        fetchData();
+	                    } else {
+	                        generateExcel();
+	                    }
+	                },
+	                error: function() {
+	                    $('#exportAdvanceExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	                }
+	            });
+	        }
+
+	        function generateExcel() {
+	            var wb = XLSX.utils.book_new();
+	            var ws_data = [];
+
+	            ws_data.push(['ID', 'User ID', 'Course ID', 'Course Name', 'First Name', 'Last Name', 'Email Address', 'College', 'State', 'Batch/Class', 'Completion']);
+
+	            allData.sort(function(a, b) {
+	                return a.exerciseSubmitId - b.exerciseSubmitId;
+	            });
+
+	            allData.forEach(function(row) {
+	                ws_data.push([
+	                    row.id,
+	                    row.userId,
+	                    row.courseId,
+	                    row.courseName,
+	                    row.firstName,
+	                    row.lastName,
+	                    row.email,
+	                    row.college,
+	                    row.state,
+	                    row.batch,
+	                    parseFloat(row.percetageStatus).toFixed(2)
+	                ]);
+	            });
+
+	            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	            function getColumnWidth(columnData) {
+	                var minWidth = 50;
+	                var maxWidth = 300;
+	                var baseWidth = 10;
+	                var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+	                var calculatedWidth = baseWidth + maxLength * 7;
+	                return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+	            }
+
+	            var colWidths = ws_data[0].map(function(_, i) {
+	                var columnData = ws_data.map(row => row[i]);
+	                return getColumnWidth(columnData);
+	            });
+
+	            ws['!cols'] = colWidths;
+
+	            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	            XLSX.writeFile(wb, 'Advance Level Completion.xlsx');
+	            $('#exportAdvanceExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	        }
+
+	        fetchData();
+	    });
+	});
 	</script>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<div class="class-footer">
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Copyright &copy; 2022 </b>
+	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
+		<p style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			Copyright &copy; 2022
 		</p>
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Designed and Developed by CDAC</b>
-		</p>
+		<p style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Designed and Developed by CDAC</p>
 	</div>
 </body>
 </html>

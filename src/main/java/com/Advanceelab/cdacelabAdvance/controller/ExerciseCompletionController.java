@@ -4,14 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.Advanceelab.cdacelabAdvance.dto.DataTable;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.StudentVideoWatchInf;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
@@ -45,30 +51,95 @@ public class ExerciseCompletionController {
 
 	@GetMapping("/Completionstatus1")
 	public String listexercisescom(Model model) {
-		
-		//List<StudentVideoWatchInf> studentBasic=studentVideoWatchInfRepo.findByCourseType("%Basic");
-		List<StudentVideoWatchInf> studentBasic1=studentVideoWatchInfRepo.findByCourseType1("Basic");
-//		for(StudentVideoWatchInf s1:studentBasic)
-//		{
-//			System.out.println(s1);
-//		}
-		
-		
-		model.addAttribute("studentBasic1", studentBasic1);
-		
-	//	List<StudentVideoWatchInf> studentAdvance=studentVideoWatchInfRepo.findByCourseType("%Advance");
-		List<StudentVideoWatchInf> studentAdvance1=studentVideoWatchInfRepo.findByCourseType1("Advance");
-//		for(StudentVideoWatchInf s2:studentAdvance)
-//		{
-//			System.out.println(s2);
-//		}
-		model.addAttribute("studentAdvance1", studentAdvance1);
-		
    
 	    return "Completionstatus1";
 	}
 
+	@GetMapping("/basicCompletionStatusData")
+	public ResponseEntity<DataTable<StudentVideoWatchInf>> fetchBasicCompletionStatusData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+        	case 1: sortBy = "id"; break;
+            case 2: sortBy = "userId"; break;
+            case 3: sortBy = "courseId"; break;
+            case 4: sortBy = "courseName"; break;
+            case 5: sortBy = "firstName"; break;
+            case 6: sortBy = "lastName"; break;
+            case 7: sortBy = "email"; break;
+            case 8: sortBy = "college"; break;
+            case 9: sortBy = "state"; break;
+            case 10: sortBy = "batch"; break;
+            case 11: sortBy = "percetageStatus"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentVideoWatchInf> responseData = studentVideoWatchInfRepo.searchBasicCompletion(searchTerm, "Basic", pageable);
+        
+        DataTable<StudentVideoWatchInf> dataTable = new DataTable<StudentVideoWatchInf>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+	}
 	
+	@GetMapping("/advanceCompletionStatusData")
+	public ResponseEntity<DataTable<StudentVideoWatchInf>> fetchAdvanceCompletionStatusData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+        	case 1: sortBy = "id"; break;
+            case 2: sortBy = "userId"; break;
+            case 3: sortBy = "courseId"; break;
+            case 4: sortBy = "courseName"; break;
+            case 5: sortBy = "firstName"; break;
+            case 6: sortBy = "lastName"; break;
+            case 7: sortBy = "email"; break;
+            case 8: sortBy = "college"; break;
+            case 9: sortBy = "state"; break;
+            case 10: sortBy = "batch"; break;
+            case 11: sortBy = "percetageStatus"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentVideoWatchInf> responseData = studentVideoWatchInfRepo.searchBasicCompletion(searchTerm, "Advance", pageable);
+        
+        DataTable<StudentVideoWatchInf> dataTable = new DataTable<StudentVideoWatchInf>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+	}
 
 //	@GetMapping("/Categorywise")
 //	public String categorys(Model model) {
@@ -155,11 +226,52 @@ public class ExerciseCompletionController {
 
 	@GetMapping("/RegisteredStudents")
 	public String RegisteredStudents(Model model) {
-		List<StudentDtls> list = studentRepo.findByApproveAndRole(true,"USER");
-		model.addAttribute("list", list);
+		
 		return "RegisteredStudents";
 	}
 
+	@GetMapping("/registeredStudentsData")
+	public ResponseEntity<DataTable<StudentDtls>> fetchRegisteredStudentsData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+            case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "lastName"; break;
+            case 4: sortBy = "emailAddress"; break;
+            case 5: sortBy = "mobileNumber"; break;
+            case 6: sortBy = "dob"; break;
+            case 7: sortBy = "category"; break;
+            case 8: sortBy = "gender"; break;
+            case 9: sortBy = "state"; break;
+            case 10: sortBy = "college"; break;
+            case 11: sortBy = "batch"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentDtls> responseData = studentRepo.searchStudents(searchTerm, pageable);
+        
+        DataTable<StudentDtls> dataTable = new DataTable<StudentDtls>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+	}
 
 //	@GetMapping("/StateandCategory")
 //	public String getStatewiseancat(Model model) {

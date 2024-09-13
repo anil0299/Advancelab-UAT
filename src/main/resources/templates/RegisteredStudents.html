@@ -4,216 +4,269 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CyberGyan</title>
-<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link th:href="@{/css/datatables.css}" rel="stylesheet">
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/FileSaver.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/tableexport.js}"></script>
+<link rel="stylesheet" th:href="@{/css/AdminHome.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/datatables.css}">
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
-<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
 </head>
-<body style="background-color: rgb(158, 191, 251);">
+<body style="background-color: rgb(158, 191, 251);" class="vh-100">
 	<div class=navcontainer>
 		<div class="img-fluid">
-			<img style="width: 90px; margin-left: 30px;" src=""
-				th:src="@{/images/cdac-wo-bg.png}" alt="">
-			<form th:action="@{/logout}" method="post"
-				style="float: right; margin-top: 25px; margin-right: 10px">
-				<a th:href="@{/}" class="btn btn-primary mb-2"
-					style="margin-top: 10px;">Home</a> <input type="submit"
-					class="btn btn-primary" value="Logout" />
+			<img style="width: 90px; margin-left: 30px;" th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post" style="float: right; margin-top: 25px; margin-right: 10px">
+				<a th:href="@{/}" class="btn btn-primary mb-2" style="margin-top: 10px;">Home</a> <input type="submit" class="btn btn-primary" value="Logout" />
 			</form>
 		</div>
 	</div>
 	<div class="lab-desc">
 		<a href="AdminHome" style="color: white; text-decoration: none;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="nav-link dropdown-toggle text-white " href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> E-LAB Details </a>
+		<a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> E-LAB Details </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-			<li><a class="dropdown-item " href="AddExercise">Add
-					Exercise</a></li>
-			<li><a class="dropdown-item  " href="exercisedetails">View
-					Exercise details</a></li>
+			<li><a class="dropdown-item " href="AddExercise">Add Exercise</a></li>
+			<li><a class="dropdown-item  " href="exercisedetails">View Exercise details</a></li>
 			<li><a class="dropdown-item" href="addvm">Add VM</a></li>
-			<li><a class="dropdown-item" href="vmdetails">View VM
-					details</a></li>
-			<li><a class="dropdown-item" href="LabDetails">View E-LAB
-					Details</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><a class="dropdown-item" href="vmdetails">View VM details</a></li>
+			<li><a class="dropdown-item" href="LabDetails">View E-LAB Details</a></li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a class="nav-link dropdown-toggle text-white" href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> Assignment </a>
+		<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Assignment </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 			<li><a class="dropdown-item" href="AssignBatch">Assign Batch</a></li>
-			<li><a class="dropdown-item" href="assignExercise">Assign
-					Exercise</a></li>
-			<li><a class="dropdown-item" href="Batchexercise">View
-					Batchwise Exercise</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><a class="dropdown-item" href="assignExercise">Assign Exercise</a></li>
+			<li><a class="dropdown-item" href="Batchexercise">View Batchwise Exercise</a></li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a class="nav-link dropdown-toggle text-white" href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> Registration Approval </a>
+		<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Registration Approval </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-			<li><a class="dropdown-item" href="StudentApproval">Student
-					Approval</a></li>
-			<li><a class="dropdown-item" href="TeacherApproval">Teacher
-					Approval</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><a class="dropdown-item" href="StudentApproval">Student Approval</a></li>
+			<li><a class="dropdown-item" href="TeacherApproval">Teacher Approval</a></li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a class="nav-link dropdown-toggle text-white " href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> Center Dashboard </a>
+		<a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Center Dashboard </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-			<li><a class="dropdown-item " href="CenterDetails">Center
-					Details</a></li>
+			<li><a class="dropdown-item " href="CenterDetails">Center Details</a></li>
 			<li><a class="dropdown-item " href="AddCourse">Add Course</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a class="nav-link dropdown-toggle text-white " href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> Submissions </a>
+		<a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Submissions </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 			<li><a class="dropdown-item " href="folders">Advance Lab</a></li>
 			<li><a class="dropdown-item " href="basiclab">Basic Lab</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a class="active" href="ExerciseCompletion" style="color: white;">
-			Reports </a>
-		<a class="nav-link dropdown-toggle text-white" href="#"
-			id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-			aria-expanded="false"> Exercise Content </a>
+		<a class="active" href="ExerciseCompletion" style="color: white;">Reports </a>
+		<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Exercise Content </a>
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 			<li><a class="dropdown-item" href="AddExerciseContent">Add Exercise Content</a></li>
 			<li><a class="dropdown-item" href="AddExerciseImage">Add Exercise Image</a></li>
 			<li><a class="dropdown-item" href="updateExerciseContent">Update Exercise Content</a></li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
+			<li><hr class="dropdown-divider"></li>
 		</ul>
-		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="StudentTrackTime" style="color: white; text-decoration: none;">Student Track Time</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-	<div class="card">
-			<div class="card-header" style="background-color: white;">
-				<h1 style="font-family: Times New Roman;" class="text-center">
-					<b>Registered Students Status</b>
-				</h1>
+	<div class="card mb-5">
+		<div class="card-header" style="background-color: white;">
+			<h1 style="font-family: Times New Roman;" class="text-center">
+				<b>Registered Students Status</b>
+			</h1>
+		</div>
+		<div class="card-body" style="background-color: rgb(205, 214, 224);">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover w-100" id="registered-student-table">
+					<thead>
+						<tr class="table-info">
+						    <th class="text-center">S. No.</th>
+						    <th class="text-center">ID</th>
+							<th class="text-center">FIRST NAME</th>
+							<th class="text-center">LAST NAME</th>
+							<th class="text-center">E-MAIL</th>
+							<th class="text-center">MOBILE NUMBER</th>
+							<th class="text-center">DATE OF BIRTH</th>
+							<th class="text-center">CATEGORY</th>
+							<th class="text-center">GENDER</th>
+							<th class="text-center">STATE</th>
+							<th class="text-center">COLLEGE</th>
+							<th class="text-center">BATCH/CLASS</th>								
+						</tr>
+					</thead>
+					<tbody>
+						<!-- This will get populated by Datatable -->
+					</tbody>
+				</table>
 			</div>
-			<div class="card-body" style="background-color: rgb(205, 214, 224);">
-				<div class="table-responsive">
-					<table class="table table-bordered table-hover"
-						id="export-btn">
-						<thead>
-							<tr class="table-info">
-							    <th class="text-center">S. No.</th>
-							    <th class="text-center">ID</th>
-								<th class="text-center">FIRST NAME</th>
-								<th class="text-center">LAST NAME</th>
-								<th class="text-center">E-MAIL</th>
-								<th class="text-center">MOBILE NUMBER</th>
-								<th class="text-center">CATEGORY</th>
-								<th class="text-center">GENDER</th>
-								<th class="text-center">STATE</th>
-								<th class="text-center">COLLEGE</th>
-								<th class="text-center">BATCH/CLASS</th>								
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="student,istat : ${list}" class="text-center">
-							    <th scope="row" th:text="${istat.count}"></th>
-								<td th:text="${student.id}"></td>
-								<td th:text="${student.firstName}"></td>
-								<td th:text="${student.lastName}"></td>
-								<td th:text="${student.emailAddress}"></td>
-								<td th:text="${student.mobileNumber}"></td>
-								<td th:text="${student.category}"></td>
-								<td th:text="${student.gender}"></td>
-								<td th:text="${student.state}"></td>
-								<td th:text="${student.college}"></td>
-								<td>
-								   <strong>
-								    <span th:if="${student.batch}" th:text="${student.batch}"></span>
-								    <span th:if="${student.batch} and ${student.className}"></span>
-								    <span th:if="${student.className}" th:text="${student.className}"></span>
-								   </strong>
-								</td>							
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="text-center">
-				<button onclick="downloadExcel()" class="btn btn-primary mb-2"
-					style="margin-top: 8px;">
-					<i class="fa fa-download"></i> Download Excel
-				</button>
-				<a th:href="@{/ExerciseCompletion}" class="btn btn-primary mb-2"
-					style="margin-top: 8px;">Back</a>
-				</div>
+			<div class="text-center">
+			<button onclick="downloadExcel()" class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportExcel">
+				<i class="fa fa-download"></i> Download Excel
+			</button>
+			<a th:href="@{/ExerciseCompletion}" class="btn btn-primary mb-2" style="margin-top: 8px;">Back</a>
 			</div>
 		</div>
-	<script>
-        function downloadExcel() {
-          var table = document.getElementById("export-btn");
-          var rows = table.getElementsByTagName("tr");
-          var csv = [];
-          for (var i = 0; i < rows.length; i++) {
-            var row = [],
-              cols = rows[i].querySelectorAll("td, th");
-            for (var j = 0; j < cols.length; j++)
-              row.push(cols[j].innerText);
-            csv.push(row.join(","));
-          }
-          var downloadLink = document.createElement("a");
-          var blob = new Blob(["\ufeff", csv.join("\n")], {
-            type: "text/csv;charset=utf-8"
-          });
-          var url = URL.createObjectURL(blob);
-          downloadLink.href = url;
-          downloadLink.download = "data.csv";
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
-        }
-      </script>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<div class="class-footer">
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Copyright &copy; 2022 
-		</p>
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Designed
-			and Developed by CDAC</p>
 	</div>
-	<script type="text/javascript">
-	$(document).ready(function() {
-        $('#export-btn').DataTable({
-    	    aLengthMenu: [
-    	        [25, 50, 100, 200, -1],
-    	        [25, 50, 100, 200, "All"]
-    	    ],
-    	    iDisplayLength: -1
-    	});
+	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
+		<p style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			Copyright &copy; 2022
+		</p>
+		<p style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">Designed and Developed by CDAC</p>
+	</div>
+<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<script src="/js/xlsx.full.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#registered-student-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/registeredStudentsData',
+            method: 'GET',
+            data: function(d) {
+            	//console.log(d);
+                return $.extend({}, d, {
+                });
+            },
+            dataSrc: function(response) {
+            	//console.log(response);
+                return response.data;
+            }
+        },
+        columns: [
+        	{ 
+        		data: null,
+                className: "text-center",
+                title: "S. No",
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { data: 'id', title: 'ID' , className: 'text-center'},
+            { data: 'firstName', title: 'First Name' , className: 'text-center'},
+            { data: 'lastName', title: 'Last Name' , className: 'text-center'},
+            { data: 'emailAddress', title: 'Email Address' , className: 'text-center'},
+            { data: 'mobileNumber', title: 'Mobile Number' , className: 'text-center'},
+            { data: 'dob', title: 'Date of Birth' , className: 'text-center'},
+            { data: 'category', title: 'Category' , className: 'text-center'},
+            { data: 'gender', title: 'Gender' , className: 'text-center'},
+            { data: 'state', title: 'State' , className: 'text-center'},
+            { data: 'college', title: 'College', className: 'text-center'},
+            { 
+            	"data": null,
+                "title": "Batch/Class",
+                "className": "text-center fw-bold",
+                "render": function(data, type, row) {
+                    var batch = row.batch;
+                    var className = row.className;
+
+                    if (batch) {
+                        return batch;
+                    } else if (className) {
+                        return className;
+                    } else {
+                        return '';
+                    }
+                }
+            } 
+        ],
+        lengthMenu: [
+            [10, 25, 50, 100, 500],
+            [10, 25, 50, 100, 500]
+        ],
+        searching: true,
+        ordering: true,
+        paging: true,
+        lengthChange: true,
+        pageLength: 10
     });
+    
+});
+
+$(document).ready(function() {
+	$('#exportExcel').click(function() {
+        $('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+        
+        var allData = [];
+        var batchSize = 100;
+        var start = 0;
+        
+        function fetchData() {
+            $.ajax({
+                url: "/registeredStudentsData",
+                type: 'GET',
+                data: {
+                    draw: 1,
+                    start: start,
+                    length: batchSize
+                },
+                cache: false,
+                success: function(response) {
+                    var data = response.data;
+                    if (data.length > 0) {
+                        allData = allData.concat(data);
+                        start += batchSize;
+                        fetchData();
+                    } else {
+                        generateExcel();
+                    }
+                },
+                error: function() {
+                    $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+                }
+            });
+        }
+
+        function generateExcel() {
+            var wb = XLSX.utils.book_new();
+            var ws_data = [];
+
+            ws_data.push(['ID','First Name', 'Last Name', 'Email Address', 'Mobile Number', 'Date of Birth', 'Category', 'Gender', 'State', 'College','Batch/Class']);
+
+            allData.sort(function(a, b) {
+                return a.exerciseSubmitId - b.exerciseSubmitId;
+            });
+
+            allData.forEach(function(row) {
+                ws_data.push([
+                    row.id,
+                    row.firstName,
+                    row.lastName,
+                    row.emailAddress,
+                    row.mobileNumber,
+                    row.dob,
+                    row.category,
+                    row.gender,
+                    row.state,
+                    row.college,
+                    row.batch || row.className || ''
+                ]);
+            });
+
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+            function getColumnWidth(columnData) {
+                var minWidth = 50;
+                var maxWidth = 300;
+                var baseWidth = 10;
+                var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+                var calculatedWidth = baseWidth + maxLength * 7;
+                return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+            }
+
+            var colWidths = ws_data[0].map(function(_, i) {
+                var columnData = ws_data.map(row => row[i]);
+                return getColumnWidth(columnData);
+            });
+
+            ws['!cols'] = colWidths;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, 'Registered Students.xlsx');
+            $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+        }
+
+        fetchData();
+    });
+});
 </script>
 </body>
 </html>
