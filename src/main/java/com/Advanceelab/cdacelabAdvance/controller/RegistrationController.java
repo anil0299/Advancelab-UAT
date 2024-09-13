@@ -871,11 +871,10 @@ public class RegistrationController {
 		
 		StudentDtls studentDtls = studentRepo.findByEmailAddress(rejected.getEmailAddress());
 		String firstName = studentDtls.getFirstName();
-		String lastName = studentDtls.getLastName();
 		LocalDate dob = studentDtls.getDob();
 		String hciPassword = basicLabService.generateHciPassword(firstName, dob);
 		String samAccountName = studentDtls.getId()+"";
-		String output = activeDirectoryService.createUserInAD(firstName+" "+lastName, hciPassword, samAccountName, newEmail, username);
+		String output = activeDirectoryService.createUserInAD(newEmail, hciPassword, samAccountName, newEmail, username);
 		System.out.println(output);
 		
 		

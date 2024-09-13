@@ -302,12 +302,11 @@ public class HomeController {
 			//Creating account in AD-Cybergyan start here
 			StudentDtls studentDtls = studentRepo.findByLabemail(userlogin);
 			String firstName = studentDtls.getFirstName();
-			String lastName = studentDtls.getLastName();
 			LocalDate dob = studentDtls.getDob();
 			String hciPassword = basicLabService.generateHciPassword(firstName, dob);
 			String samAccountName = studentDtls.getId()+"";
 			String username = userlogin.substring(0, userlogin.indexOf("@"));
-			String output = activeDirectoryService.createUserInAD(firstName+" "+lastName, hciPassword, samAccountName, userlogin, username);
+			String output = activeDirectoryService.createUserInAD(userlogin, hciPassword, samAccountName, userlogin, username);
 			System.out.println(output);
 			
 			//AD-Cybergyan ends here
