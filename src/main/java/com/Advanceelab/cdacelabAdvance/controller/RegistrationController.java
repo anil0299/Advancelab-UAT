@@ -698,8 +698,8 @@ public class RegistrationController {
 				System.out.println(output);
 				
 				String confirmationEmail = "Dear Applicant,\n\n" +
-				        "We are pleased to confirm your enrollment in Batch 5 of the Cyber Gyan Virtual Training and Internship Program!\n\n" +
-				        "Program Details:\n\n" + "•	Start Date: 16th September 2024\n" +"•	Duration: 6 weeks (45 days)\n" + "•	Mode: Virtual & Self-Paced\n\n" +
+				        "We are pleased to confirm your enrollment in Batch 6 of the Cyber Gyan Virtual Training and Internship Program!\n\n" +
+				        "Program Details:\n\n" + "•	Start Date: 07th October  2024\n" +"•	Duration: 6 weeks (45 days)\n" + "•	Mode: Virtual & Self-Paced\n\n" +
 				        "What to Expect:\n\n" + "•	Week 1: Complete all quizzes from the basic module on the Cyber Gyan portal.\n" +
 				        "•	Week 2 & 3: Complete any 5 exercises from the advanced module.\n" + "•	Week 4: Project exercises will be assigned to those who complete the course.\n" +
 				        "•	Final Week (Week 6): Submit your project (Document + PPT) and participate in the valedictory session for certification.\n\n" + 
@@ -710,7 +710,7 @@ public class RegistrationController {
 				        "•	First preference in future C-DAC opportunities.\n\n" + 
 				        "Please ensure that you are ready to begin the training on time. We look forward to your active participation and successful completion of the program.\n" + 
 				        "Please ensure that you join the WhatsApp group for Batch 5 to stay updated with all necessary information.\n\n" + 
-				        "WhatsApp Group Link: https://chat.whatsapp.com/KDPrbfVye1oLycOqrfSryS\n\n" + 
+				        "WhatsApp Group Link: https://chat.whatsapp.com/Lf09EC986He3UDQMSfSYMb\n\n" + 
 				        "Please access your course content using the following URL: https://cdaccybergyan.uat.dcservices.in/welcome\n\n" +
 				        "Happy Learning! 😊\n\n" +
 				        "Best Regards,\n" +

@@ -40,6 +40,7 @@
 		<ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 			<li><a class="dropdown-item" href="StudentApproval">Student Approval</a></li>
 			<li><a class="dropdown-item" href="TeacherApproval">Teacher Approval</a></li>
+			<li><a class="dropdown-item" href="ManageCourseAccess">Manage Course Access</a></li>
 			<li><hr class="dropdown-divider"></li>
 		</ul>
 		<a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Center Dashboard </a>
@@ -80,14 +81,19 @@
 						    <th class="text-center">ID</th>
 							<th class="text-center">FIRST NAME</th>
 							<th class="text-center">LAST NAME</th>
-							<th class="text-center">E-MAIL</th>
+							<th class="text-center">FATHER'S NAME</th>
+							<th class="text-center">QUALIFICATION</th>
+							<th class="text-center">EMAIL ADDRESS</th>
 							<th class="text-center">MOBILE NUMBER</th>
 							<th class="text-center">DATE OF BIRTH</th>
 							<th class="text-center">CATEGORY</th>
 							<th class="text-center">GENDER</th>
 							<th class="text-center">STATE</th>
 							<th class="text-center">COLLEGE</th>
-							<th class="text-center">BATCH/CLASS</th>								
+							<th class="text-center">BATCH/CLASS</th>
+							<th class="text-center">REGISTRATION DATE</th>
+							<th class="text-center">APPROVED DATE</th>
+							<th class="text-center">VALID TILL</th>								
 						</tr>
 					</thead>
 					<tbody>
@@ -143,6 +149,8 @@ $(document).ready(function() {
             { data: 'id', title: 'ID' , className: 'text-center'},
             { data: 'firstName', title: 'First Name' , className: 'text-center'},
             { data: 'lastName', title: 'Last Name' , className: 'text-center'},
+            { data: 'fatherName', title: "Father's Name" , className: 'text-center'},
+            { data: 'qualification', title: 'Qualification' , className: 'text-center'},
             { data: 'emailAddress', title: 'Email Address' , className: 'text-center'},
             { data: 'mobileNumber', title: 'Mobile Number' , className: 'text-center'},
             { data: 'dob', title: 'Date of Birth' , className: 'text-center'},
@@ -166,7 +174,10 @@ $(document).ready(function() {
                         return '';
                     }
                 }
-            } 
+            },
+            { data: 'registrationDate', title: 'Registration Date', className: 'text-center'},
+            { data: 'approvedDate', title: 'Approved Date', className: 'text-center'},
+            { data: 'validTill', title: 'Valid Till', className: 'text-center'}
         ],
         lengthMenu: [
             [10, 25, 50, 100, 500],
@@ -219,7 +230,7 @@ $(document).ready(function() {
             var wb = XLSX.utils.book_new();
             var ws_data = [];
 
-            ws_data.push(['ID','First Name', 'Last Name', 'Email Address', 'Mobile Number', 'Date of Birth', 'Category', 'Gender', 'State', 'College','Batch/Class']);
+            ws_data.push(['ID','First Name', 'Last Name', "Father's Name", 'Qualification', 'Email Address', 'Mobile Number', 'Date of Birth', 'Category', 'Gender', 'State', 'College','Batch/Class','Registration Date','Approved Date','Valid Till']);
 
             allData.sort(function(a, b) {
                 return a.exerciseSubmitId - b.exerciseSubmitId;
@@ -230,6 +241,8 @@ $(document).ready(function() {
                     row.id,
                     row.firstName,
                     row.lastName,
+                    row.fatherName,
+                    row.qualification,
                     row.emailAddress,
                     row.mobileNumber,
                     row.dob,
@@ -237,7 +250,10 @@ $(document).ready(function() {
                     row.gender,
                     row.state,
                     row.college,
-                    row.batch || row.className || ''
+                    row.batch || row.className || '',
+                    row.registrationDate,
+                    row.approvedDate,
+                    row.validTill
                 ]);
             });
 

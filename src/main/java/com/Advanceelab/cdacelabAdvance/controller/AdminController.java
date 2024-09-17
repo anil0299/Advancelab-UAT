@@ -56,6 +56,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.Advanceelab.cdacelabAdvance.dto.AdvanceLabSubmission;
 import com.Advanceelab.cdacelabAdvance.dto.BatchCompletionStatus;
 import com.Advanceelab.cdacelabAdvance.dto.DataTable;
+import com.Advanceelab.cdacelabAdvance.dto.LabCompletion;
 import com.Advanceelab.cdacelabAdvance.entity.AddCourse;
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.BasicLabSubmission;
@@ -816,43 +817,85 @@ public class AdminController {
 
 	@GetMapping("/LabCompletion")
 	public String LabCompletionStatus(Model model) {
-		List<StudentDtls> studentDtls = studentRepo.findByApproveAndRole(true, "USER");
-
-		Map<String, Double> percent = new HashMap<>();
-
-		for (StudentDtls stu : studentDtls) {
-
-			String str = stu.getEmailAddress().substring(0, stu.getEmailAddress().indexOf('@')) + '@' + "cybergyan.in";
-
-			Integer exsb = exerciseSubmission_Repo.findByEmail(str);
-
-			if (exsb != null && exsb > 0) { // Check if exsb is not null and greater than zero
-				if (stu.getBatch() > 0) {
-					Integer batch = batch_Master_repo.findDtlsByBatch_no(stu.getBatch());
-					if (batch != null) {
-						// System.out.println(batch);
-						double per = ((double) exsb / batch) * 100;
-						percent.put(stu.getEmailAddress(), per);
-					}
-				} else {
-					Integer classExercise = classExerciseRepo.getByClassName(stu.getClassName());
-					if (classExercise != null) {
-						/* System.out.println(classExercise); */
-						double per = ((double) exsb / classExercise) * 100;
-						percent.put(stu.getEmailAddress(), per);
-					}
-				}
-			} else {
-				// Handle the case where exsb is null or zero (to avoid division by zero)
-				percent.put(stu.getEmailAddress(), 0.0); // You can set the percentage to 0 or handle it differently
-			}
-		}
-
-		model.addAttribute("studentDtls", studentDtls);
-		model.addAttribute("percent", percent);
-
 		return "LabCompletion";
 	}
+	
+	@GetMapping("/labCompletionStatusData")
+	public ResponseEntity<DataTable<LabCompletion>> fetchLabCompletionStatusData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+        	case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "lastName"; break;
+            case 4: sortBy = "emailAddress"; break;
+            case 5: sortBy = "college"; break;
+            case 6: sortBy = "state"; break;
+            case 7: sortBy = "id"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentDtls> responseData = studentRepo.searchStudentsBasicDetails(searchTerm, pageable);
+        
+        List<LabCompletion> allLabCompletion = new ArrayList<>();
+        
+        for(StudentDtls s:responseData) {
+        	LabCompletion labCompletion = new LabCompletion();
+        	labCompletion.setId(s.getId());
+        	labCompletion.setFirstName(s.getFirstName());
+        	labCompletion.setLastName(s.getLastName());
+        	labCompletion.setEmailAddress(s.getEmailAddress());
+        	labCompletion.setCollege(s.getCollege());
+        	labCompletion.setState(s.getState());
+        	
+        	Integer submissionCount = exerciseSubmission_Repo.findByEmail(s.getLabemail());
+        	double percentage = 0.0;
+        	if(submissionCount !=null && submissionCount > 0) {
+        		if(s.getBatch()>0) {
+        			
+        			Integer batchExerciseCount = batch_Master_repo.findDtlsByBatch_no(s.getBatch());
+        			
+        			if(batchExerciseCount!=null && batchExerciseCount > 0) {
+        				percentage = ((double) submissionCount / batchExerciseCount) * 100;
+        			}
+        		} else {
+        			
+        			Integer classExerciseCount = classExerciseRepo.getByClassName(s.getClassName());
+        			
+					if (classExerciseCount != null && classExerciseCount > 0) {
+						percentage = ((double) submissionCount / classExerciseCount) * 100;
+					}
+        		}
+        	}
+        	labCompletion.setCompletion(percentage);
+    	
+        	allLabCompletion.add(labCompletion);
+        	
+        	labCompletion = null;
+        }
+
+        DataTable<LabCompletion> dataTable = new DataTable<LabCompletion>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(allLabCompletion);
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+	}
+	
 	
 	@GetMapping("/quizCompletion")
 	public String QuizCompletionStatus(Model model) {

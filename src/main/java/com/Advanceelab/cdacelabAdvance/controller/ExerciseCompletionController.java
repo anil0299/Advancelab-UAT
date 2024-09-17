@@ -245,14 +245,19 @@ public class ExerciseCompletionController {
             case 1: sortBy = "id"; break;
             case 2: sortBy = "firstName"; break;
             case 3: sortBy = "lastName"; break;
-            case 4: sortBy = "emailAddress"; break;
-            case 5: sortBy = "mobileNumber"; break;
-            case 6: sortBy = "dob"; break;
-            case 7: sortBy = "category"; break;
-            case 8: sortBy = "gender"; break;
-            case 9: sortBy = "state"; break;
-            case 10: sortBy = "college"; break;
-            case 11: sortBy = "batch"; break;
+            case 4: sortBy = "fatherName"; break;
+            case 5: sortBy = "qualification"; break;
+            case 6: sortBy = "emailAddress"; break;
+            case 7: sortBy = "mobileNumber"; break;
+            case 8: sortBy = "dob"; break;
+            case 9: sortBy = "category"; break;
+            case 10: sortBy = "gender"; break;
+            case 11: sortBy = "state"; break;
+            case 12: sortBy = "college"; break;
+            case 13: sortBy = "batch"; break;
+            case 14: sortBy = "registrationDate"; break;
+            case 15: sortBy = "approvedDate"; break;
+            case 16: sortBy = "validTill"; break;
             default: sortBy = "id"; // Default sorting
         }
         

@@ -268,6 +268,8 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 		       "LOWER(CAST(s.id AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.fatherName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.qualification) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.emailAddress) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.mobileNumber) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "CAST(s.dob AS string) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
@@ -275,8 +277,23 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 		       "LOWER(s.gender) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.state) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.college) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(s.registrationDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(s.approvedDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(s.validTill AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "(:searchTerm IS NOT NULL AND :searchTerm <> '' AND LOWER(CAST(s.batch AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')))) " +
 		       "AND s.approved = true " +
 		       "AND s.role = 'USER'")
 	Page<StudentDtls> searchStudents(@Param("searchTerm") String searchTerm, Pageable pageable);
+	
+	@Query("SELECT s FROM StudentDtls s " +
+		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
+		       "LOWER(CAST(s.id AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.emailAddress) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.college) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.state) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+		       "AND s.approved = true " +
+		       "AND s.role = 'USER'")
+	Page<StudentDtls> searchStudentsBasicDetails(@Param("searchTerm") String searchTerm, Pageable pageable);
 }
