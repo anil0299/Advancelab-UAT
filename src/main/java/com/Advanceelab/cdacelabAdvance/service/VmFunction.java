@@ -44,8 +44,14 @@ public class VmFunction {
                         .method("POST", HttpRequest.BodyPublishers.ofString("{\n  \"kind\": \"vm\",\n  \"offset\": 0,\n  \"length\": 123,\n  \"filter\": \"vm_name==" + string + "\",\n  \"sort_order\": \"ASCENDING\",\n  \"sort_attribute\": \"ASCENDING\"\n}"))
                         .build();
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
                 String responseBody = response.body();
-                return JsonPath.read(responseBody, "$.entities[0].metadata.uuid");
+                boolean entitiesExists = Integer.parseInt(JsonPath.read(responseBody,"$.entities.length()").toString())>0;
+                if(entitiesExists) {
+                	return JsonPath.read(responseBody, "$.entities[0].metadata.uuid");
+                } else {
+                	return null;
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 return null;
@@ -125,9 +131,10 @@ public class VmFunction {
                         .header("Authorization", "Basic YWRtaW46Q2RhY0AxMjMhQCM=")
                         .method("DELETE", HttpRequest.BodyPublishers.noBody())
                         .build();
-                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println(response.body());
-                System.out.println("Deleted Vm with uuid " + vmUuid);
+                httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                //HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                //System.out.println(response.body());
+                //System.out.println("Deleted Vm with uuid " + vmUuid);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

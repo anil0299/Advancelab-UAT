@@ -8,10 +8,6 @@
 <link rel="stylesheet" th:href="@{/css/datatables.css}">
 <link rel="stylesheet" th:href="@{/css/StudentApproval.css}">
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
-<script type="text/javascript" th:src="@{/js/xlsx.full.min.js}"></script>
 <style>
 .progress-bar-container {
 	width: 100%;
@@ -151,31 +147,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- <tr th:each="student1,index : ${studentDtls}" class="text-center">
-							    <th scope="row" th:text="${index.count}"></th>
-								<td th:text="${student1.id}"></td>
-								<td th:text="${student1.id}"></td>
-								<td th:text="${student1.firstName}"></td>
-								<td th:text="${student1.lastName}"></td>
-								<td th:text="${student1.emailAddress}"></td>
-								<td th:text="${student1.college}"></td>
-								<td th:text="${student1.state}"></td>
-								<td><span
-									th:text="${#numbers.formatDecimal(percent[student1.emailAddress], 0, 'COMMA', 2, 'POINT')} + '%'"></span>
-									<div class="progress-bar-container" style="height: 10px;">
-										<div class="progress-bar " role="progressbar"
-											th:style="'width: ' + ${#numbers.formatDecimal(percent[student1.emailAddress], 0, 'COMMA', 2, 'POINT')} + '%;'"
-											th:attr="aria-valuenow=${#numbers.formatDecimal(percent[student1.emailAddress], 0, 'COMMA', 2, 'POINT')}, aria-valuemin=0, aria-valuemax=100">
-										</div>
-									</div></td>
-							</tr> -->
+							
 						</tbody>
 					</table>
 				</div>
 				<script>
 				</script>
 				<div class="text-center">
-				<button onclick="downloadExcel()" class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportExcel">
+				<button class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportExcel">
 					<i class="fa fa-download"></i> Download Excel
 				</button>
 				<a href="javascript:void(0);" class="btn btn-primary mb-2"
@@ -186,6 +165,20 @@
 				 </div>
 			</div>
 		</div>
+	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Copyright &copy; 2022 </b>
+		</p>
+		<p
+			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
+			<b>Designed and Developed by CDAC</b>
+		</p>
+	</div>
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/xlsx.full.min.js}"></script>
 	<script type="text/javascript">
 		function printPageArea(areaID) {
 			var printContent = document.getElementById(areaID).innerHTML;
@@ -352,15 +345,5 @@
 	    });
 	});
 	</script>
-	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Copyright &copy; 2022 </b>
-		</p>
-		<p
-			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Designed and Developed by CDAC</b>
-		</p>
-	</div>
 </body>
 </html>

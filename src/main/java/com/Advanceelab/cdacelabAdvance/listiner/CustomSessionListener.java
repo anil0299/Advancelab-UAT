@@ -1,9 +1,10 @@
 package com.Advanceelab.cdacelabAdvance.listiner;
 
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
-
+import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.Advanceelab.cdacelabAdvance.entity.StudentTrackTime;
 import com.Advanceelab.cdacelabAdvance.repository.StudentTrackTimeRepository;
+import com.Advanceelab.cdacelabAdvance.service.BasicLabService;
 
 
 @Component
@@ -21,6 +23,9 @@ public class CustomSessionListener implements HttpSessionListener{
 	
 	@Autowired
 	private StudentTrackTimeRepository studentTrackTimeRepo;
+	
+	@Autowired
+    private BasicLabService basicLabService;
 
 	@Override
     public void sessionDestroyed(HttpSessionEvent event) {
@@ -48,6 +53,16 @@ public class CustomSessionListener implements HttpSessionListener{
  	           	    	studentTrackTime.setTimeSpentInPortal(duration);
  	           	    }
  	           	    studentTrackTimeRepo.save(studentTrackTime);
+ 	           	    String userpass = basicLabService.generateUserPass(username);
+ 	           	    try {
+						basicLabService.deleteVms(username, userpass);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
  	           	}
          	}
          }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1201,6 +1202,8 @@ public class AdminController {
 		        durationMap.put(STT.getUsername(), minutes);
 		        //System.out.println("Duration for " + STT.getUsername() + " : " + minutes + " minutes");
 	        }
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+	        System.out.println(STT.getFirstloginTime().format(formatter));
 	    }
 	    
 	    model.addAttribute("duration", durationMap);
