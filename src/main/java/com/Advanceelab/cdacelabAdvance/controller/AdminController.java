@@ -1193,21 +1193,27 @@ public class AdminController {
 	@GetMapping("/StudentTrackTime")
 	public String studentTrackTime(Model model) {
 	    List<StudentTrackTime> studentTrackTimes = studentTrackTimeRepo.findAll();
-	    Map<String, Long> durationMap = new HashMap<>();
-	    
+	    List<com.Advanceelab.cdacelabAdvance.dto.StudentTrackTime> listOfSTT = new ArrayList<>();
+	  //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss z"); //z for time standered like IST(indian standered time)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 	    for (StudentTrackTime STT : studentTrackTimes) {
+	    	com.Advanceelab.cdacelabAdvance.dto.StudentTrackTime studentTrackTime = new com.Advanceelab.cdacelabAdvance.dto.StudentTrackTime();
+	        studentTrackTime.setUsername(STT.getUsername());
+	        studentTrackTime.setFirstLoginTime(STT.getFirstloginTime() != null ? STT.getFirstloginTime().format(formatter) : "");
+	        studentTrackTime.setLastLoginTime(STT.getLastloginTime() != null ? STT.getLastloginTime().format(formatter) : "");
+	        studentTrackTime.setLogoutTime(STT.getLogoutTime() != null ? STT.getLogoutTime().format(formatter) : "");
 	        if(STT.getTimeSpentInPortal() != null)
 	        {
 	        	long minutes = STT.getTimeSpentInPortal().toMinutes();
-		        durationMap.put(STT.getUsername(), minutes);
-		        //System.out.println("Duration for " + STT.getUsername() + " : " + minutes + " minutes");
+	        	studentTrackTime.setTimeSpentInPortal(minutes);
 	        }
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
-	        System.out.println(STT.getFirstloginTime().format(formatter));
+	        else
+	        {
+	        	studentTrackTime.setTimeSpentInPortal(0);
+	        }
+	        listOfSTT.add(studentTrackTime);
 	    }
-	    
-	    model.addAttribute("duration", durationMap);
-	    model.addAttribute("studentTrackTimes", studentTrackTimes);
+	    model.addAttribute("studentTrackTimes", listOfSTT);
 	    return "StudentTrackTime";
 	}
 

@@ -143,10 +143,10 @@
 					    <th scope="row" th:text="${index.count}"></th>
 						<td th:text="${studentTrackTime.id}" />
 						<td th:text="${studentTrackTime.username}" />
-						<td th:text="${studentTrackTime.FirstloginTime}" />
-						<td th:text="${studentTrackTime.LastloginTime}"/>
+						<td th:text="${studentTrackTime.firstLoginTime}" />
+						<td th:text="${studentTrackTime.lastLoginTime}"/>
 						<td th:text="${studentTrackTime.logoutTime}" />
-						<td th:text="${duration[studentTrackTime.username]}"></td>
+						<td th:text="${studentTrackTime.timeSpentInPortal}" /></td>
 					</tr>
 				</tbody>
 			</table>
