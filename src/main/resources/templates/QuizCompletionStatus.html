@@ -4,13 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CyberGyan</title>
-<link rel="stylesheet" href="" th:href="@{/css/QuizCompletionStatus.css}" />
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link th:href="@{/css/datatables.css}" rel="stylesheet">
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/QuizCompletionStatus.css}"/>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/datatables.css}">
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
-<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
 <style>
 .progress-bar-container {
 	width: 100%;
@@ -126,103 +123,38 @@
 		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-	<div class="card">
+	<div class="card mb-5">
 		<div class="card-header" style="background-color: white;">
 				<h1 style="font-family: Times New Roman;" class="text-center">
 					<b>Quiz Completion Status</b>
 				</h1>
 			</div>
-			<div class="card-body" style="background-color: rgb(205, 214, 224);"
-				id="printableArea">
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
 				<div class="table-responsive">
-				    <table id="dtBasicExample" class="table table-hover table-light table-bordered">
+				    <table id="quizCompletionTable" class="table table-hover table-light table-bordered w-100">
 				        <thead>
 				            <tr class="table-info">
-				                <th class="text-center">SR. Number</th>
-				                <th class="text-center">Student Name (ID)</th>
-				                <th th:each="quizId : ${uniqueQuizIds}" class="text-center" th:text="${quizId}">Quiz ${quizId}</th>
+				                <th class="text-center">S. No.</th>
+				                <th class="text-center">ID</th>
+					            <th class="text-center">Student Name</th>
+					            <th class="text-center">Email Address</th>
+				                <th th:each="quiz : ${allQuiz}" class="text-center" th:text="${quiz.quizTitle}"></th>
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <tr th:each="entry, rowStat : ${quizlist}">
-				                <th class="text-center" scope="row" th:text="${rowStat.index + 1}"></th>
-				                <td class="text-center" th:text="${entry.key}"></td>
-				                <td th:each="quizId : ${uniqueQuizIds}" class="text-center">
-				                    <span th:if="${entry.value.contains(#conversions.convert(#strings.substringBefore(quizId, ' '),'java.lang.Integer'))}" style="font-size: 25px; color: #00b300" class="fw-bold">✓</span>
-				                    <span th:if="${!entry.value.contains(#conversions.convert(#strings.substringBefore(quizId, ' '),'java.lang.Integer'))}" style="font-size: 25px;" class="text-danger">-</span>
-				                </td>
-				            </tr>
+				            
 				        </tbody>
 				    </table>
 				</div>
-				<script>
-					$(document).ready(function() {
-						$('#dtBasicExample').DataTable({
-				    	    aLengthMenu: [
-				    	        [25, 50, 100, 200, -1],
-				    	        [25, 50, 100, 200, "All"]
-				    	    ],
-				    	    iDisplayLength: 25
-				    	});
-					});
-				</script>
-				<div class="text-center">
-					<button onclick="downloadExcel()" class="btn btn-primary mb-2"
-						style="margin-top: 8px;">
+				<div class="text-center mt-3">
+					<button class="btn btn-primary" id="exportExcel">
 						<i class="fa fa-download"></i> Download Excel
 					</button>
-					<a href="javascript:void(0);" class="btn btn-primary mb-2"
-						style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
-						class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
-					<a th:href="@{/ExerciseCompletion}" class="btn btn-primary mb-2"
-						style="margin-top: 8px;"> Back</a>
+					<a th:href="@{/ExerciseCompletion}" class="btn btn-primary">Back</a>
 				</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		function printPageArea(areaID) {
-			var printContent = document.getElementById(areaID).innerHTML;
-			var printWindow = window.open('', '', 'height=700,width=1000');
-			printWindow.document.write('<html><head><title>Print</title>');
-			printWindow.document.write('</head><body >');
-			printWindow.document.write(printContent);
-			printWindow.document.write('</body></html>');
-			printWindow.document.close();
-			printWindow.focus();
-			printWindow.print();
-			printWindow.close();
-		}
-	</script>
-	<script>
-		function downloadExcel() {
-			var table = document.getElementById("printableArea");
-			var rows = table.getElementsByTagName("tr");
-			var csv = [];
-			for (var i = 0; i < rows.length; i++) {
-				var row = [], cols = rows[i].querySelectorAll("td, th");
-				for (var j = 0; j < cols.length; j++)
-					row.push(cols[j].innerText);
-				csv.push(row.join(","));
-			}
-			var downloadLink = document.createElement("a");
-			var blob = new Blob([ "\ufeff", csv.join("\n") ], {
-				type : "text/csv;charset=utf-8"
-			});
-			var url = URL.createObjectURL(blob);
-			downloadLink.href = url;
-			downloadLink.download = "data.csv";
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-		}
-	</script>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<div class="class-footer">
+	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
 		<p
 			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
 			<b>Copyright &copy; 2022 </b>
@@ -232,5 +164,174 @@
 			<b>Designed and Developed by CDAC</b>
 		</p>
 	</div>
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/xlsx.full.min.js}"></script>
+	<script type="text/javascript">
+	</script>
+	<script>
+	//Lab Completion Table
+	$(document).ready(function() {
+
+	    function initializeDataTable(quizTitles) {
+	        const columns = [
+	            { 
+	                data: null,
+	                className: "text-center",
+	                title: "S. No",
+	                render: function (data, type, row, meta) {
+	                    return meta.row + meta.settings._iDisplayStart + 1;
+	                }
+	            },
+	            { data: 'studentId', title: 'ID', className: 'text-center' },
+	            { data: 'studentName', title: 'Name', className: 'text-center' },
+	            { data: 'emailAddress', title: 'Email Address', className: 'text-center' },
+	        ];
+		
+	        quizTitles.forEach(title => {
+	            columns.push({
+	                data: `quizSubmission.${title}`, 
+	                title: title,
+	                className: 'text-center',
+	                render: function(data) {
+	                    return data ? '<i class="fas fa-check text-success h4"></i>' : '<i class="fas fa-times text-danger h4"></i>'; 
+	                }
+	            });
+	        });
+	
+	        $('#quizCompletionTable').DataTable({
+	            processing: true,
+	            serverSide: true,
+	            ajax: {
+	                url: '/quizCompletionData',
+	                method: 'GET',
+	                data: function(d) {
+	                    return $.extend({}, d);
+	                },
+	                dataSrc: function(response) {
+	                    return response.data;
+	                }
+	            },
+	            columns: columns,
+	            lengthMenu: [
+	                [10, 25, 50, 100, 500],
+	                [10, 25, 50, 100, 500]
+	            ],
+	            searching: true,
+	            ordering: true,
+	            paging: true,
+	            lengthChange: true,
+	            pageLength: 10
+	        });
+	    }
+		
+	    $.ajax({
+	        url: '/fetchQuizTitles', 
+	        method: 'GET',
+	        success: function(titles) {
+	            initializeDataTable(titles);
+	        }
+	    });
+	});
+
+	//Lab Completion Table export Excel
+	$(document).ready(function() {
+	    $('#exportExcel').click(function() {
+
+	        $('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+	        
+	        $.ajax({
+	            url: '/fetchQuizTitles', 
+	            method: 'GET',
+	            success: function(titles) {
+	                var quizTitles = titles; 
+	                
+	                var allData = [];
+	                var batchSize = 100;
+	                var start = 0;
+	
+	                function fetchData() {
+	                    $.ajax({
+	                        url: "/quizCompletionData",
+	                        type: 'GET',
+	                        data: {
+	                            draw: 1,
+	                            start: start,
+	                            length: batchSize
+	                        },
+	                        cache: false,
+	                        success: function(response) {
+	                            var data = response.data;
+	                            if (data.length > 0) {
+	                                allData = allData.concat(data);
+	                                start += batchSize;
+	                                fetchData(); 
+	                            } else {
+	                                generateExcel();
+	                            }
+	                        },
+	                        error: function() {
+	                            $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	                        }
+	                    });
+	                }
+	
+	                function generateExcel() {
+	                    var wb = XLSX.utils.book_new();
+	                    var ws_data = [];
+	
+	                    ws_data.push(['ID', 'Name', 'Email Address'].concat(quizTitles)); //Adding columns dynamically
+	
+	                    allData.sort(function(a, b) {
+	                        return a.studentId - b.studentId;
+	                    });
+	
+	                    allData.forEach(function(row) {
+	                        var rowData = [
+	                            row.studentId,
+	                            row.studentName,
+	                            row.emailAddress,
+	                        ];
+	
+	                        quizTitles.forEach(title => {
+	                            rowData.push(row.quizSubmission[title] ? '✓' : '✗');
+	                        });
+	
+	                        ws_data.push(rowData);
+	                    });
+	
+	                    var ws = XLSX.utils.aoa_to_sheet(ws_data);
+	                    
+	                    function getColumnWidth(columnData) {
+	                        var minWidth = 50;
+	                        var maxWidth = 300;
+	                        var baseWidth = 10;
+	                        var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+	                        var calculatedWidth = baseWidth + maxLength * 7;
+	                        return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+	                    }
+	
+	                    var colWidths = ws_data[0].map(function(_, i) {
+	                        var columnData = ws_data.map(row => row[i]);
+	                        return getColumnWidth(columnData);
+	                    });
+	
+	                    ws['!cols'] = colWidths;
+	
+	                    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	                    XLSX.writeFile(wb, 'Quiz Completion.xlsx');
+	                    $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	                }
+	
+	                fetchData();
+	            },
+	            error: function() {
+	                $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	            }
+	        });
+	    });
+	});
+	</script>
 </body>
 </html>

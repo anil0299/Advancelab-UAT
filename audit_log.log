@@ -1809,3 +1809,450 @@ org.springframework.expression.spel.SpelEvaluationException: EL1008E: Property o
 2024-09-19 14:27:12.122  INFO 4712 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-09-19 14:27:12.124  INFO 4712 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-09-19 14:27:12.128  INFO 4712 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-09-19 14:49:52.838  INFO 14912 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-19 14:49:52.838  INFO 14912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-19 14:49:52.840  INFO 14912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-09-19 17:40:53.194  INFO 14912 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-09-19 17:40:53.233  INFO 14912 --- [Thread-46] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:40:53.235  INFO 14912 --- [Thread-46] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-09-19 17:40:53.244  WARN 14912 --- [Thread-46] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-11 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:40:53.246  WARN 14912 --- [Thread-46] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-21-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:40:53.267  INFO 14912 --- [Thread-46] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:40:53.278  INFO 14912 --- [Thread-46] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2024-09-19 17:40:53.280  INFO 14912 --- [Thread-46] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+2024-09-19 17:40:54.017  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:40:54.017  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:40:54.258  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:40:54.322  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:40:54.411  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:40:54.411  INFO 14912 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:40:54.411  INFO 14912 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:40:54.431  INFO 14912 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:40:54.431  INFO 14912 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 410 ms
+2024-09-19 17:40:54.473  WARN 14912 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:40:54.507  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Starting...
+2024-09-19 17:40:54.561  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Start completed.
+2024-09-19 17:40:54.571  INFO 14912 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:40:54.579  INFO 14912 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:40:55.083  INFO 14912 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:40:55.084  INFO 14912 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:40:56.296  INFO 14912 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2c01ca81, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@7f88f466, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4c82208, org.springframework.security.web.context.SecurityContextPersistenceFilter@3ae05584, org.springframework.security.web.header.HeaderWriterFilter@36938946, org.springframework.security.web.csrf.CsrfFilter@637f0747, org.springframework.security.web.authentication.logout.LogoutFilter@341935a3, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@732649e9, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3b680a7d, org.springframework.security.web.session.ConcurrentSessionFilter@213e3bdb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b537779, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5cdd057c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2ebb426e, org.springframework.security.web.session.SessionManagementFilter@47cc0cbb, org.springframework.security.web.access.ExceptionTranslationFilter@ac96776, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4552c116]
+2024-09-19 17:40:56.445  INFO 14912 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:40:56.460  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:40:56.465  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 2.891 seconds (JVM running for 25308.608)
+2024-09-19 17:40:56.469  INFO 14912 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 17:42:32.313  INFO 14912 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (2 additions, 0 deletions, 0 modifications)
+2024-09-19 17:42:32.338  INFO 14912 --- [Thread-50] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:42:32.354  WARN 14912 --- [Thread-50] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-12 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:42:32.356  WARN 14912 --- [Thread-50] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-23-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:42:32.363  INFO 14912 --- [Thread-50] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:42:32.364  INFO 14912 --- [Thread-50] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown initiated...
+2024-09-19 17:42:32.386  INFO 14912 --- [Thread-50] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Shutdown completed.
+2024-09-19 17:42:32.641  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:42:32.642  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:42:32.928  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:42:32.987  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:42:33.056  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:42:33.056  INFO 14912 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:42:33.056  INFO 14912 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:42:33.072  INFO 14912 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:42:33.072  INFO 14912 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 420 ms
+2024-09-19 17:42:33.093  WARN 14912 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:42:33.108  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Starting...
+2024-09-19 17:42:33.144  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Start completed.
+2024-09-19 17:42:33.151  INFO 14912 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:42:33.157  INFO 14912 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:42:33.510  INFO 14912 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:42:33.510  INFO 14912 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:42:34.657  INFO 14912 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@359a3303, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@4d5d5bb4, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@e603fb1, org.springframework.security.web.context.SecurityContextPersistenceFilter@5eff7771, org.springframework.security.web.header.HeaderWriterFilter@605dc9fe, org.springframework.security.web.csrf.CsrfFilter@67931193, org.springframework.security.web.authentication.logout.LogoutFilter@62ae962c, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@647decfe, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@78277b3d, org.springframework.security.web.session.ConcurrentSessionFilter@219fe558, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@556de669, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1924a612, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7c05ba, org.springframework.security.web.session.SessionManagementFilter@24bd0719, org.springframework.security.web.access.ExceptionTranslationFilter@328723c4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@737179d5]
+2024-09-19 17:42:34.765  INFO 14912 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:42:34.781  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:42:34.784  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 2.26 seconds (JVM running for 25406.927)
+2024-09-19 17:42:34.785  INFO 14912 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 17:43:04.446  INFO 14912 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-09-19 17:43:04.454  INFO 14912 --- [Thread-54] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:43:04.457  WARN 14912 --- [Thread-54] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-13 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:43:04.458  WARN 14912 --- [Thread-54] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-25-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:43:04.463  INFO 14912 --- [Thread-54] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:43:04.464  INFO 14912 --- [Thread-54] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown initiated...
+2024-09-19 17:43:04.472  INFO 14912 --- [Thread-54] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown completed.
+2024-09-19 17:43:04.576  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:43:04.576  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:43:04.873  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:43:04.969 ERROR 14912 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NoClassDefFoundError: List
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3402) ~[na:na]
+	at java.base/java.lang.Class.privateGetPublicMethods(Class.java:3427) ~[na:na]
+	at java.base/java.lang.Class.getMethods(Class.java:2019) ~[na:na]
+	at org.springframework.data.repository.util.ReactiveWrappers.usesReactiveType(ReactiveWrappers.java:181) ~[spring-data-commons-2.7.5.jar:2.7.5]
+	at org.springframework.data.repository.core.support.AbstractRepositoryMetadata.isReactiveRepository(AbstractRepositoryMetadata.java:160) ~[spring-data-commons-2.7.5.jar:2.7.5]
+	at org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport.useRepositoryConfiguration(RepositoryConfigurationExtensionSupport.java:366) ~[spring-data-commons-2.7.5.jar:2.7.5]
+	at org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport.getRepositoryConfigurations(RepositoryConfigurationExtensionSupport.java:109) ~[spring-data-commons-2.7.5.jar:2.7.5]
+	at org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:159) ~[spring-data-commons-2.7.5.jar:2.7.5]
+	at org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport.registerBeanDefinitions(AbstractRepositoryConfigurationSourceSupport.java:62) ~[spring-boot-autoconfigure-2.7.5.jar:2.7.5]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.lambda$loadBeanDefinitionsFromRegistrars$1(ConfigurationClassBeanDefinitionReader.java:396) ~[spring-context-5.3.23.jar:5.3.23]
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:721) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsFromRegistrars(ConfigurationClassBeanDefinitionReader.java:395) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:157) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295) ~[spring-boot-2.7.5.jar:2.7.5]
+	at com.Advanceelab.cdacelabAdvance.CdacelabAdvanceApplication.main(CdacelabAdvanceApplication.java:30) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+Caused by: java.lang.ClassNotFoundException: List
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:467) ~[na:na]
+	at org.springframework.boot.devtools.restart.classloader.RestartClassLoader.loadClass(RestartClassLoader.java:145) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520) ~[na:na]
+	... 33 common frames omitted
+
+2024-09-19 17:43:18.518  INFO 14912 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-19 17:43:18.518  INFO 14912 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-19 17:43:18.523  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:43:18.523  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:43:19.023  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:43:19.079  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:43:19.144  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:43:19.145  INFO 14912 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:43:19.145  INFO 14912 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:43:19.162  INFO 14912 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:43:19.162  INFO 14912 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 638 ms
+2024-09-19 17:43:19.182  WARN 14912 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:43:19.196  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Starting...
+2024-09-19 17:43:19.231  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Start completed.
+2024-09-19 17:43:19.238  INFO 14912 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:43:19.243  INFO 14912 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:43:19.436  INFO 14912 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:43:19.436  INFO 14912 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:43:20.161  INFO 14912 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4afe40d, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@7b64f945, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@575657fb, org.springframework.security.web.context.SecurityContextPersistenceFilter@3df9d02d, org.springframework.security.web.header.HeaderWriterFilter@3932c2ed, org.springframework.security.web.csrf.CsrfFilter@1cd5a1b7, org.springframework.security.web.authentication.logout.LogoutFilter@6698bcad, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@4662c9b5, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@262157ed, org.springframework.security.web.session.ConcurrentSessionFilter@c100001, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@f5a5828, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@198f65b2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@785cc256, org.springframework.security.web.session.SessionManagementFilter@6abf8f8e, org.springframework.security.web.access.ExceptionTranslationFilter@33602e34, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7ff0974]
+2024-09-19 17:43:20.246  INFO 14912 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:43:20.256  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:43:20.259  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 1.751 seconds (JVM running for 25452.402)
+2024-09-19 17:43:20.260  INFO 14912 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 17:43:57.038  INFO 14912 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 11 class path changes (0 additions, 0 deletions, 11 modifications)
+2024-09-19 17:43:57.124  INFO 14912 --- [Thread-58] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:43:57.126  WARN 14912 --- [Thread-58] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-14 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:43:57.126  WARN 14912 --- [Thread-58] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-27-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:43:57.132  INFO 14912 --- [Thread-58] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:43:57.133  INFO 14912 --- [Thread-58] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown initiated...
+2024-09-19 17:43:57.138  INFO 14912 --- [Thread-58] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown completed.
+2024-09-19 17:43:57.223  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:43:57.223  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:43:57.370  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:43:57.429  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:43:57.672  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:43:57.675  INFO 14912 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:43:57.675  INFO 14912 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:43:57.693  INFO 14912 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:43:57.693  INFO 14912 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 468 ms
+2024-09-19 17:43:57.714  WARN 14912 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:43:57.729  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Starting...
+2024-09-19 17:43:57.776  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Start completed.
+2024-09-19 17:43:57.871  INFO 14912 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:43:57.931  INFO 14912 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:43:58.325  INFO 14912 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:43:58.326  INFO 14912 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:43:58.987  INFO 14912 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5a2338e9, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@4e36ee2e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@75819aee, org.springframework.security.web.context.SecurityContextPersistenceFilter@65d1006c, org.springframework.security.web.header.HeaderWriterFilter@2c4203a1, org.springframework.security.web.csrf.CsrfFilter@2daa3885, org.springframework.security.web.authentication.logout.LogoutFilter@6d84aada, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@3c3bed7d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@547c977, org.springframework.security.web.session.ConcurrentSessionFilter@19c36dc1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4df9454a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@214c037, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@49e2d0f4, org.springframework.security.web.session.SessionManagementFilter@45d15e7c, org.springframework.security.web.access.ExceptionTranslationFilter@5b8e71c5, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@d23245f]
+2024-09-19 17:43:59.082  INFO 14912 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:43:59.093  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:43:59.097  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 1.895 seconds (JVM running for 25491.24)
+2024-09-19 17:43:59.098  INFO 14912 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 17:45:22.774  INFO 14912 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-09-19 17:45:22.801  INFO 14912 --- [Thread-65] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:45:22.803  WARN 14912 --- [Thread-65] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-15 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:45:22.804  WARN 14912 --- [Thread-65] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-29-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:45:22.811  INFO 14912 --- [Thread-65] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:45:22.812  INFO 14912 --- [Thread-65] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown initiated...
+2024-09-19 17:45:22.822  INFO 14912 --- [Thread-65] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown completed.
+2024-09-19 17:45:22.925  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 14912 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:45:22.926  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:45:23.496  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:45:23.616  INFO 14912 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:45:23.719  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:45:23.721  INFO 14912 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:45:23.722  INFO 14912 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:45:23.742  INFO 14912 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:45:23.742  INFO 14912 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 815 ms
+2024-09-19 17:45:23.773  WARN 14912 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:45:23.788  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Starting...
+2024-09-19 17:45:23.829  INFO 14912 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Start completed.
+2024-09-19 17:45:23.837  INFO 14912 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:45:23.844  INFO 14912 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:45:24.044  INFO 14912 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:45:24.045  INFO 14912 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:45:24.972  INFO 14912 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@29377ddd, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@10f7d0de, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a57c8d0, org.springframework.security.web.context.SecurityContextPersistenceFilter@613fc6c2, org.springframework.security.web.header.HeaderWriterFilter@3d470bba, org.springframework.security.web.csrf.CsrfFilter@7dded220, org.springframework.security.web.authentication.logout.LogoutFilter@66eebf3b, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@22640090, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@31fd60f0, org.springframework.security.web.session.ConcurrentSessionFilter@6a7b567f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5c637755, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@490010f1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4fc800fb, org.springframework.security.web.session.SessionManagementFilter@2da71a22, org.springframework.security.web.access.ExceptionTranslationFilter@c063cec, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@e76e1e4]
+2024-09-19 17:45:25.070  INFO 14912 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:45:25.082  INFO 14912 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:45:25.085  INFO 14912 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 2.187 seconds (JVM running for 25577.228)
+2024-09-19 17:45:25.087  INFO 14912 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 17:45:28.124  INFO 14912 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-19 17:45:28.124  INFO 14912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-19 17:45:28.125  INFO 14912 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-09-19 17:45:56.698  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-09-19 17:45:56.729  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 17:45:56.730  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-09-19 17:45:56.731  WARN 14912 --- [RMI TCP Connection(431)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-16 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 17:45:56.731  WARN 14912 --- [RMI TCP Connection(431)-127.0.0.1] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-31-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 17:45:56.736  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:45:56.737  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown initiated...
+2024-09-19 17:45:56.737  INFO 14912 --- [RMI TCP Connection(431)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown completed.
+2024-09-19 17:45:58.699  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 17232 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 17:45:58.701  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 17:45:58.735  INFO 17232 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-19 17:45:58.735  INFO 17232 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-19 17:45:59.258  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 17:45:59.364  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 28 JPA repository interfaces.
+2024-09-19 17:45:59.810  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 17:45:59.817  INFO 17232 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 17:45:59.817  INFO 17232 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 17:45:59.890  INFO 17232 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-19 17:45:59.890  INFO 17232 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1155 ms
+2024-09-19 17:45:59.936  WARN 17232 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 17:45:59.985  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-19 17:46:00.108  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-19 17:46:00.144  INFO 17232 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 17:46:00.181  INFO 17232 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.12.Final
+2024-09-19 17:46:00.306  INFO 17232 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-09-19 17:46:00.403  INFO 17232 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 17:46:01.150  INFO 17232 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 17:46:01.157  INFO 17232 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 17:46:02.465  INFO 17232 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@291731c9, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@a8c1679, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1fc39849, org.springframework.security.web.context.SecurityContextPersistenceFilter@715b96b4, org.springframework.security.web.header.HeaderWriterFilter@2946e968, org.springframework.security.web.csrf.CsrfFilter@68efd864, org.springframework.security.web.authentication.logout.LogoutFilter@4313a5fe, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@5eb99408, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@184ee756, org.springframework.security.web.session.ConcurrentSessionFilter@781805f5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7537aff9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6fc0cdc4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@ccbd31a, org.springframework.security.web.session.SessionManagementFilter@4d8097ba, org.springframework.security.web.access.ExceptionTranslationFilter@68b44ca2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5e7bf842]
+2024-09-19 17:46:02.825  INFO 17232 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 17:46:02.850  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 17:46:02.860  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 4.436 seconds (JVM running for 4.943)
+2024-09-19 17:46:06.327  INFO 17232 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-19 17:46:06.327  INFO 17232 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-19 17:46:06.328  INFO 17232 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-09-19 18:03:20.025  INFO 17232 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-09-19 18:03:20.102  INFO 17232 --- [Thread-5] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 18:03:20.104  INFO 17232 --- [Thread-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-09-19 18:03:20.190  WARN 17232 --- [Thread-5] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 18:03:20.191  WARN 17232 --- [Thread-5] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-1-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 18:03:20.207  INFO 17232 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:03:20.212  INFO 17232 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-19 18:03:20.232  INFO 17232 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-09-19 18:03:20.361  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 17232 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 18:03:20.361  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 18:03:20.604  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 18:03:20.690  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 28 JPA repository interfaces.
+2024-09-19 18:03:20.845  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 18:03:20.846  INFO 17232 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 18:03:20.847  INFO 17232 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 18:03:21.001  INFO 17232 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-19 18:03:21.002  INFO 17232 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 638 ms
+2024-09-19 18:03:21.070  WARN 17232 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 18:03:21.134  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-09-19 18:03:21.192  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-09-19 18:03:21.201  INFO 17232 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 18:03:21.212  INFO 17232 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 18:03:21.935  INFO 17232 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 18:03:21.936  INFO 17232 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:03:23.110  INFO 17232 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4a90f911, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@2abba74e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@606f66a8, org.springframework.security.web.context.SecurityContextPersistenceFilter@75c30849, org.springframework.security.web.header.HeaderWriterFilter@48bf154d, org.springframework.security.web.csrf.CsrfFilter@405f08ce, org.springframework.security.web.authentication.logout.LogoutFilter@4ed17089, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@4f3c9fd0, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@260d826b, org.springframework.security.web.session.ConcurrentSessionFilter@4d626053, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@64b339a3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6b04, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@504a1295, org.springframework.security.web.session.SessionManagementFilter@369a49b8, org.springframework.security.web.access.ExceptionTranslationFilter@38952e9c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1cef8481]
+2024-09-19 18:03:23.309  INFO 17232 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 18:03:23.333  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 18:03:23.339  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 3.018 seconds (JVM running for 1045.422)
+2024-09-19 18:03:23.345  INFO 17232 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 18:04:42.496  INFO 17232 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-09-19 18:04:42.506  INFO 17232 --- [Thread-7] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 18:04:42.508  WARN 17232 --- [Thread-7] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-2 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 18:04:42.509  WARN 17232 --- [Thread-7] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-3-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 18:04:42.516  INFO 17232 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:04:42.517  INFO 17232 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2024-09-19 18:04:42.527  INFO 17232 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2024-09-19 18:04:42.660  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 17232 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 18:04:42.661  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 18:04:43.273  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 18:04:43.368  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 28 JPA repository interfaces.
+2024-09-19 18:04:43.457  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 18:04:43.457  INFO 17232 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 18:04:43.457  INFO 17232 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 18:04:43.476  INFO 17232 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-19 18:04:43.476  INFO 17232 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 813 ms
+2024-09-19 18:04:43.500  WARN 17232 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 18:04:43.517  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2024-09-19 18:04:43.570  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2024-09-19 18:04:43.584  INFO 17232 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 18:04:43.589  INFO 17232 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 18:04:43.957  INFO 17232 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 18:04:43.958  INFO 17232 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:04:45.144  INFO 17232 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@434f6737, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@605e9752, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ef2457f, org.springframework.security.web.context.SecurityContextPersistenceFilter@1c16266, org.springframework.security.web.header.HeaderWriterFilter@18d449b6, org.springframework.security.web.csrf.CsrfFilter@6ed4a931, org.springframework.security.web.authentication.logout.LogoutFilter@3bb21cb, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@6c1be480, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2e59cea, org.springframework.security.web.session.ConcurrentSessionFilter@4a17c734, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6fb30e86, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7db9e627, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@74512cee, org.springframework.security.web.session.SessionManagementFilter@3bf53dba, org.springframework.security.web.access.ExceptionTranslationFilter@2319a0b8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@20607a46]
+2024-09-19 18:04:45.326  INFO 17232 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 18:04:45.338  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 18:04:45.342  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 2.708 seconds (JVM running for 1127.424)
+2024-09-19 18:04:45.343  INFO 17232 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 18:04:54.485  INFO 17232 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2024-09-19 18:04:54.546  INFO 17232 --- [Thread-11] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-09-19 18:04:54.572  WARN 17232 --- [Thread-11] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-3 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-09-19 18:04:54.573  WARN 17232 --- [Thread-11] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HttpClient-5-SelectorManager] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/sun.nio.ch.WEPoll.wait(Native Method)
+ java.base@17.0.7/sun.nio.ch.WEPollSelectorImpl.doSelect(WEPollSelectorImpl.java:111)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:129)
+ java.base@17.0.7/sun.nio.ch.SelectorImpl.select(SelectorImpl.java:141)
+ platform/java.net.http@17.0.7/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:889)
+2024-09-19 18:04:54.584  INFO 17232 --- [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:04:54.585  INFO 17232 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2024-09-19 18:04:54.611  INFO 17232 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2024-09-19 18:04:54.836  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Starting CdacelabAdvanceApplication using Java 17.0.7 on DESKTOP-FR3HQRB with PID 17232 (C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab\target\classes started by CDAC in C:\Users\CDAC\Desktop\cybergyan\UAT\LAB\30May\AdvanceLab)
+2024-09-19 18:04:54.836  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-09-19 18:04:55.190  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-19 18:04:55.259  INFO 17232 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 28 JPA repository interfaces.
+2024-09-19 18:04:55.339  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2024-09-19 18:04:55.339  INFO 17232 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-19 18:04:55.339  INFO 17232 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2024-09-19 18:04:55.356  INFO 17232 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-19 18:04:55.356  INFO 17232 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 517 ms
+2024-09-19 18:04:55.375  WARN 17232 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-19 18:04:55.390  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-09-19 18:04:55.459  INFO 17232 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-09-19 18:04:55.471  INFO 17232 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-19 18:04:55.482  INFO 17232 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-09-19 18:04:56.073  INFO 17232 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-19 18:04:56.090  INFO 17232 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-19 18:04:56.958  INFO 17232 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5d3e7c89, com.Advanceelab.cdacelabAdvance.config.HttpMethodFilter@343e4931, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@649658e, org.springframework.security.web.context.SecurityContextPersistenceFilter@7e9f3b13, org.springframework.security.web.header.HeaderWriterFilter@7d3c6ef0, org.springframework.security.web.csrf.CsrfFilter@548c1b86, org.springframework.security.web.authentication.logout.LogoutFilter@1de5bd68, com.Advanceelab.cdacelabAdvance.config.CustomAuthenticationFilter@3d207311, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@487f4747, org.springframework.security.web.session.ConcurrentSessionFilter@4a7b49f1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@255068a8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@a01befc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@181cd059, org.springframework.security.web.session.SessionManagementFilter@4e9c3c52, org.springframework.security.web.access.ExceptionTranslationFilter@75d5d830, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@555797c8]
+2024-09-19 18:04:57.076  INFO 17232 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-19 18:04:57.088  INFO 17232 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2024-09-19 18:04:57.094  INFO 17232 --- [restartedMain] c.A.c.CdacelabAdvanceApplication         : Started CdacelabAdvanceApplication in 2.302 seconds (JVM running for 1139.177)
+2024-09-19 18:04:57.096  INFO 17232 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-19 18:10:29.310  INFO 17232 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-19 18:10:29.310  INFO 17232 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-19 18:10:29.311  INFO 17232 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

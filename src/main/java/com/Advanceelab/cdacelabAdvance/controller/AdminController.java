@@ -57,7 +57,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.Advanceelab.cdacelabAdvance.dto.AdvanceLabSubmission;
 import com.Advanceelab.cdacelabAdvance.dto.BatchCompletionStatus;
 import com.Advanceelab.cdacelabAdvance.dto.DataTable;
+import com.Advanceelab.cdacelabAdvance.dto.ELabDetails;
 import com.Advanceelab.cdacelabAdvance.dto.LabCompletion;
+import com.Advanceelab.cdacelabAdvance.dto.QuizCompletion;
 import com.Advanceelab.cdacelabAdvance.entity.AddCourse;
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.BasicLabSubmission;
@@ -160,6 +162,9 @@ public class AdminController {
 	
 //	@Autowired
 //	private GuacamoleService guacamoleService;
+	
+	@Autowired
+	private VideoRepository videoRepo;
 	
 	@Autowired
 	private AdvanceLabUserVmDetailsRepository advanceLabUserVmDetailsRepository;
@@ -739,73 +744,70 @@ public class AdminController {
 
 	}
 
-	/// for lab details
-	/// for lab details
 	@GetMapping("/LabDetails")
-	public ModelAndView labDetails(
-			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate registrationDate) {
-		ModelAndView modelAndView = new ModelAndView();
-		List<StudentDtls> approvedStudents;
-
-		if (registrationDate != null) {
-
-			// approvedStudents =
-			// studentRepo.findByApprovedAndRegistrationDateGreaterThanEqual(true,
-			// registrationDate);
-			approvedStudents = studentRepo.findByApproveAndRole(true, "USER");
-
-		} else {
-//			approvedStudents = studentRepo.findByApproved(true);
-//			System.out.println("users are "+studentRepo.findByApproveAndRole(true,"USER"));
-			approvedStudents = studentRepo.findByApproveAndRole(true, "USER");
-		}
-
-		List<String> passwords = new ArrayList<>();
-		List<String> username = new ArrayList<>();
-
-		for (StudentDtls student : approvedStudents) {
-
-			String username1 = student.getEmailAddress();
-
-			String username2 = username1.substring(0, username1.indexOf('@')) + '@' + "cybergyan.in";
-
-			username.add(username2);
-
-			String uname = student.getFirstName();
-			
-			if(uname.length()>=3)
-			{
-			uname = uname.substring(0, 3);
-			String password = uname + "@@"
-					+ String.format("%02d%02d", student.getDob().getDayOfMonth(), student.getDob().getMonthValue());
-			passwords.add(password);
-			}else if(uname.length()==2)
-			{
-				uname = uname.substring(0, 2);
-				String password = uname + "@@@"
-						+ String.format("%02d%02d", student.getDob().getDayOfMonth(), student.getDob().getMonthValue());
-				passwords.add(password);
-					
-			}else 
-			{
-				uname = uname.substring(0, 1);
-				String password = uname + "@@@@"
-						+ String.format("%02d%02d", student.getDob().getDayOfMonth(), student.getDob().getMonthValue());
-				passwords.add(password);
-					
-			}
-		}
-
-		modelAndView.addObject("username", username);
-		modelAndView.addObject("approvedStudents", approvedStudents);
-		modelAndView.addObject("passwords", passwords);
-		modelAndView.addObject("registrationDate", registrationDate);
-		modelAndView.setViewName("LabDetails.html");
-		return modelAndView;
+	public String labDetails() {
+		return "LabDetails";
 	}
 
-	@Autowired
-	private VideoRepository videoRepo;
+	@GetMapping("/labDetailsData")
+	public ResponseEntity<DataTable<ELabDetails>> fetchLabDetailsData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+		
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+            case 1: sortBy = "labemail"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "registrationDate"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentDtls> responseData;
+        
+        if(startDate != null && endDate != null) {
+        	responseData = studentRepo.searchLabEmailAndRegistrationDate(searchTerm, startDate, endDate, pageable);
+        } else {
+        	responseData = studentRepo.searchLabEmailAndRegistrationDate(searchTerm, pageable);
+        }
+        
+        
+        List<ELabDetails> allElabDetails = new ArrayList<>();
+        
+        for (StudentDtls studentDtls : responseData) {
+        	
+        	ELabDetails eLabDetails = new ELabDetails();
+        	
+        	eLabDetails.setUsername(studentDtls.getLabemail());
+        	String password = advanceLabService.generateHciPassword(studentDtls.getFirstName(), studentDtls.getDob());
+        	
+        	eLabDetails.setPassword(password);
+        	eLabDetails.setRegistrationDate(studentDtls.getRegistrationDate());
+        	
+        	allElabDetails.add(eLabDetails);
+        	eLabDetails = null;
+        }
+        
+        DataTable<ELabDetails> dataTable = new DataTable<ELabDetails>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(allElabDetails);
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+	}
 
 	@GetMapping("/video")
 	public ModelAndView videoupload() {
@@ -900,57 +902,89 @@ public class AdminController {
 	
 	@GetMapping("/quizCompletion")
 	public String QuizCompletionStatus(Model model) {
-	    // Fetch all quiz attempts where quiz is published
-	    List<QuizUserAttempt> quizUserAttempt = quizUserAttemptRepository.findAllPublished();
+		
+		List<Quiz> allQuiz = quizRepo.findByPublishedIsTrue();
 
-	    // Create a map to store quiz attempts by student
-	    Map<String, List<Integer>> quizlist = new TreeMap<>();
-
-	    // Fetch all approved students
-	    List<StudentDtls> studentId = studentRepo.findByApprovedAndRole(true, "USER");
-
-	    // Add approved students to the model
-	    model.addAttribute("studentId", studentId);
-
-	    // Iterate over each student
-	    for (StudentDtls a : studentId) {
-	        // Fetch quizzes attempted by the student where the quiz is published
-	        List<Integer> quizesofuser = quizUserAttemptRepository.findByUserId(a.getId(), true);
-	        // Add quiz attempts to the map
-	        quizlist.put(a.getFirstName() + " " + a.getLastName() + " (" + a.getEmailAddress() + ") (" + a.getId() + ")", quizesofuser);
-	    }
-
-	    // Print quiz attempts for debugging
-	    for (Map.Entry<String, List<Integer>> entry : quizlist.entrySet()) {
-	        String key = entry.getKey();
-	        List<Integer> value = entry.getValue();
-	        System.out.print("Key: " + key + ", Value: ");
-	        for (Integer item : value) {
-	            System.out.print(item + " ");
-	        }
-	        System.out.println();
-	    }
-
-	    // Add quiz attempts by student to the model
-	    model.addAttribute("quizlist", quizlist);
-
-	    // Fetch unique quiz IDs for dropdown
-	    SortedSet<String> uniqueQuizIds = new TreeSet<>();
-	    for (QuizUserAttempt q : quizUserAttempt) {
-	        Quiz quiz = quizRepo.findById(q.getQuizId()).get();
-	        uniqueQuizIds.add(quiz.getId() + " " + quiz.getQuizTitle());
-	    }
-
-	    // Add unique quiz IDs to the model
-	    model.addAttribute("uniqueQuizIds", uniqueQuizIds);
-
-	    // Add other attributes as needed
-	    model.addAttribute("quizUserAttempt", quizUserAttempt);
-
-	    // Return the view name
+		model.addAttribute("allQuiz", allQuiz);
+		
 	    return "QuizCompletionStatus";
 	}
+	
+	@GetMapping("/quizCompletionData")
+	public ResponseEntity<DataTable<QuizCompletion>> fetchQuizCompletionData(@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
 
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+        	case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "emailAddress"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+        
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+        
+        Page<StudentDtls> responseData = studentRepo.searchStudentsIdNameAndEmail(searchTerm, pageable);
+        
+        //All Quizes
+        List<Quiz> allQuiz = quizRepo.findByPublishedIsTrue();
+        
+        //Creating new list for all QuizCompletion
+        List<QuizCompletion> allQuizCompletion = new ArrayList<>();
+        
+        for(StudentDtls studentDtls : responseData) {
+        	
+        	//List of user's published quiz id
+        	List<Integer> userQuizPublished = quizUserAttemptRepository.findByUserId(studentDtls.getId(), true);
+        	
+        	QuizCompletion quizCompletion = new QuizCompletion();
+        	
+        	quizCompletion.setStudentId(studentDtls.getId());
+        	quizCompletion.setStudentName(studentDtls.getFirstName() + ' ' + studentDtls.getLastName());
+        	quizCompletion.setEmailAddress(studentDtls.getEmailAddress());
+        	
+        	Map<String,Boolean> quizStatus = new HashMap<>();
+        	for(Quiz quiz : allQuiz) {
+        		if(userQuizPublished.contains(quiz.getId())) {
+        			quizStatus.put(quiz.getQuizTitle(), true);
+        		} else {
+        			quizStatus.put(quiz.getQuizTitle(), false);
+        		}
+        	}
+        	quizCompletion.setQuizSubmission(quizStatus);
+        	allQuizCompletion.add(quizCompletion);
+        	quizCompletion = null;
+        }
+        
+        DataTable<QuizCompletion> dataTable = new DataTable<QuizCompletion>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(allQuizCompletion);
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+	    
+	    return ResponseEntity.ok(dataTable);
+	}
+	
+	@GetMapping("/fetchQuizTitles")
+	public ResponseEntity<List<String>> fetchQuizTitles() {
+	    // Fetch all published quizzes
+	    List<Quiz> quizzes = quizRepo.findByPublishedIsTrue();
+	    
+	    List<String> quizTitles = quizzes.stream()
+	                                      .map(Quiz::getQuizTitle)
+	                                      .collect(Collectors.toList());
+
+	    return ResponseEntity.ok(quizTitles);
+	}
 	
 	@GetMapping("/batchCompletion")
     public String batchCompletionStatus(@RequestParam(value = "batch", required = false) String batchNumber, Model model) {

@@ -44,16 +44,6 @@
 	margin-bottom: 150px;
 }
 
-.table-responsive {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    max-width: 100%; /* Ensure table doesn't overflow its container */
-}
-
-table {
-    width: 100%; /* Set table width to 100% */
-    table-layout: fixed; /* Ensure consistent column widths */
-}
-
-th, td {
-    text-overflow: ellipsis; /* Truncate text if it overflows */
-}
+html {
+       height: 100%;
+   }

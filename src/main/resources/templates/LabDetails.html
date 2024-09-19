@@ -4,13 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CyberGyan</title>
-<link rel="stylesheet" href="" th:href="@{/css/AdminHome.css}" />
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link th:href="@{/css/datatables.css}" rel="stylesheet">
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/AdminHome.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/datatables.css}">
 <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
-<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
 </head>
 <body style="background-color: rgb(158, 191, 251);">
 	<div class=navcontainer>
@@ -107,37 +104,33 @@
 		<a href="StudentTrackTime" style="color: white; text-decoration: none;">StudentTrackTime</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="deleteAllVmDetails" style="color: white; text-decoration: none;">Delete All VM Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-	<div class="card1">
-		<div class="card text-center">
-			<div class="card-header" style="background-color: white;">
+	<div class="col-lg-12 col-xl-10 col-xxl-9 mx-auto px-3 mb-5">
+		<div class="card">
+			<div class="card-header text-center" style="background-color: white;">
 				<h1 style="font-family: Times New Roman;">
 					<b>E-LAB Details</b>
 				</h1>
 			</div>
 			<div class="card-body" style="background-color: rgb(205, 214, 224);">
-				<div class="m-4 mx-auto">
-					<div class="form-group row mx-auto text-center justify-content-center">
-						<label for="startDate" class="col-sm-1 col-form-label"><b>Start
-								Date:</b></label>
-						<div class="col-sm-2">
-							<input type="date" class="form-control" id="startDate">
-						</div>
-						<label for="endDate" class="col-sm-1 col-form-label "><b>End
-								Date:</b></label>
-						<div class="col-sm-2">
-							<input type="date" class="form-control" id="endDate">
-						</div>
-						<div class="col-sm-1">
-							<button id="filterBtn" class="btn btn-primary">Filter</button>
-						</div>
-						<div class="col-sm-1">
-							<button id="clearFilterBtn" class="btn btn-danger">Clear</button>
-						</div>
+				<div class="my-4 mx-auto">
+					<div class="form-group row col-10 mx-auto justify-content-center">
+					    <div class="col-md-6 col-lg-4 col-xl-4 col-xxl-4 d-flex align-items-center my-2">
+					        <label for="startDate" class="form-label fw-bold me-2 text-nowrap mt-1">Start Date</label>
+					        <input type="date" class="form-control" id="startDate">
+					    </div>
+					    <div class="col-md-6 col-lg-4 col-xl-4 col-xxl-4 d-flex align-items-center my-2">
+					        <label for="endDate" class="form-label fw-bold me-2 text-nowrap mt-1">End Date</label>
+					        <input type="date" class="form-control" id="endDate">
+					    </div>
+					    <div class="col-md-6 col-lg-2 col-xl-2 col-xxl-2 d-flex align-items-center justify-content-center my-2">
+					        <button id="filterBtn" class="btn btn-primary mx-2">Filter</button>
+					        <button id="clearFilterBtn" class="btn btn-danger mx-2">Clear</button>
+					    </div>
 					</div>
 					<hr>
-					<div class="card p-4 mx-auto" style="width: auto; height: auto">
+					<div class="card p-4 mx-auto">
 						<div class="table-responsive">
-							<table class="table text-center table-bordered table-hover" id="my-table">
+							<table class="table text-center table-bordered table-hover w-100" id="elabDetailsTable">
 								<thead class="thead-dark">
 									<tr class="table-info">
 										<th class="text-center">S.No.</th>
@@ -147,30 +140,13 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="student, index : ${approvedStudents}" class="text-center">
-										<th scope="row" th:text="${index.count}"></th>
-										<td th:text="${username[__${index.index}__]}"></td>
-										<td>
-											<!-- Hidden password field --> <span class="password-field"
-											style="display: none;"
-											th:text="${passwords[__${index.index}__]}"></span> <!-- Eye icon to toggle password visibility -->
-											<i class="fas toggle-password fa-eye"
-											style="cursor: pointer;"></i>
-										</td>
-										<td th:text="${student.registrationDate}"></td>
-									</tr>
+									
 								</tbody>
 							</table>
 							<br>
-							<div>
-								<button onclick="downloadFilteredExcel()"
-									class="btn btn-primary mx-auto">
-									<i class="fa fa-download"> </i> Download Excel
-								</button>
-								<button onclick="toggleAllPasswords()"
-									class="btn btn-primary mx-auto" id="viewAllButton">
-									<i class="fa fa-view"> </i> View All
-								</button>
+							<div class="mx-auto text-center">
+								<button class="btn btn-primary mx-auto" id="exportExcel"><i class="fa fa-download"></i> Download Excel</button>
+								<button class="btn btn-primary mx-auto" id="viewAllButton"><i class="fas fa-eye"></i> View All</button>
 							</div>
 							<br>
 						</div>
@@ -179,140 +155,189 @@
 			</div>
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<div class="class-footer">
+	<div class="w-100 mt-auto fw-bold" style="background-color: #0953a8;">
 		<p
 			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
-			<b>Copyright &copy; 2022</b>
+			<b>Copyright &copy; 2022 </b>
 		</p>
 		<p
 			style="font-family: Times New Roman; text-align: center; color: white; font-size: 18px;">
 			<b>Designed and Developed by CDAC</b>
 		</p>
 	</div>
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/xlsx.full.min.js}"></script>
 	<script>
-      $(document).ready(function() {
-        $(".toggle-password").click(function() {
-          $(this).closest("tr").find(".password-field").toggle();
-        });
-      });
-    </script>
-	<script>
-      var passwordsHidden = true; // Initialize as hidden
-      function toggleAllPasswords() {
-        var passwordFields = document.querySelectorAll(".password-field");
-        var togglePasswords = document.querySelectorAll(".toggle-password");
-        // Toggle visibility of all password fields
-        for (var i = 0; i < passwordFields.length; i++) {
-          var passwordField = passwordFields[i];
-          var togglePassword = togglePasswords[i];
-          if (passwordsHidden) {
-            passwordField.style.display = "inline";
-            togglePassword.classList.remove("fa-eye");
-            togglePassword.classList.add("fa-eye");
-          } else {
-            passwordField.style.display = "none";
-            togglePassword.classList.remove("fa-eye");
-            togglePassword.classList.add("fa-eye");
-          }
-        }
-        passwordsHidden = !passwordsHidden; // Toggle the state
-        // Update the button text based on the current state
-        var viewAllButton = document.getElementById("viewAllButton");
-        viewAllButton.textContent = passwordsHidden ? "View All" :
-          "Hide All";
-      }
-    </script>
-	<script>
-      function searchTable() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("search-input");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("my-table");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-          for (j = 0; j < 3; j++) { // only search the first 3 columns
-            td = tr[i].getElementsByTagName("td")[j];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-                break;
-              } else {
-                tr[i].style.display = "none";
-              }
-            }
-          }
-        }
-      }
-    </script>
-	<script type="text/javascript">
-	  $(document).ready(function() {
-	    $("#filterBtn").click(function() {
-	      var startDate = $("#startDate").val();
-	      var endDate = $("#endDate").val();
-	      if (startDate && endDate) {
-	        $("#my-table tbody tr").each(function(index) {
-	          var regDate = $(this).find("td:nth-child(4)").text();
-	          if (regDate >= startDate && regDate <= endDate) {
-	            $(this).show();
-	          } else {
-	            $(this).hide();
-	          }
-	        });
-	      } else {
-	        $("#my-table tbody tr").show();
-	      }
+	//E-labDetails Table
+	$(document).ready(function() {
+	   var table = $('#elabDetailsTable').DataTable({
+	        processing: true,
+	        serverSide: true,
+	        ajax: {
+	            url: '/labDetailsData',
+	            method: 'GET',
+	            data: function(d) {
+	            	console.log(d);
+	                return $.extend({}, d, {
+				        startDate: $('#startDate').val(),
+				        endDate: $('#endDate').val() 
+	                });
+	            },
+	            dataSrc: function(response) {
+	            	//console.log(response);
+	                return response.data;
+	            }
+	        },
+	        columns: [
+	        	{ 
+	        		data: null,
+	                className: "text-center fw-bold",
+	                title: "S. No",
+	                render: function (data, type, row, meta) {
+	                    return meta.row + meta.settings._iDisplayStart + 1;
+	                }
+	            },
+	            { data: 'username', title: 'Username' , className: 'text-center'},
+	            {
+	                data: 'password',
+	                title: 'Username Details',
+	                className: 'text-center',
+	                render: function(data) {
+	                    return `
+	                        <span class="password d-none">${data}</span>
+	                        <button class="btn bg-none border-0 toggle-password" type="button" title="Show Password">
+	                            <i class="fas fa-eye"></i>
+	                        </button>
+	                    `;
+	                }
+	            },
+	            { data: 'registrationDate', title: 'Registration Date' , className: 'text-center'}
+	        ],
+	        lengthMenu: [
+	            [10, 25, 50, 100, 500],
+	            [10, 25, 50, 100, 500]
+	        ],
+	        searching: true,
+	        ordering: true,
+	        paging: true,
+	        lengthChange: true,
+	        pageLength: 10
 	    });
-	    $("#clearFilterBtn").click(function() {
-	      $("#startDate").val(''); // Clear start date
-	      $("#endDate").val('');   // Clear end date
-	      $("#my-table tbody tr").show(); // Show all rows
-	    });
-	  });
-	</script>
-	<script type="text/javascript">
-	function downloadFilteredExcel() {
-	    var table = document.getElementById("my-table");
-	    var rows = table.getElementsByTagName("tr");
-	    var csv = [];
-	    var displayedRows = table.querySelectorAll("tbody tr:not([style*='display:none'])");
 	    
-	    for (var i = 0; i < displayedRows.length; i++) {
-	        var row = [],
-	            cols = displayedRows[i].querySelectorAll("td, th");
-	        
-	        for (var j = 0; j < cols.length; j++) {
-	            var text = cols[j].innerText.trim(); // Trim whitespace
-	            row.push(text);
+	    $('#elabDetailsTable tbody').on('click', '.toggle-password', function() {
+	        const passwordSpan = $(this).siblings('.password');
+	        if (passwordSpan.hasClass('d-none')) {
+	            passwordSpan.removeClass('d-none');
+	            $(this).attr('title', 'Hide Password').html('<i class="fa fa-eye-slash"></i>');
+	        } else {
+	            passwordSpan.addClass('d-none')
+	            $(this).attr('title', 'Show Password').html('<i class="fa fa-eye"></i>');
 	        }
-	        
-	        csv.push(row.join(","));
-	    }
+	    });
 	    
-	    // Download the CSV file
-	    var csvData = "data:application/csv;charset=utf-8," + encodeURIComponent(csv.join("\n"));
-	    var link = document.createElement("a");
-	    link.setAttribute("href", csvData);
-	    link.setAttribute("download", "filtered-data.csv");
-	    link.click();
-	}
-    </script>
-    <script type="text/javascript">
-    $(document).ready(function() {
-    	$('#my-table').dataTable({
-    	    aLengthMenu: [
-    	        [25, 50, 100, 200, -1],
-    	        [25, 50, 100, 200, "All"]
-    	    ],
-    	    iDisplayLength: -1
-    	});
-    });
+	    $('#viewAllButton').on('click',function(){
+	    	var passwords = $('.password');
+	    	var togglePassword = $('.toggle-password');
+	    	
+	    	if((passwords).hasClass('d-none')) {
+	    		passwords.removeClass('d-none');
+	    		togglePassword.attr('title', 'Hide Password').html('<i class="fa fa-eye-slash"></i>');
+	    	} else {
+	    		passwords.addClass('d-none');
+	    		togglePassword.attr('title', 'Show Password').html('<i class="fa fa-eye"></i>');
+	    	}
+	    });
+	    
+	    $('#filterBtn').on('click', function() {
+	        table.ajax.reload();
+	    });
+
+	    // Clear button click event
+	    $('#clearFilterBtn').on('click', function() {
+	        $('#startDate').val('');
+	        $('#endDate').val('');
+	        table.ajax.reload();
+	    });
+	    
+	});
+	
+	//E-labDetails Table
+	$(document).ready(function() {
+		$('#exportExcel').click(function() {
+	        $('#exportExcel').addClass('disabled').html('<span class="spinner-border spinner-border-sm me-2"></span><span role="status">Exporting...</span>');
+	        
+	        var allData = [];
+	        var batchSize = 100;
+	        var start = 0;
+	        
+	        function fetchData() {
+	            $.ajax({
+	                url: "/labDetailsData",
+	                type: 'GET',
+	                data: {
+	                    draw: 1,
+	                    start: start,
+	                    length: batchSize
+	                },
+	                cache: false,
+	                success: function(response) {
+	                    var data = response.data;
+	                    if (data.length > 0) {
+	                        allData = allData.concat(data);
+	                        start += batchSize;
+	                        fetchData();
+	                    } else {
+	                        generateExcel();
+	                    }
+	                },
+	                error: function() {
+	                    $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	                }
+	            });
+	        }
+
+	        function generateExcel() {
+	            var wb = XLSX.utils.book_new();
+	            var ws_data = [];
+
+	            ws_data.push(['Username', 'Password', 'Registration Date']);
+
+	            allData.forEach(function(row) {
+	                ws_data.push([
+	                    row.username,
+	                    row.password,
+	                    row.registrationDate,
+	                ]);
+	            });
+
+	            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	            function getColumnWidth(columnData) {
+	                var minWidth = 50;
+	                var maxWidth = 300;
+	                var baseWidth = 10;
+	                var maxLength = columnData.map(cell => (cell || '').toString().length).reduce((max, len) => Math.max(max, len), 0);
+	                var calculatedWidth = baseWidth + maxLength * 7;
+	                return { wpx: Math.min(Math.max(calculatedWidth, minWidth), maxWidth) };
+	            }
+
+	            var colWidths = ws_data[0].map(function(_, i) {
+	                var columnData = ws_data.map(row => row[i]);
+	                return getColumnWidth(columnData);
+	            });
+
+	            ws['!cols'] = colWidths;
+
+	            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	            XLSX.writeFile(wb, 'E-Lab Details.xlsx');
+	            $('#exportExcel').removeClass('disabled').html('<i class="fa fa-download"></i> Download Excel');
+	        }
+
+	        fetchData();
+	    });
+	});
     </script>
 </body>
 </html>

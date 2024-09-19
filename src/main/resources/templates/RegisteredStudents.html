@@ -233,7 +233,7 @@ $(document).ready(function() {
             ws_data.push(['ID','First Name', 'Last Name', "Father's Name", 'Qualification', 'Email Address', 'Mobile Number', 'Date of Birth', 'Category', 'Gender', 'State', 'College','Batch/Class','Registration Date','Approved Date','Valid Till']);
 
             allData.sort(function(a, b) {
-                return a.exerciseSubmitId - b.exerciseSubmitId;
+                return a.id - b.id;
             });
 
             allData.forEach(function(row) {

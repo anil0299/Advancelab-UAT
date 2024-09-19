@@ -138,7 +138,7 @@
 					<b>Basic Level Completion Status</b>
 				</h1>
 			</div>
-			<div class="card-body" style="background-color: rgb(205, 214, 224);" id="printableArea">
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
 				<div class="table-responsive">
 					<table id="basicCompletion" class="table table-light table-hover table-bordered w-100">
 						<thead>
@@ -164,9 +164,6 @@
 				</div>
 				<div class="text-center">
 				<button class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportBasicExcel"><i class="fa fa-download"></i> Download Excel</button>
-				<a href="javascript:void(0);" class="btn btn-primary mb-2"
-					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
-					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
 				<a th:href="@{/ExerciseCompletion}" class="btn btn-primary mb-2"
 					style="margin-top: 8px;"> Back</a>
 				</div>
@@ -178,8 +175,7 @@
 					<b>Advance Level Completion Status</b>
 				</h1>
 			</div>
-			<div class="card-body" style="background-color: rgb(205, 214, 224);"
-				id="printableArea">
+			<div class="card-body" style="background-color: rgb(205, 214, 224);">
 				<div class="table-responsive">
 					<table id="advanceCompletion" class="table table-bordered table-hover w-100">
 						<thead>
@@ -205,28 +201,11 @@
 				</div>
 				<div class="text-center">
 				<button class="btn btn-primary mb-2" style="margin-top: 8px;" id="exportAdvanceExcel"><i class="fa fa-download"></i> Download Excel</button>
-				<a href="javascript:void(0);" class="btn btn-primary mb-2"
-					style="margin-top: 8px;" onclick="printPageArea('printableArea')"><span
-					class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
 				<a th:href="@{/ExerciseCompletion}" class="btn btn-primary mb-2"
 					style="margin-top: 8px;"> Back</a>
 				</div>
 			</div>
 		</div>
-	<script type="text/javascript">
-		function printPageArea(areaID) {
-			var printContent = document.getElementById(areaID).innerHTML;
-			var printWindow = window.open('', '', 'height=700,width=1000');
-			printWindow.document.write('<html><head><title>Print</title>');
-			printWindow.document.write('</head><body >');
-			printWindow.document.write(printContent);
-			printWindow.document.write('</body></html>');
-			printWindow.document.close();
-			printWindow.focus();
-			printWindow.print();
-			printWindow.close();
-		}
-	</script>
 	<script>
 	//Basic 
 	$(document).ready(function() {
@@ -332,7 +311,7 @@
 	            ws_data.push(['ID', 'User ID', 'Course ID', 'Course Name', 'First Name', 'Last Name', 'Email Address', 'College', 'State', 'Batch/Class', 'Completion']);
 
 	            allData.sort(function(a, b) {
-	                return a.exerciseSubmitId - b.exerciseSubmitId;
+	                return a.id - b.id;
 	            });
 
 	            allData.forEach(function(row) {
@@ -482,7 +461,7 @@
 	            ws_data.push(['ID', 'User ID', 'Course ID', 'Course Name', 'First Name', 'Last Name', 'Email Address', 'College', 'State', 'Batch/Class', 'Completion']);
 
 	            allData.sort(function(a, b) {
-	                return a.exerciseSubmitId - b.exerciseSubmitId;
+	                return a.id - b.id;
 	            });
 
 	            allData.forEach(function(row) {

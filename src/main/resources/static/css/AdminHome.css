@@ -46,3 +46,7 @@
 .message-red {
     color: red;
 }
+
+html {
+	height:100%;
+}

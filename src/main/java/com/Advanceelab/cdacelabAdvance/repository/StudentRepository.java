@@ -296,4 +296,34 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 		       "AND s.approved = true " +
 		       "AND s.role = 'USER'")
 	Page<StudentDtls> searchStudentsBasicDetails(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+	
+	@Query("SELECT s FROM StudentDtls s " +
+		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
+		       "LOWER(CAST(s.id AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.emailAddress) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+		       "AND s.approved = true " +
+		       "AND s.role = 'USER'")
+	Page<StudentDtls> searchStudentsIdNameAndEmail(@Param("searchTerm") String searchTerm, Pageable pageable);
+	
+	@Query("SELECT s FROM StudentDtls s " +
+		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
+		       "LOWER(s.labemail) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(s.registrationDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+		       "AND s.approved = true " +
+		       "AND s.role = 'USER'")
+	Page<StudentDtls> searchLabEmailAndRegistrationDate(@Param("searchTerm") String searchTerm, Pageable pageable);
+	
+	@Query("SELECT s FROM StudentDtls s " +
+		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
+		       "LOWER(s.labemail) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(s.registrationDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+		       "AND s.approved = true " +
+		       "AND s.role = 'USER'" +
+		       "AND s.registrationDate >= CAST(:startDate AS date) " +
+		       "AND s.registrationDate <= CAST(:endDate AS date)")
+	Page<StudentDtls> searchLabEmailAndRegistrationDate(@Param("searchTerm") String searchTerm, LocalDate startDate, LocalDate endDate, Pageable pageable);
+
 }
