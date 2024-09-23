@@ -2,7 +2,6 @@ package com.Advanceelab.cdacelabAdvance.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -34,9 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.Advanceelab.cdacelabAdvance.dto.DataTable;
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.PasswordHistoryNew;
-import com.Advanceelab.cdacelabAdvance.entity.Passwordhistory;
 import com.Advanceelab.cdacelabAdvance.entity.RejectedStudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.User;
@@ -45,7 +45,6 @@ import com.Advanceelab.cdacelabAdvance.repository.AddCenterRepo;
 import com.Advanceelab.cdacelabAdvance.repository.AddCoursesRepo;
 import com.Advanceelab.cdacelabAdvance.repository.AdvanceLabUserVmDetailsRepository;
 import com.Advanceelab.cdacelabAdvance.repository.PasswordHistoryNewRepository;
-import com.Advanceelab.cdacelabAdvance.repository.PasswordhistoryRepository;
 import com.Advanceelab.cdacelabAdvance.repository.RejectedStudentRepository;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
 import com.Advanceelab.cdacelabAdvance.repository.TeacherRepository;
@@ -164,7 +163,7 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/rejectuser/{id}")
-	public String rejectuser(@PathVariable(name = "id") int id, HttpSession session,@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode ) {
+	public String rejectuser(@PathVariable(name = "id") int id, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode, RedirectAttributes redirectAttributes) {
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
 		if (csrf.getToken().equals(csrfToken)) {
 			String a=String.valueOf(id);
@@ -200,7 +199,7 @@ public class RegistrationController {
 			}
 		}
 		studentRepo.deleteById(id);
-		session.setAttribute("del", "Student Deleted Successfully !!!");
+		redirectAttributes.addFlashAttribute("success", "Student deleted successfully");
 		return "redirect:/StudentApproval";
 	}
 
@@ -339,7 +338,7 @@ public class RegistrationController {
 	}
 	
 	@PostMapping("/updateUser")
-	public String updateUser(HttpSession session, @RequestParam("id") int id, @RequestParam("state") String state,
+	public String updateUser(@RequestParam("id") int id, @RequestParam("state") String state,
 			@RequestParam("college") String college, @RequestParam("qualification") String qualification,
 			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
 			@RequestParam("fatherName") String fatherName, @RequestParam("category") String category,
@@ -392,7 +391,7 @@ public class RegistrationController {
 		            PDFTextStripper textStripper = new PDFTextStripper();
 		            String pdfContent = textStripper.getText(pdfDocument);
 		            if (pdfContent.contains("<script>")) {
-		                redirectAttributes.addFlashAttribute("msg4", "CategoryCertificate is malicious.");
+		            	redirectAttributes.addFlashAttribute("error", "Category certificate pdf is malicious");
 		                return "redirect:/StudentApproval";
 		            }
 		        } catch (Exception e) {
@@ -411,7 +410,7 @@ public class RegistrationController {
 		            PDFTextStripper textStripper = new PDFTextStripper();
 		            String pdfContent = textStripper.getText(pdfDocument);
 		            if (pdfContent.contains("<script>")) {
-		                redirectAttributes.addFlashAttribute("msg5", "LastMarksheet is malicious.");
+		            	redirectAttributes.addFlashAttribute("error", "Last marksheet pdf is malicious");
 		                return "redirect:/StudentApproval";
 		            }
 		        } catch (Exception e) {
@@ -424,7 +423,7 @@ public class RegistrationController {
 
 
 			studentRepo.save(student);
-			session.setAttribute("update", "Student Details Updated Successfully !!!");
+			redirectAttributes.addFlashAttribute("success", "Student details updated successfully");
 			return "redirect:/StudentApproval";
 		}
 
@@ -432,7 +431,7 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/rejected/{studentDtlsId}")
-	public String rejectStudentDetails(@PathVariable int studentDtlsId, Model model, HttpSession session, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
+	public String rejectStudentDetails(@PathVariable int studentDtlsId, Model model, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode, RedirectAttributes redirectAttributes) {
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
 		if (csrf.getToken().equals(csrfToken)) {
 			String a=String.valueOf(studentDtlsId);
@@ -488,119 +487,242 @@ public class RegistrationController {
 		senderService.sendEmail(rejectedStudentDtls.getEmailAddress(), "Cyber Gyan", rejectionEmail);
 
 		
-		session.setAttribute("reject", "Student Rejected Successfully !!!");		
+		redirectAttributes.addFlashAttribute("success", "Student rejected successfully");	
 		return "redirect:/StudentApproval";
 		
 	}
 
 //	@GetMapping("/StudentApproval")
-//	public String getStudentDtls(Model model,@RequestParam(name = "error", required = false) String error) {
-//		
-//		if(error != null)
-//			model.addAttribute("error", "Email or username already exists..");
-//		
-//		List<StudentDtls> studentDtls = studentRepo.findByApproved(false);
-//		model.addAttribute("studentDtls", studentDtls);
-//
-//		List<StudentDtls> list = studentRepo.listofStudentByRole("USER", true);
-//		model.addAttribute("studentDtls1", list);
-//
-//		List<RejectedStudentDtls> newrejectedStudentDtls = RejectRepo.findAll();
-//		model.addAttribute("newrejectedStudentDtls", newrejectedStudentDtls);
-//
-//		return "StudentApproval";
+//	public String getStudentDtls(Model model,
+//	                             @RequestParam(defaultValue = "0") int currentPageNo,
+//	                             @RequestParam(defaultValue = "25") int currentPageSize,
+//	                             @RequestParam(defaultValue = "0") int approvedCurrentPageNo,
+//	                             @RequestParam(defaultValue = "25") int approvedPageSize,
+//	                             @RequestParam(defaultValue = "0") int rejectedCurrentPageNo,
+//	                             @RequestParam(defaultValue = "25") int rejectedCurrentPageSize,
+//	                             @RequestParam(required = false) String searchEmailPending,
+//	                             @RequestParam(required = false) String searchEmailApproved,
+//	                             @RequestParam(required = false) String searchEmailRejected) {
+//	    
+//	    Pageable pageable = PageRequest.of(currentPageNo, currentPageSize, Sort.by("id").ascending());
+//	    //Page<StudentDtls> pagePost = studentRepo.findByApproved(false,pageable);
+//	    Page<StudentDtls> pagePost;
+//	    long totalPendingStudents = 0;
+//	    int tmp = 0;
+//	    if (searchEmailPending != null && !searchEmailPending.isEmpty()) {
+//	        pagePost = studentRepo.findByEmailAddressContainingIgnoreCaseAndApproved(searchEmailPending, false, pageable);
+//	        tmp = 1;
+//	    } else {
+//	        pagePost = studentRepo.findByApproved(false, pageable);
+//	        totalPendingStudents = pagePost.getTotalElements();
+//	    }
+//	    List<StudentDtls> studentDtls = pagePost.getContent();
+//	    if(tmp == 1)
+//	    	totalPendingStudents = studentRepo.findByApproved(false,pageable).getTotalElements();
+//	    
+//	    
+//	    Pageable pageable1 = PageRequest.of(approvedCurrentPageNo, approvedPageSize, Sort.by("id").ascending());
+//	    //Page<StudentDtls> pagePost1 = studentRepo.findByApprovedAndRole(true,"USER",pageable1);
+//	    Page<StudentDtls> pagePost1;
+//	    long totalApprovedStudents = 0;
+//	    int tmp1 = 0;
+//	    if(searchEmailApproved != null && !searchEmailApproved.isEmpty()) {
+//	    	pagePost1 = studentRepo.findByEmailAddressContainingIgnoreCaseAndApprovedAndRole(searchEmailApproved, true,"USER",pageable1);
+//	    	tmp1 = 1;
+//	    }else {
+//	    	pagePost1 = studentRepo.findByApprovedAndRole(true,"USER",pageable1);
+//	    	totalApprovedStudents = pagePost1.getTotalElements();
+//	    }
+//	    List<StudentDtls> studentDtls1 = pagePost1.getContent();
+//	    if(tmp1 == 1)
+//	    	totalApprovedStudents = studentRepo.findByApprovedAndRole(true,"USER",pageable1).getTotalElements();
+//	    
+//	    
+//	    Pageable pageable2 = PageRequest.of(rejectedCurrentPageNo, rejectedCurrentPageSize, Sort.by("id").ascending());
+//	    //Page<RejectedStudentDtls> pagePost2 = RejectRepo.findAll(pageable2);
+//	    Page<RejectedStudentDtls> pagePost2;
+//	    long totalRejectedStudents = 0;
+//	    int tmp2 = 0;
+//	    if(searchEmailRejected != null && !searchEmailRejected.isEmpty()) {
+//	    	pagePost2 = RejectRepo.findByEmailAddress(searchEmailRejected,pageable2);
+//	    	tmp2 = 1;
+//	    }else {
+//	    	pagePost2 = RejectRepo.findAll(pageable2);
+//	    	totalRejectedStudents = pagePost2.getTotalElements();
+//	    }
+//	    List<RejectedStudentDtls> studentDtls2 = pagePost2.getContent();
+//	    if(tmp2 == 1)
+//	    	totalRejectedStudents =  RejectRepo.findAll(pageable2).getTotalElements();
+//	    
+//	    model.addAttribute("studentDtls", studentDtls);
+//	    model.addAttribute("totalPendingStudents", totalPendingStudents);
+//	    
+//	    model.addAttribute("studentDtls1", studentDtls1);
+//	    model.addAttribute("totalApprovedStudents", totalApprovedStudents);
+//	    
+//	    model.addAttribute("newrejectedStudentDtls", studentDtls2);
+//	    model.addAttribute("totalRejectedStudents", totalRejectedStudents);
+//	    
+//	    model.addAttribute("currentPage", currentPageNo);
+//	    model.addAttribute("totalPages", pagePost.getTotalPages());
+//	    model.addAttribute("currentPageSize", currentPageSize);
+//	    
+//	    model.addAttribute("approvedCurrentPageNo", approvedCurrentPageNo);
+//	    model.addAttribute("approvedtotalPages", pagePost1.getTotalPages());
+//	    model.addAttribute("approvedPageSize", approvedPageSize);
+//	    
+//	    model.addAttribute("rejectedCurrentPageNo", rejectedCurrentPageNo);
+//	    model.addAttribute("rejectedtotalPages", pagePost2.getTotalPages());
+//	    model.addAttribute("rejectedCurrentPageSize", rejectedCurrentPageSize);
+//	 
+//	    return "StudentApproval";
 //	}
 	
-	
 	@GetMapping("/StudentApproval")
-	public String getStudentDtls(Model model,
-	                             @RequestParam(defaultValue = "0") int currentPageNo,
-	                             @RequestParam(defaultValue = "25") int currentPageSize,
-	                             @RequestParam(defaultValue = "0") int approvedCurrentPageNo,
-	                             @RequestParam(defaultValue = "25") int approvedPageSize,
-	                             @RequestParam(defaultValue = "0") int rejectedCurrentPageNo,
-	                             @RequestParam(defaultValue = "25") int rejectedCurrentPageSize,
-	                             @RequestParam(required = false) String searchEmailPending,
-	                             @RequestParam(required = false) String searchEmailApproved,
-	                             @RequestParam(required = false) String searchEmailRejected) {
-	    
-	    Pageable pageable = PageRequest.of(currentPageNo, currentPageSize, Sort.by("id").ascending());
-	    //Page<StudentDtls> pagePost = studentRepo.findByApproved(false,pageable);
-	    Page<StudentDtls> pagePost;
-	    long totalPendingStudents = 0;
-	    int tmp = 0;
-	    if (searchEmailPending != null && !searchEmailPending.isEmpty()) {
-	        pagePost = studentRepo.findByEmailAddressContainingIgnoreCaseAndApproved(searchEmailPending, false, pageable);
-	        tmp = 1;
-	    } else {
-	        pagePost = studentRepo.findByApproved(false, pageable);
-	        totalPendingStudents = pagePost.getTotalElements();
-	    }
-	    List<StudentDtls> studentDtls = pagePost.getContent();
-	    if(tmp == 1)
-	    	totalPendingStudents = studentRepo.findByApproved(false,pageable).getTotalElements();
-	    
-	    
-	    Pageable pageable1 = PageRequest.of(approvedCurrentPageNo, approvedPageSize, Sort.by("id").ascending());
-	    //Page<StudentDtls> pagePost1 = studentRepo.findByApprovedAndRole(true,"USER",pageable1);
-	    Page<StudentDtls> pagePost1;
-	    long totalApprovedStudents = 0;
-	    int tmp1 = 0;
-	    if(searchEmailApproved != null && !searchEmailApproved.isEmpty()) {
-	    	pagePost1 = studentRepo.findByEmailAddressContainingIgnoreCaseAndApprovedAndRole(searchEmailApproved, true,"USER",pageable1);
-	    	tmp1 = 1;
-	    }else {
-	    	pagePost1 = studentRepo.findByApprovedAndRole(true,"USER",pageable1);
-	    	totalApprovedStudents = pagePost1.getTotalElements();
-	    }
-	    List<StudentDtls> studentDtls1 = pagePost1.getContent();
-	    if(tmp1 == 1)
-	    	totalApprovedStudents = studentRepo.findByApprovedAndRole(true,"USER",pageable1).getTotalElements();
-	    
-	    
-	    Pageable pageable2 = PageRequest.of(rejectedCurrentPageNo, rejectedCurrentPageSize, Sort.by("id").ascending());
-	    //Page<RejectedStudentDtls> pagePost2 = RejectRepo.findAll(pageable2);
-	    Page<RejectedStudentDtls> pagePost2;
-	    long totalRejectedStudents = 0;
-	    int tmp2 = 0;
-	    if(searchEmailRejected != null && !searchEmailRejected.isEmpty()) {
-	    	pagePost2 = RejectRepo.findByEmailAddress(searchEmailRejected,pageable2);
-	    	tmp2 = 1;
-	    }else {
-	    	pagePost2 = RejectRepo.findAll(pageable2);
-	    	totalRejectedStudents = pagePost2.getTotalElements();
-	    }
-	    List<RejectedStudentDtls> studentDtls2 = pagePost2.getContent();
-	    if(tmp2 == 1)
-	    	totalRejectedStudents =  RejectRepo.findAll(pageable2).getTotalElements();
-	    
-	    model.addAttribute("studentDtls", studentDtls);
-	    model.addAttribute("totalPendingStudents", totalPendingStudents);
-	    
-	    model.addAttribute("studentDtls1", studentDtls1);
-	    model.addAttribute("totalApprovedStudents", totalApprovedStudents);
-	    
-	    model.addAttribute("newrejectedStudentDtls", studentDtls2);
-	    model.addAttribute("totalRejectedStudents", totalRejectedStudents);
-	    
-	    model.addAttribute("currentPage", currentPageNo);
-	    model.addAttribute("totalPages", pagePost.getTotalPages());
-	    model.addAttribute("currentPageSize", currentPageSize);
-	    
-	    model.addAttribute("approvedCurrentPageNo", approvedCurrentPageNo);
-	    model.addAttribute("approvedtotalPages", pagePost1.getTotalPages());
-	    model.addAttribute("approvedPageSize", approvedPageSize);
-	    
-	    model.addAttribute("rejectedCurrentPageNo", rejectedCurrentPageNo);
-	    model.addAttribute("rejectedtotalPages", pagePost2.getTotalPages());
-	    model.addAttribute("rejectedCurrentPageSize", rejectedCurrentPageSize);
-	 
-	    return "StudentApproval";
+	public ModelAndView getStudentDetails() {
+		
+		int totalPendingStudents = studentRepo.countByApprovedAndRole(false,"USER");
+		int totalApprovedStudents = studentRepo.countByApprovedAndRole(true,"USER");
+		long totalRejectedStudents = RejectRepo.count();
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.addObject("totalPendingStudents", totalPendingStudents);
+		modelAndView.addObject("totalApprovedStudents", totalApprovedStudents);
+		modelAndView.addObject("totalRejectedStudents", totalRejectedStudents);
+		modelAndView.setViewName("StudentApproval");
+		
+		return modelAndView;
 	}
 	
+	@GetMapping("/pendingStudentData")
+	public ResponseEntity<DataTable<StudentDtls>> getPendingStudentData(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
 
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+            case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "lastName"; break;
+            case 4: sortBy = "emailAddress"; break;
+            case 5: sortBy = "qualification"; break;
+            case 6: sortBy = "college"; break;
+            case 7: sortBy = "state"; break;
+            case 8: sortBy = "registrationDate"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+    
+	    Page<StudentDtls> responseData = studentRepo.searchPendingStudents(searchTerm, pageable);
+	    
+	    DataTable<StudentDtls> dataTable = new DataTable<StudentDtls>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+		
+	}
+	
+	@GetMapping("/approvedStudentData")
+	public ResponseEntity<DataTable<StudentDtls>> getapprovedStudentDataa(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+            case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "lastName"; break;
+            case 4: sortBy = "emailAddress"; break;
+            case 5: sortBy = "qualification"; break;
+            case 6: sortBy = "batch"; break;
+            case 7: sortBy = "college"; break;
+            case 8: sortBy = "state"; break;
+            case 9: sortBy = "registrationDate"; break;
+            case 10: sortBy = "approvedDate"; break;
+            case 11: sortBy = "validTill"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+    
+	    Page<StudentDtls> responseData = studentRepo.searchApprovedStudents(searchTerm, pageable);
+	    
+	    DataTable<StudentDtls> dataTable = new DataTable<StudentDtls>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+		
+	}
+	
+	@GetMapping("/rejectedStudentData")
+	public ResponseEntity<DataTable<RejectedStudentDtls>> getRejectedStudentDataa(
+			@RequestParam("draw") int draw,
+            @RequestParam("start") int start,
+            @RequestParam("length") int length,
+            @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColumnIndex,
+            @RequestParam(value = "order[0][dir]", defaultValue = "asc") String sortDirection) {
+
+		String sortBy;
+        switch (sortColumnIndex) {
+        	case 0: sortBy = "id"; break;
+            case 1: sortBy = "id"; break;
+            case 2: sortBy = "firstName"; break;
+            case 3: sortBy = "lastName"; break;
+            case 4: sortBy = "emailAddress"; break;
+            case 5: sortBy = "qualification"; break;
+            case 6: sortBy = "college"; break;
+            case 7: sortBy = "state"; break;
+            case 8: sortBy = "registrationDate"; break;
+            default: sortBy = "id"; // Default sorting
+        }
+        
+        Pageable pageable;
+
+        int page = start / length;
+        pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
+    
+	    Page<RejectedStudentDtls> responseData = RejectRepo.searchRejectedStudents(searchTerm, pageable);
+	    
+	    DataTable<RejectedStudentDtls> dataTable = new DataTable<RejectedStudentDtls>();
+	    dataTable.setDraw(draw);
+	    dataTable.setStart(start);
+	    dataTable.setData(responseData.getContent());
+	    dataTable.setRecordsTotal(responseData.getTotalElements());
+	    dataTable.setRecordsFiltered(responseData.getTotalElements());
+
+	    return ResponseEntity.ok(dataTable);
+		
+	}
+	
 	@PostMapping("/rejectedDeleted/{id}")
-	public String rejectedDelete(@PathVariable(name = "id") int id, HttpSession session, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
+	public String rejectedDelete(@PathVariable(name = "id") int id, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode, RedirectAttributes redirectAttributes) {
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
 		if (csrf.getToken().equals(csrfToken)) {
 			String a=String.valueOf(id);
@@ -613,13 +735,13 @@ public class RegistrationController {
 					}
 		}
 		RejectRepo.deleteById(id);
-		session.setAttribute("pdelete", "Student Permanent Deleted Successfully !!!");
+		redirectAttributes.addFlashAttribute("success", "Student permanently deleted successfully");
 		return "redirect:/StudentApproval";
 	}
 
 	@PostMapping("/StudentApproval/approve-studentDtls/{studentDtlsId}")
 	@Transactional
-	public String approveStudentDtls(@PathVariable int studentDtlsId, HttpSession session, Model model,RedirectAttributes redirectAttributes,
+	public String approveStudentDtls(@PathVariable int studentDtlsId, Model model,RedirectAttributes redirectAttributes,
 			@RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
 		
 		
@@ -642,7 +764,7 @@ public class RegistrationController {
 				String username = emailAddress.substring(0, atIndex);
 				String newEmail = username + "@cybergyan.in";
 				if (userRepo.existsByUsernameOrEmailAddress(newEmail, emailAddress)) {
-					redirectAttributes.addFlashAttribute("error", "Email or username already exists"); 
+					redirectAttributes.addFlashAttribute("error", "The email or username already exists");
 					List<RejectedStudentDtls> newRejectedStudentDtls = RejectRepo.findAll();
 					model.addAttribute("newrejectedStudentDtls", newRejectedStudentDtls);
 					return "redirect:/StudentApproval";
@@ -726,7 +848,7 @@ public class RegistrationController {
 			List<RejectedStudentDtls> newRejectedStudentDtls = RejectRepo.findAll();
 			model.addAttribute("newrejectedStudentDtls", newRejectedStudentDtls);
 
-			session.setAttribute("msg", "Student Approved Successfully !!!");
+			redirectAttributes.addFlashAttribute("success", "Student approved successfully");
 			return "redirect:/StudentApproval";
 		} else {
 			return "error.html";
@@ -735,8 +857,8 @@ public class RegistrationController {
 
 	@PostMapping("/extend-validity/{studentDtlsId}")
 	@Transactional
-	public String extendValidity(@PathVariable("studentDtlsId") int studentDtlsId, @RequestParam(value = "validTill") String extendedDob,
-			HttpSession session, Model model, @RequestParam("_csrf") String csrfToken, HttpServletRequest request, @RequestParam(value="hppCode") String hppCode) {
+	public String extendValidity(@PathVariable("studentDtlsId") int studentDtlsId, @RequestParam(value = "validTill") String extendedDob, 
+			Model model, @RequestParam("_csrf") String csrfToken, HttpServletRequest request, @RequestParam(value="hppCode") String hppCode, RedirectAttributes redirectAttributes) {
 
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
 		if (csrf.getToken().equals(csrfToken)) {
@@ -778,15 +900,16 @@ public class RegistrationController {
 					userService.saveLoginUser(studentDtls.getEmailAddress(), newValidTillDate, studentDtls);
 				}
 			}
-			session.setAttribute("extend", "Validity Extended Successfully !!!");
+			redirectAttributes.addFlashAttribute("success", "User account validity extended successfully");
 			return "redirect:/StudentApproval";
 		} else {
 			return "error.html";
 		}
 	}
 
+	@Transactional
 	@PostMapping("/RejectedApproval/{id}")
-	public String rejectedApprove(@PathVariable(value = "id") int id, HttpSession session, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode) {
+	public String rejectedApprove(@PathVariable(value = "id") int id, @RequestParam("_csrf") String csrfToken, HttpServletRequest request,@RequestParam(value = "hppCode") String hppCode, RedirectAttributes redirectAttributes) {
 		CsrfToken csrf = new HttpSessionCsrfTokenRepository().loadToken(request);
 		if (csrf.getToken().equals(csrfToken)) {
 			String a=String.valueOf(id);
@@ -878,7 +1001,7 @@ public class RegistrationController {
 		System.out.println(output);
 		
 		
-		session.setAttribute("reapprove", "Student Reapprove Successfully !!!");
+		redirectAttributes.addFlashAttribute("success", "Student reapproved successfully");
 		return "redirect:/StudentApproval";
 	}
 

@@ -1,15 +1,10 @@
 package com.Advanceelab.cdacelabAdvance.service;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,18 +14,9 @@ import com.jayway.jsonpath.JsonPath;
 @Service
 public class VmFunction {
 
-	private Logger logger = Logger.getLogger(getClass().getName());
-	
     private final HttpClient httpClient;
 
     public VmFunction() {
-    	try {
-            // Initialize FileHandler for logging
-            FileHandler fileHandler = new FileHandler("src/main/resources/static/logs/log.txt",true);
-            logger.addHandler(fileHandler);
-        } catch (IOException ex) {
-            System.out.println("Log handler error: " + ex.getMessage());
-        }
         this.httpClient = HttpClient.newHttpClient();
     }
 
@@ -71,10 +57,8 @@ public class VmFunction {
 	                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 	                String responseBody = response.body();
 	                String ip = JsonPath.read(responseBody, "$.entities[0].status.resources.nic_list[0].ip_endpoint_list.[0].ip");
-	                logger.log(Level.INFO, "Ip found: " + ip);
 	                return ip;
 	            } catch (Exception ex) {
-	            	logger.log(Level.INFO, "Ip not found");
                     return null;
 	            }
         });

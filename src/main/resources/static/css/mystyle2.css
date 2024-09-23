@@ -58,3 +58,16 @@
 .bg-green {
 	background-color : #00b300;
 }
+
+.resubmit-btn {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.resubmit-btn:hover,
+.resubmit-btn:focus {
+    color: #495057;
+    background-color: rgba(179, 179, 179, 0.1);
+}

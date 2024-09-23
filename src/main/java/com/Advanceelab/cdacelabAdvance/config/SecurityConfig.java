@@ -56,14 +56,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/registerTeacher/**", "/images/**", "/js/**", "/favicon.ico", "/colleges/**",
 						"/checkUniqueEmail/**", "/checkUniqueEmailteacher/**", "/checkApprovalStatus/**","/refreshCaptcha","/","/displayPDFNote/**","/resetPassword/**","/checkMobileNumber","/checkMobileNumber2").permitAll()
 				
-				.antMatchers("/home", "/ConfigVPN/**", "/filter/**", "/AccessLAB/**", "/dashboard","/createAdvanceLab/**","/launchConsole").hasAuthority("USER")
+				.antMatchers("/home", "/ConfigVPN/**", "/filter/**", "/AccessLAB/**", "/dashboard","/createAdvanceLab/**","/launchConsole","/Re-Submit/**").hasAuthority("USER")
 				
 				.antMatchers("/adminpage", "/pdfs/**", "/folders/**", "/dashboard", "/LabDetails", "/filter",
                         "/AssignBatch", "/extend-validity/", "/TeacherApproval", "/basiclab", "/pdfbasic", "/ExerciseCompletion",
                         "/RegisteredStudents", "/Completionstatus1", "/Statewise", "/Categorywise", "/StateandCategory",
                         "/TeacherApproval/approve-teachertDtls/**", "/deleteuser/**", "/deletecourse/**", "/updateSavebatchex/**", "/quizCompletion/**", "/submissionData", "/submissionData/**", "/pdf", "/pdf/**",
                         "/registeredStudentsData", "/registeredStudentsData/**","/basicCompletionStatusData","/basicCompletionStatusData/**","/advanceCompletionStatusData","/advanceCompletionStatusData/**",
-                        "labCompletionStatusData","/labCompletionStatusData/**","/fetchQuizTitles","/fetchQuizTitles/**", "/quizCompletionData", "/quizCompletionData/**","/LabDetailsData","/LabDetailsData/**")
+                        "labCompletionStatusData","/labCompletionStatusData/**","/fetchQuizTitles","/fetchQuizTitles/**", "/quizCompletionData", "/quizCompletionData/**","/labDetailsData","/labDetailsData/**",
+                        "/pendingStudentData", "/pendingStudentData/**", "/approvedStudentData", "/approvedStudentData/**", "/rejectedStudentData", "/rejectedStudentData/**")
                 .hasAuthority("ADMIN")
 				
 				.antMatchers("/AddExercise", "/StudentApproval", "/teacherApproval", "/exercisedetails", "/AdminHome",

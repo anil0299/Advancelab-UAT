@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberGyan</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/StudentExercisePage.css}">
+</head>
+<body style="background-color: white;">
+	<div class=navcontainer>
+		<div class="img-fluid">
+			<img style="width: 90px; margin-left: 30px;" src=""
+				th:src="@{/images/cdac-wo-bg.png}" alt="">
+			<form th:action="@{/logout}" method="post"
+				style="float: right; margin-top: 25px; margin-right: 10px">
+				<input type="submit" class="btn btn-primary" value="Logout" />
+			</form>
+		</div>
+	</div>
+	<nav aria-label="breadcrumb"
+		style="margin-top: 25px; margin-left: 10px; font-weight: bold; font-size: 20px; color: black;">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item" style="color: black;">
+			<a th:href="@{/}" class="text-decoration-none">Home</a></li>
+			<li class="breadcrumb-item" style="color: black;">
+			<a th:href="@{/exercisepage}" class="text-decoration-none">Exercise</a></li>
+			
+		</ol>
+	</nav>
+	
+	<div class="mb-5">
+		<div class=" text-center h2 fw-bold myfont">Welcome Students</div>
+		<div class=" mx-auto myfont col-xxl-10 col-sm-12 col-12 px-lg-5 px-sm-3 px-3">
+			<div class="card text-center">
+				<div class="card-header" style="background-color: #0953a8;">
+				    <h1 style="font-family: Times New Roman; color: white">
+				        <b th:utext="${exerciseContent.exerciseHeadingName}"></b>
+				    </h1>
+				</div>
+				<div class="card-body text-start" style="background-color: rgb(204, 218, 246)">
+					<div class="text-center mx-auto">
+						<div class="card-text h3 row">
+							<span>Title:</span>
+							<span th:utext="${exerciseContent.title}"></span>
+						</div>
+					</div>
+					<hr>
+					<span class="card-text"style="padding: 1px; font-size: 20px;">
+						<span class="fw-bold">Learning Objectives:</span>
+						<span th:utext="${exerciseContent.learningObjective}"></span>
+					</span>
+					<hr>
+					<span class="card-text" style="padding: 1px; font-size: 20px;">
+						<span class="fw-bold">Description:</span>
+						<span th:utext="${exerciseContent.description}"></span>
+					</span>
+					
+					<hr class="w-100 mx-auto /">
+					<p class="card-text" style="padding: 2px; font-size: 20px;">
+						<b> Instructions to follow before executing the Exercise:</b>
+					</p>
+					<p class="card-text" style="padding: 2px; font-size: 19px;">
+						<b>1.</b> Start by creating your lab by clicking on CREATE LAB button on this exercise home page.<br> 
+						<b>2.</b> Watch the exercise video.<br> 
+						<b>3.</b> Read the Exercise document containing a step-by-step procedure to execute it.<br>
+						<b>4.</b> Execute the Exercise, as per the steps given in the document.<br>
+						<b>5.</b> After executing the exercise, click on the MARK COMPETE button on this Exercise Home Page. This will update the completion status of your course.<br> &nbsp; &nbsp; 
+						<b>REMEMBER: After clicking on the MARK COMPLETE button, all the VMS in this exercise lab will be deleted and you will lose, all your work related to the exercise.</b>
+					</p>
+					<hr class="w-100 mx-auto /">
+					<p class="card-text text-center" style="padding: 2px; font-size: 20px;">
+						<b><a href="http://cdaccybergyan.uat.dcservices.in/lms/login"
+							target="_blank">Access Exercise Resources</a></b>
+					</p>
+					<hr class="w-100 mx-auto /">
+					<p class="card-text" style="padding: 2px; font-size: 20px;">
+						<b> About the Exercise lab infrastructure:</b>
+					</p>
+					<p class="card-text" style="padding: 1px; font-size: 20px;">
+						
+						<b th:utext="${exerciseContent.labInfraStructure}"></b>
+							
+					</p>
+					
+					<div class="img-fluid text-center">
+					    <img class="img-fluid" style="width: 700px;" th:src="@{'/images/ExerciseImage/' + ${exerciseContent.exerciseId} + '/Architecture.png'}" alt="Architecture Image">
+					</div>
+
+
+					<br>
+					<p class="card-text"style="padding: 1px; font-size: 20px;">
+							<span th:utext="${exerciseContent.attackProcedure}"></span>
+						<br>
+						<!--<p class="card-text" style="font-size: 20px;">For
+						more details, please go through the step-by-step guide provided in
+						the "Overview of SMB vulnerability" manual.</p>-->
+						<br>
+					</p>
+					<div class="img-fluid text-center">
+					    <img class="img-fluid" style="width: 700px;" th:src="@{'/images/ExerciseImage/' + ${exerciseContent.exerciseId} + '/Gui.png'}" alt="Architecture Image">
+					</div>
+					
+					<div class="markecon-container">
+						<form th:action="@{/Re-Submit}" method="post" style="margin-bottom: 20px;" enctype="multipart/form-data" autocomplete="off" id="ReSubmit">
+							<input type="hidden" name="exerciseId" id="exerciseId" th:value="${exerciseId}">
+<!--							<div class="row">-->
+								<div class="col-md-4" style="margin-left: 15px;">
+									<div th:if="${session.message}" id="error-message" class="alert alert-danger" th:text="${session.message}"></div>
+									<label for="fileUpload" class="form-label">Upload the PDF of Screenshot (10KB - 1MB)</label> <font color="red">*</font>
+									<div class="custom-file" style="margin-left: 20px;">
+										<input type="file" class="form-control" id="submissionPdf" name="submissionPdf" required> 
+										<div class="text-danger small fw-bold mt-2">Filename can only contain letters, numbers, underscores (_), and hyphens (-). Spaces and other special characters are not allowed.<br>e.g. "ExerciseName.pdf"</div>
+									</div>
+								</div>
+							<div class="container-checkbox mx-auto text-center"
+								style="padding-top: 20px;">
+								<input type="checkbox" id="tick" onchange="document.getElementById('terms').disabled = !this.checked;" />
+								<button type="submit" class="btn btn-primary" name="terms" id="terms" disabled onclick="checkDataDeleteLabVm()">Mark as Complete</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="class-footer mt-auto myfont text-center text-white fw-bold" style="font-size: 18px;">
+		<p>Copyright &copy; 2022</p>
+		<p>Designed and Developed by CDAC</p>
+	</footer>
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/ReSubmitExercise.js}"></script>
+	<script type="text/javascript" th:src="@{/js/sha256.js}"></script>
+	<script type="text/javascript" th:src="@{/js/crypto-js.js}"></script>
+	<script type="text/javascript" th:src="@{/js/validation.js}"></script>
+	<div th:if="${error}" class="toast-container position-fixed bottom-0 end-0">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="8000">
+			<div class="toast-header bg-danger">
+			   	<i class="fas fa-times-circle me-2 mb-0 text-white h5"></i>
+			    <strong class="me-auto text-white">Error</strong>
+			    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+			  </div>
+			<div class="toast-body bg-light rounded-bottom fw-bold" th:text="${error}">This is a toast message.</div>
+		</div>
+		<script>
+			ToastMessage();
+	    </script>
+    </div>
+    <div th:if="${success}" class="toast-container position-fixed bottom-0 end-0">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="8000">
+			<div class="toast-header bg-success">
+			    <i class="fas fa-check-circle me-2 mb-0 text-white h5"></i>
+			    <strong class="me-auto text-white">Success</strong>
+			    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+			  </div>
+			<div class="toast-body bg-light rounded-bottom fw-bold" th:text="${success}">This is a toast message.</div>
+		</div>
+		<script>
+			ToastMessage();
+	    </script>
+	</div>
+</body>
+</html>

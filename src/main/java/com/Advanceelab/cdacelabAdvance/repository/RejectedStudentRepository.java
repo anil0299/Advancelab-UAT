@@ -18,4 +18,16 @@ public interface RejectedStudentRepository extends JpaRepository<RejectedStudent
 	boolean existsByEmailAddressContaining(@Param("username") String username);
 	
 	Page<RejectedStudentDtls> findByEmailAddress(String emailAddress, Pageable pageable);
+	
+	@Query("SELECT r FROM RejectedStudentDtls r " +
+		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
+		       "LOWER(CAST(r.id AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.emailAddress) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.qualification) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.college) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(r.state) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(CAST(r.registrationDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
+	Page<RejectedStudentDtls> searchRejectedStudents(String searchTerm, Pageable pageable);
 }

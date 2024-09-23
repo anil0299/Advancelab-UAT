@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,10 +43,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Advanceelab.cdacelabAdvance.Captcha.GenerateCaptcha;
 import com.Advanceelab.cdacelabAdvance.entity.AdvanceLabUserVmDetails;
 import com.Advanceelab.cdacelabAdvance.entity.ExerciseContent;
+import com.Advanceelab.cdacelabAdvance.entity.ExerciseSubmission;
 import com.Advanceelab.cdacelabAdvance.entity.Exercise_Master;
 import com.Advanceelab.cdacelabAdvance.entity.ReleaseNote1;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
@@ -350,7 +355,7 @@ public class HomeController {
 		StudentDtls studentDtls = studentRepo.findByLabemail(labemail);
 		String classname = studentDtls.getClassName();
 		List<Long> submittedExercises = exerciseSubmission_Repo.findExerciseIdByUsername(labemail);
-			model.addAttribute("submittedExercises", submittedExercises);
+		model.addAttribute("submittedExercises", submittedExercises);
 		if (classname != null && !classname.isEmpty()) {
 			List<Long> exercisesId = classexerciseRepo.findExerIdbyClassName(classname);
 			List<Exercise_Master> exerciseslist = exercise_MasterRepo.findByEx_idIn(exercisesId);
@@ -581,5 +586,56 @@ public class HomeController {
 		String key = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + exerciseId + "3vR3mTRMZuemwSlFt4LRXRV62";
 		String encodedExId = Base64.getEncoder().encodeToString(key.getBytes());
 		return "redirect:/exercise/" + encodedExId;
+	}
+	
+	@GetMapping("/Re-Submit/{base64ExerciseId}")
+	public String ReSubmitExercise(Model model, @PathVariable String base64ExerciseId, HttpSession session)
+	{
+	    byte[] byteExerciseId = Base64.getDecoder().decode(base64ExerciseId);
+        String decodedString = new String(byteExerciseId);
+        String id = decodedString.replace("CRnsQ2EtM8sIXwXIDcA8HhSYa", "").replace("3vR3mTRMZuemwSlFt4LRXRV62", "");
+        long exerciseId = Long.parseLong(id);
+        ExerciseContent exerciseContent = exerciseContentRepository.findByExerciseId((int)(exerciseId));
+        
+        if (exerciseContent != null) {
+        	model.addAttribute("exerciseId", exerciseId);
+            model.addAttribute("exerciseContent", exerciseContent);
+            return "ReSubmitExercise";
+        } else {
+            return "error.html";
+        }
+	}
+	
+	private String encodeBase64(long exerciseId)
+	{
+		String exerciseID = "CRnsQ2EtM8sIXwXIDcA8HhSYa" + String.valueOf(exerciseId) + "3vR3mTRMZuemwSlFt4LRXRV62";
+		String encodedExerciseId = Base64.getEncoder().encodeToString(exerciseID.getBytes()); 
+		return encodedExerciseId;
+	}
+	
+	@PostMapping("/Re-Submit")
+	public String ReSubmitExercise(@RequestParam(value = "exerciseId", required = true) Long exerciseId, @RequestParam(value = "submissionPdf", required = true) MultipartFile submissionPdf, RedirectAttributes redirectAttributes) throws IOException
+	{
+		ExerciseSubmission exerciseSubmission = exerciseSubmission_Repo.findByUsernameAndExerciseId(getUsername(), exerciseId);
+		try {
+			try (PDDocument pdfDocument = PDDocument.load(submissionPdf.getInputStream())) {
+			    PDFTextStripper textStripper = new PDFTextStripper();
+			    String pdfContent = textStripper.getText(pdfDocument);
+			    if (pdfContent.contains("<script>")) {
+			        redirectAttributes.addFlashAttribute("error", "Your file is malicious");
+			        return "redirect:/Re-Submit/" + encodeBase64(exerciseId);
+			    }
+			}
+		} catch(Exception e) {
+            e.printStackTrace();
+		}
+		if(exerciseSubmission != null)
+		{
+			exerciseSubmission.setPdfname(submissionPdf.getOriginalFilename());
+			exerciseSubmission.setSubmission_pdf(submissionPdf.getBytes());
+			exerciseSubmission_Repo.save(exerciseSubmission);
+		}
+		redirectAttributes.addFlashAttribute("success", "Exercise resubmitted successfully");
+		return "redirect:/Re-Submit/" + encodeBase64(exerciseId);
 	}
 }
