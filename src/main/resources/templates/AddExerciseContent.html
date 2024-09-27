@@ -251,7 +251,7 @@ width:100%!important;
 
     function validateQuillContent(id, errorMessage) {
         const content = quillEditors[id].root.innerText.trim();
-        const regex = /^[A-Za-z0-9 .,/-]+$/;
+        const regex = /^[A-Za-z0-9\n .,/-]+$/;
         const field = document.getElementById(id);
         const errorElement = document.getElementById(`error-message${editorIds.indexOf(id) + 1}`);
         
