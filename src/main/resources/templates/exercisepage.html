@@ -5,9 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CyberGyan</title>
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-<link rel="stylesheet" href="" th:href="@{/css/mystyle2.css}" />
-<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<link th:href="@{/css/mystyle2.css}" rel="stylesheet"/>
 <script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<style>
+:root {
+  --bg-primary:#0d6efd;
+  --bs-white: #ffffff;
+}
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bg-primary);
+  --bs-tooltip-color: var(--bs-white);
+
+}
+</style>
 </head>
 <body>
 	<div class=navcontainer>
@@ -31,15 +43,16 @@
 		</ol>
 	</nav>
 	<div class="px-5 my-5 col-xxl-9 col-xl-10 pb-5">
-		<div class="list-group my-3" th:each="exercise,istat : ${exerciseslist}">
+		<div class="list-group my-3 d-flex" th:each="exercise,istat : ${exerciseslist}">
 			<div class="d-flex">
 				<a class="list-items text-decoration-none list-group-item list-group-item-action fw-bold rounded-0 border py-3 shadow-sm d-md-flex justify-content-between align-items-center" href="#" th:onclick="'redirectToExercise(' + ${exercise.Ex_id} + ')'">
 					<span th:text="${istat.count} + '. ' + ${exercise.exer_name}"></span>
 					<span th:if="${#lists.contains(submittedExercises, exercise.Ex_id)}" class="text-white fw-bold bg-green px-2 py-1">Submitted</span>
 				</a>
-				<button th:if="${#lists.contains(submittedExercises, exercise.Ex_id)}" class="resubmit-btn fw-bold px-3 border shadow-sm border-start-0" th:onclick="'ReSubmitExerciseId(' + ${exercise.Ex_id} + ')'"><div class="bg-warning text-dark px-2 py-1">Resubmit</div></button>
+				<button th:if="${#lists.contains(submittedExercises, exercise.Ex_id)}" class="resubmit-btn px-3 border shadow-sm border-start-0 fw-bold" 
+				th:onclick="'ReSubmitExerciseId(' + ${exercise.Ex_id} + ')'" data-bs-toggle="tooltip"  data-bs-custom-class="custom-tooltip" data-bs-placement="right" 
+				data-bs-title="Please resubmit only if you wish to modify your previous submission."><div class="bg-warning text-dark px-2 py-1">Resubmit</div></button>
 			</div>
-		</th:block>
 		</div>
 	</div>
 	<div class="class-footer">
@@ -65,6 +78,10 @@
 		    const url = `/Re-Submit/${encodedId}`;
 		    window.location.href = url;
 		}
+		
+		$(document).ready(function() {
+		    $('[data-bs-toggle="tooltip"]').tooltip();
+		});
 	</script>
 </body>
 </html>
