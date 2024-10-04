@@ -207,12 +207,27 @@
 								<script>
 								    // Get today's date
 								    var today = new Date();
+								    
 								    // Calculate the maximum date allowed (18 years ago)
 								    var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+								    
 								    // Convert to string in yyyy-mm-dd format
 								    var maxDateString = maxDate.toISOString().split("T")[0];
+								    
 								    // Set the max attribute of the date input to the calculated max date
 								    document.getElementById("dob").setAttribute("max", maxDateString);
+								     
+								     
+								    // Calculate the minimum date allowed (80 years ago)
+								    var minDate = new Date(today.getFullYear() - 80, today.getMonth(), today.getDate());
+								    
+								    // Convert to string in yyyy-mm-dd format
+								    var minDateString = minDate.toISOString().split("T")[0];
+								    
+								    // Set the max attribute of the date input to the calculated min date
+								    document.getElementById("dob").setAttribute("min", minDateString);
+								    
+								    
 								    
 								    // Function to calculate age based on date of birth
 								    function calculateAge(dateString) {
@@ -231,7 +246,11 @@
 								        var age = calculateAge(dob);
 								        if (age < 18) {
 								            document.getElementById('age-validation-msg').innerText = "Your age must be 18 or above.";
-								        } else {
+								        } 
+								        else if(age>80) {
+											document.getElementById('age-validation-msg').innerText = "Your age is exceeding the age limit.";
+										}
+								        else {
 								            document.getElementById('age-validation-msg').innerText = "";
 								        }
 								    });
