@@ -3,8 +3,6 @@ package com.Advanceelab.cdacelabAdvance.repository;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.validation.constraints.Min;
 
 import org.springframework.data.domain.Page;
@@ -14,8 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.Advanceelab.cdacelabAdvance.dto.Students;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
-import com.Advanceelab.cdacelabAdvance.entity.User;
 
 @Repository
 public interface StudentRepository extends JpaRepository<StudentDtls, Integer> {
@@ -263,7 +261,9 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 	@Query("SELECT mobileNumber FROM StudentDtls s WHERE s.labemail = :labemail")
 	String findMobileNumberByLabemail(String labemail);
 
-	@Query("SELECT s FROM StudentDtls s " +
+	@Query("SELECT new com.Advanceelab.cdacelabAdvance.dto.Students(s.id, s.firstName, s.lastName, s.fatherName, s.qualification, " +
+		       "s.emailAddress, s.mobileNumber, s.dob, s.category, s.gender, s.state, s.college, s.className, s.batch, s.registrationDate, s.approvedDate, s.validTill) " +
+		       "FROM StudentDtls s " +
 		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +
 		       "LOWER(CAST(s.id AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
@@ -277,13 +277,14 @@ List<Object[]> getStateCategoryAndGenderCount(@Param("approved") boolean approve
 		       "LOWER(s.gender) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.state) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(s.college) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+		       "LOWER(s.className) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(CAST(s.registrationDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(CAST(s.approvedDate AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "LOWER(CAST(s.validTill AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
 		       "(:searchTerm IS NOT NULL AND :searchTerm <> '' AND LOWER(CAST(s.batch AS string)) LIKE LOWER(CONCAT('%', :searchTerm, '%')))) " +
 		       "AND s.approved = true " +
 		       "AND s.role = 'USER'")
-	Page<StudentDtls> searchStudents(@Param("searchTerm") String searchTerm, Pageable pageable);
+	Page<Students> searchStudents(@Param("searchTerm") String searchTerm, Pageable pageable);
 	
 	@Query("SELECT s FROM StudentDtls s " +
 		       "WHERE (:searchTerm IS NULL OR :searchTerm = '' OR " +

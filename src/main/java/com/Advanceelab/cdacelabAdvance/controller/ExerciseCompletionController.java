@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.Advanceelab.cdacelabAdvance.dto.DataTable;
+import com.Advanceelab.cdacelabAdvance.dto.Students;
 import com.Advanceelab.cdacelabAdvance.entity.StudentDtls;
 import com.Advanceelab.cdacelabAdvance.entity.StudentVideoWatchInf;
 import com.Advanceelab.cdacelabAdvance.repository.StudentRepository;
@@ -231,7 +232,7 @@ public class ExerciseCompletionController {
 	}
 
 	@GetMapping("/registeredStudentsData")
-	public ResponseEntity<DataTable<StudentDtls>> fetchRegisteredStudentsData(
+	public ResponseEntity<DataTable<Students>> fetchRegisteredStudentsData(
 			@RequestParam("draw") int draw,
             @RequestParam("start") int start,
             @RequestParam("length") int length,
@@ -266,9 +267,9 @@ public class ExerciseCompletionController {
         int page = start / length;
         pageable = PageRequest.of(page, length, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
         
-        Page<StudentDtls> responseData = studentRepo.searchStudents(searchTerm, pageable);
+        Page<Students> responseData = studentRepo.searchStudents(searchTerm, pageable);
         
-        DataTable<StudentDtls> dataTable = new DataTable<StudentDtls>();
+        DataTable<Students> dataTable = new DataTable<Students>();
 	    dataTable.setDraw(draw);
 	    dataTable.setStart(start);
 	    dataTable.setData(responseData.getContent());
